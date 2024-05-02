@@ -6,31 +6,31 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:58:14 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/04/29 18:53:13 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:43:13 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+// #include <stdio.h>
 
-char change(char **tmp,char *line)
-{
-	*tmp = &line[1];
-	return ;
-}
+// char change(char **tmp,char *line)
+// {
+// 	*tmp = &line[1];
+// 	return ;
+// }
 
-int main(void)
-{
-	char *line = "Hello";
+// int main(void)
+// {
+// 	char *line = "Hello";
 
-	printf("&line:%p,line:%p\n", &line, line);
-	printf("&line:%p,line:%p\n", &line[1], &line[2]);
+// 	printf("&line:%p,line:%p\n", &line, line);
+// 	printf("&line:%p,line:%p\n", &line[1], &line[2]);
 
-	change(&line, line);
-	printf("yeeeeeee&line:%p,line:%p\n", &line, line);
-	printf("&line:%p,line:%p\n", &line[1], &line[2]);
+// 	change(&line, line);
+// 	printf("yeeeeeee&line:%p,line:%p\n", &line, line);
+// 	printf("&line:%p,line:%p\n", &line[1], &line[2]);
 
 	
-}
+// }
 
 
 

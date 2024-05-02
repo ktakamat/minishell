@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:59:56 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/04/23 21:27:10 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/05/02 17:49:58 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/stat.h> 
+# include "../libft/libft.h"
+# include "../libft/ft_printf.h"
 
 # define MAX_SIZE 100
 
@@ -66,5 +68,10 @@ void	remove_squote(t_token *token);
 void	expand(t_token *token);
 void	ft_error(void);
 void	remove_dquote(t_token *token);
+char	*get_pass(char	*line);
+int	token_count(t_token *token);
+char	**token_list(t_token *token);
+int	main(int argc, char **argv, char **env);
+
 
 #endif
