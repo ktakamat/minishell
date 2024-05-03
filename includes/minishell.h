@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:59:56 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/05/02 17:49:58 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/05/02 21:04:50 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct s_token
 	t_token_kind kind;
 	struct s_token	*next;
 	char	*str;
+	// struct	s_token *next;
+	// struct	s_token *prev;
 }	t_token;
 
 t_token	*lexer(char *line);
@@ -73,5 +75,6 @@ int	token_count(t_token *token);
 char	**token_list(t_token *token);
 int	main(int argc, char **argv, char **env);
 
+void parse_tokens(t_token *tokens);
 
 #endif

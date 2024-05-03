@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 20:06:53 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/04/23 20:06:56 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:59:07 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ typedef struct s_parser
 	t_parser			*next;
 	t_parser			*prev;
 }						t_parser;
+
 
 #endif

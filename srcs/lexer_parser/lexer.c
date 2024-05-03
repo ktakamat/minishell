@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:25:57 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/04/26 17:14:58 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/05/02 21:05:59 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,4 +283,15 @@ void	expand(t_token *token)
 			remove_dquote(token);
 		token = token->next;
 	}
+}
+
+void parse_tokens(t_token *tokens)
+ {
+
+    while (tokens != NULL) 
+	{
+        printf("%s ", tokens->str);
+        tokens = tokens->next;
+    }
+    printf("\n");
 }

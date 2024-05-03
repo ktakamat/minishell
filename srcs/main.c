@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:58:14 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/05/02 17:43:13 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/05/02 21:04:21 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ int	main(int argc, char **argv, char **env)
 			add_history(line);
 			path = get_pass(line);
 			token = lexer(line);
+			parse_tokens(token);
 			// node = parser(token);
 			expand(token);
 			pid = fork();
