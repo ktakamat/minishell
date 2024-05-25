@@ -1,42 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   chdir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/23 20:06:53 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/05/02 18:59:07 by ktakamat         ###   ########.fr       */
+/*   Created: 2024/03/23 18:02:04 by ychiba            #+#    #+#             */
+/*   Updated: 2024/05/13 20:12:09 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "../../includes/minishell.h"
 
-typedef enum e_redirect_type
+int	exe_chdir(t_args *args)
 {
-	UNKNOWN,
-	QUOTE_HEREDOC,
-	HEREDOC,
-	IN_FILE,
-	OUT_FILE,
-	APPEND
-}						t_redirect_type;
-
-typedef struct s_file
-{
-	char				*file_name;
-	t_redirect_type		type;
-	t_file				*next;
-}						t_file;
-
-typedef struct s_parser
-{
-	char				**cmd;
-	t_file				*file;
-	t_parser			*next;
-	t_parser			*prev;
-}						t_parser;
-
-
-#endif
+	if (args->argv[1] == NULL)
+		printf("minishell: cd requires an argument\n");
+	else
+	{
+		if (chdir(args->argv[1]) != 0)
+			perror("minishell");
+	}
+	return (1);
+}

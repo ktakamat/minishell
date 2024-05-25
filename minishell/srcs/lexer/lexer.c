@@ -6,11 +6,29 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:25:57 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/05/02 21:05:59 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/05/24 22:33:04 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
+
+void	pipe_kind(t_token *lexer, int j)
+{
+	t_token	*tmp;
+	int	i;
+
+	(void)j;
+	i = 0;
+	tmp = lexer;
+	// while (tmp != NULL && i < j && tmp->kind != TK_PIPE)
+	while (tmp != NULL)
+	{
+		if (tmp->kind == TK_CMD)
+			tmp->kind = TK_PIPE;
+		tmp = tmp->next;
+		i++;
+	}
+}
 
 t_token	*lexer(char *line)
 {
@@ -18,7 +36,10 @@ t_token	*lexer(char *line)
 	t_token	*tmp;
 	t_token	*token;
 	int		i;
+	int		j;
 
+	i = 0;
+	j = 0;
 	lexer = NULL;
 	while (*line != '\0' && line)
 	{
@@ -27,7 +48,11 @@ t_token	*lexer(char *line)
 		else if (*line == '<' || *line == '>')
 			token = split_red(&line, line);
 		else if (*line == '|')
+		{
+			printf("split_pipe\n");
+			j = i;
 			token = split_pipe(&line, line);
+		}
 		else if (check_word(line))
 			token = split_word(&line, line);
 		else
@@ -35,14 +60,20 @@ t_token	*lexer(char *line)
 		if (lexer == NULL)
 			lexer = token;
 		else
+		{
+			
 			tmp->next = token;
+			
+		}
+		i++;
 		tmp = token;
 	}
+	pipe_kind(lexer, j);
 	tmp = lexer;
-	while (tmp != NULL)
+	while (tmp!= NULL)
 	{
 		i = 0;
-		ft_printf("%d :%s\n", i, tmp->str);
+		ft_printf("%d :%s:%d\n", i, tmp->str, tmp->kind);
 		tmp = tmp->next;
 		i++;
 	}
@@ -86,7 +117,6 @@ t_token	*split_pipe(char **tmp, char *line)
 t_token	*split_red(char **tmp, char *line)
 {
 	char	*set;
-	t_token	*token;
 
 	if (*line == '<')
 	{
@@ -183,9 +213,7 @@ t_token	*split_dquote(char **tmp, char *line)
 t_token	*split_word(char **tmp, char *line)
 {
 	char	*set;
-	t_token	*token;
 	int		i;
-	int		a;
 
 	if (*line == '\'')
 	{
@@ -258,10 +286,10 @@ void	remove_dquote(t_token *token)
 		return ;
 	tmp = token->str;
 	i = ft_strlen(token->str);
-	new = ft_calloc(i - 2, sizeof(char));
+	new = ft_calloc(i-2, sizeof(char));
 	tmp++;
 	i = 0;
-	while (tmp[i] != '\"' && tmp[i])
+	while (tmp[i]  != '\"' && tmp[i])
 	{
 		new[i] = tmp[i];
 		i++;
@@ -283,15 +311,4 @@ void	expand(t_token *token)
 			remove_dquote(token);
 		token = token->next;
 	}
-}
-
-void parse_tokens(t_token *tokens)
- {
-
-    while (tokens != NULL) 
-	{
-        printf("%s ", tokens->str);
-        tokens = tokens->next;
-    }
-    printf("\n");
 }

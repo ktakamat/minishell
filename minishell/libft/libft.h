@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:46:04 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/05/02 17:46:53 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/05/16 17:29:07 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	*ft_calloc(size_t count, size_t size);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strdup(const char *src);
-char	*ft_strncpy(char *dest, char *src, unsigned int n);
+char	*ft_strtok(char *str, const char delim);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
@@ -60,6 +60,7 @@ void	ft_putstr_fd(char *s, int fd);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
+char	*ft_strncpy(char *dest, char *src, int n);
 char	*ft_strtrim(char const *s1, char const *set);
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstnew(void *content);
