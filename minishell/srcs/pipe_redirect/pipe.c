@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 20:49:19 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/05/24 22:28:18 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/01 15:50:15 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,22 +55,34 @@ void	pipe_line(t_parser *parser, t_args *args)
 	p_close(pid1, pid2, pipefd);
 }
 
-void	check_pipe(t_parser *parser, t_args *args)
+// void	check_pipe(t_parser *parser, t_args *args)
+// {
+// 	if (parser == NULL)
+// 		return ;
+// 	printf("check_pipe: Checking parser node with cmd: %s and type: %d\n",
+//            parser->cmd ? parser->cmd[0] : "NULL", parser->type);
+// 	args->argv = parser->cmd;
+// 	printf("cmd: %s\n", parser->cmd[0]);
+// 	if (parser->type == PIPE)
+// 	{
+// 		printf("apipe\n");
+// 		pipe_line(parser, args);
+// 	}
+// 	else
+// 		execute_com(args);
+// }
+
+void check_pipe(t_parser *parser, t_args *args)
 {
 	if (parser == NULL)
-		return ;
-	printf("check_pipe\n");
-	args->argv = parser->cmd;
-	printf("cmd: %s\n", parser->cmd[0]);
+		return;
+	if (parser->cmd)
+		args->argv = parser->cmd;
 	if (parser->type == PIPE)
-	{
-		printf("pipe\n");
 		pipe_line(parser, args);
-	}
 	else
 		execute_com(args);
 }
-
 
 
 // char **parse_pipeline(char *line)

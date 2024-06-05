@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/23 16:29:08 by ychiba            #+#    #+#             */
-/*   Updated: 2024/05/24 21:07:39 by ktakamat         ###   ########.fr       */
+/*   Created: 2024/06/05 20:56:35 by ktakamat          #+#    #+#             */
+/*   Updated: 2024/06/05 20:56:37 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,17 @@ t_env	*new_env_node(char *env_str)
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
-	separator = ft_strchr(env_str, '=');
+	separator = ft_strchr(env_str, '=');	//環境変数の名前と値が＝で分けられてるから前後でポインタをうまく使いたい
 	if (!separator)
 	{
 		free(node);
 		return (NULL);
 	}
-	name_len = separator - env_str;
+	name_len = separator - env_str;		//イコールの前までの長さ
 	node->env_name = malloc(name_len + 1);
-	ft_strncpy(node->env_name, env_str, name_len);
+	ft_strncpy(node->env_name, env_str, name_len);		//イコールの前まで → 環境変数名をコピー　※env_nameはmalloc済みだからstrncpyでおけ
 	node->env_name[name_len] = '\0';
-	node->env_val = strdup(separator + 1);
+	node->env_val = ft_strdup(separator + 1);		//環境変数の値はイコール次のポインタからnullまで　※env_valはmallocまだだからstrdup
 	node->next = NULL;
 	node->prev = NULL;
 	return (node);
@@ -77,10 +77,12 @@ t_env	*set_env_list(char **envp)
 		{
 			tail->next = new_node;
 			new_node->prev = tail;
+			//末尾がいる(ノードA）→　新しいの（ノードB）をAの次に追加　＆　Bの前をAにする
+			//ここでは位置関係のみ
 		}
 		else
-			head = new_node;
-		tail = new_node;
+			head = new_node;	//末尾がいない　＝　ノードが存在しない　追加するBが最前であり最後尾になる
+		tail = new_node;		//Bを最後尾に設定
 		envp++;
 	}
 	return (head);

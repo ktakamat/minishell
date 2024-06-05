@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:25:57 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/05/24 22:33:04 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/05 20:53:18 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	pipe_kind(t_token *lexer, int j)
 	// while (tmp != NULL && i < j && tmp->kind != TK_PIPE)
 	while (tmp != NULL)
 	{
-		if (tmp->kind == TK_CMD)
-			tmp->kind = TK_PIPE;
+		// if (tmp->kind == TK_CMD)
+		// 	tmp->kind = TK_PIPE;
 		tmp = tmp->next;
 		i++;
 	}
@@ -61,9 +61,7 @@ t_token	*lexer(char *line)
 			lexer = token;
 		else
 		{
-			
 			tmp->next = token;
-			
 		}
 		i++;
 		tmp = token;
