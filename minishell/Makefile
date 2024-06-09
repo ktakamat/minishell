@@ -13,6 +13,8 @@ SRCS = srcs/main.c \
        $(BUILTIN_DIR)/chdir.c \
        $(BUILTIN_DIR)/exit.c \
        $(BUILTIN_DIR)/pwd.c \
+       $(BUILTIN_DIR)/grep.c \
+       $(BUILTIN_DIR)/ls.c \
        $(BUILTIN_DIR)/commands.c \
        $(BUILTIN_DIR)/echo.c \
        $(BUILTIN_DIR)/env.c \

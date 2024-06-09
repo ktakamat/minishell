@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 19:13:53 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/03 14:53:03 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/09 18:25:49 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int		exe_chdir(t_args *args);
 int		exe_pwd(t_args *args);
 int		exe_echo(t_args args);
 int		exe_env(void);
+int		exe_ls(t_args *args);
+int		exe_grep(t_args *args);
 int		exe_export(void);
 int		exe_unset(void);
 char	**minishell_split(char *s);

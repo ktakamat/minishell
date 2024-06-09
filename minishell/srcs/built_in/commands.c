@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 16:49:41 by ychiba            #+#    #+#             */
-/*   Updated: 2024/06/03 20:45:34 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/09 18:25:27 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	execute_com(t_args	*args)
 		args->argc++;
 	if (args->argv[0] == NULL)
 		return (1);
+	printf("ex command   %s\n",args->argv[0]);
 	if (ft_strncmp(args->argv[0], "exit", 5) == 0)
 		return (exe_exit(args));
 	if (ft_strncmp(args->argv[0], "cd", 3) == 0)
@@ -34,16 +35,9 @@ int	execute_com(t_args	*args)
 	// if (ft_strncmp(args->argv[0], "unset", 6) == 0)
 	// 	return (exe_unset());
 	if (ft_strncmp(args->argv[0], "grep", 3) == 0)
-	{
-		printf("grep\n");
-		args->argv[0] = "/usr/bin/grep";
-		return (execve(args->argv[0], args->argv, NULL));
-	}
+		return (exe_grep(args));
 	if (ft_strncmp(args->argv[0], "ls", 3) == 0)
-	{
-		args->argv[0] = "/bin/ls";
-		return (execve(args->argv[0], args->argv, NULL));
-	}
+		return (exe_ls(args));
 	return (1);
 }
 
@@ -135,7 +129,10 @@ void exec_command(t_parser *parser, t_directory *dir, t_env **env_var)
             args.argc++;
         printf("args.argc: %d\n", args.argc);
         if (execute_com(&args) == 1)
+		{
+			printf("実行完了\n");
             return;
+		}
 	}
     return (restore_fd(head));
 }
@@ -144,6 +141,8 @@ void	execution(t_parser *parser, t_directory *dir, t_env **env_var)
 {
 	if (parser == NULL)
 		return ;
+
+	printf("ex!!\n");
 	if (parser->type == NODE_PIPE)
 		pipe_line(parser, dir, env_var);
 	else
