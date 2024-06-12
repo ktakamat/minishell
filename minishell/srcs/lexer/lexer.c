@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:25:57 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/03 19:23:32 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/13 06:19:46 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_token	*lexer(char *line)
 			token = split_red(&line, line);
 		else if (*line == '|')
 		{
-			printf("split_pipe\n");
+			printf("split_pipe %s\n",line);
 			j = i;
 			token = split_pipe(&line, line);
 		}
@@ -71,7 +71,8 @@ t_token	*lexer(char *line)
 	while (tmp!= NULL)
 	{
 		i = 0;
-		ft_printf("%d :%s:%d\n", i, tmp->str, tmp->kind);
+		///<! printf使っていいので、ft_printfわざわざ入れなくて良さそう
+		printf("%d :%s:%d\n", i, tmp->str, tmp->kind);
 		tmp = tmp->next;
 		i++;
 	}
@@ -88,8 +89,14 @@ t_token	*create_token(char *line, t_token_kind kind)
 	token->str = line;
 	token->kind = kind;
 	token->next = NULL;
+	//free(line);
 	return (token);
 }
+
+
+//<! 動くけど、レビュワーによっては「文字列のポインタをすすめる機能と空白判定を一緒にするな」とか、
+//<! 「もうちょっと関数名考えろ」と指摘してくるかも。余力があれば治した方がいいかも？
+
 
 bool	split_space(char **tmp, char *line)
 {
@@ -107,6 +114,7 @@ t_token	*split_pipe(char **tmp, char *line)
 	t_token	*token;
 
 	set = ft_strdup("|");
+	//<! １文字進めるのであれば、*tmp += 1;とした方がわかりやすそう
 	*tmp = &line[1];
 	token = create_token(set, TK_PIPE);
 	return (token);
@@ -122,6 +130,8 @@ t_token	*split_red(char **tmp, char *line)
 		{
 			set = ft_strdup("<<");
 			*tmp = &line[2];
+			//<! このぐらいであればcreate_token("<<", TK_DLESS)と直打ちしても問題ない気がします。
+			//<! setの存在意義そんなにないと叩かれそう
 			return (create_token(set, TK_DLESS));
 		}
 		else
@@ -136,8 +146,8 @@ t_token	*split_red(char **tmp, char *line)
 		if (line[1] == '>')
 		{
 			set = ft_strdup(">>");
-			*tmp = &line[2];
-			return (create_token(set, TK_DGREAT));
+			*tmp += 2;
+			return (create_token(">>", TK_DGREAT));
 		}
 		else
 		{
@@ -151,7 +161,7 @@ t_token	*split_red(char **tmp, char *line)
 
 bool	is_redirect(char c)
 {
-	if (c == '<' || c == '>' || c == TK_DGREAT || c == TK_DLESS)
+	if (c == TK_GREAT || c == TK_LESS || c == TK_DGREAT || c == TK_DLESS)
 	{
 		printf("is_redirect\n");
 		return (true);
@@ -178,7 +188,9 @@ t_token	*split_squote(char **tmp, char *line)
 		i++;
 	}
 	set = (char *)malloc(sizeof(char) * (i + 1));
-	while (a <= i)
+	//<! ヒープオーバーフローが発生するので変更
+	//<! a <= i -> a < i
+	while (a < i)
 	{
 		set[a] = *line;
 		a++;
@@ -192,6 +204,7 @@ t_token	*split_squote(char **tmp, char *line)
 t_token	*split_dquote(char **tmp, char *line)
 {
 	int		i;
+	//<! aは流石に変えた方がいいかも...
 	int		a;
 	char	*set;
 
@@ -206,16 +219,20 @@ t_token	*split_dquote(char **tmp, char *line)
 		}
 		i++;
 	}
+	//<! こいつのNULL処理どうしよう...
 	set = (char *)malloc(sizeof(char) * (i + 1));
-	while (a <= i)
+	//<! ヒープオーバーフローが発生するので変更
+	//<! a <= i -> a < i
+	while (a < i)
 	{
 		set[a] = *line;
 		a++;
 		line++;
 	}
 	set[a] = '\0';
+	printf("set!!!%s\n",set);
 	*tmp = line;
-	return (create_token(set, TK_DQUOTE));
+	return (  create_token(set, TK_DQUOTE));
 }
 
 t_token	*split_word(char **tmp, char *line)
