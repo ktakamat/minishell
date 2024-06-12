@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychiba <ychiba@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/30 17:23:04 by ychiba            #+#    #+#             */
-/*   Updated: 2024/04/30 17:23:13 by ychiba           ###   ########.fr       */
+/*   Created: 2024/06/12 15:43:51 by ktakamat          #+#    #+#             */
+/*   Updated: 2024/06/12 15:43:52 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/minishell.h"
 
