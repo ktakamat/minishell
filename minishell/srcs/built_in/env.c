@@ -3,20 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ychiba <ychiba@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 18:18:43 by ychiba            #+#    #+#             */
-/*   Updated: 2024/04/29 18:24:08 by ychiba           ###   ########.fr       */
+/*   Updated: 2024/06/10 20:04:24 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	exe_env(void)
+static int	put_line_return(void)
 {
-	char	*pathvar;
+	printf("\n");
+	return (SUCCESS);
+}
 
-	pathvar = getenv("PATH");
-	printf("PATH=%s\n",pathvar);
-	return (1);
+int	exe_env(t_env *head)
+{
+	t_env	*current;
+	int			i;
+
+	current = head;;
+	printf("env\n");
+	if (!current)
+		return (put_line_return());
+	printf("env_1\n");
+	while (current)
+	{
+		printf("%s=", current->key);
+		i = 0;
+		while (i < current->num_value)
+		{
+			printf("%s", current->value[i]);
+			if (i < current->num_value - 1)
+			{
+				printf(":");
+			}
+			i++;
+		}
+		printf("\n");
+		current = current->next;
+	}
+	return (SUCCESS);
 }

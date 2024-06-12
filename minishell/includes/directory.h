@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 19:03:09 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/01 19:57:44 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:37:16 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define DIRECTORY_H
 
 # define PATH_MAX 1024
+# include "./minishell.h"
 
 typedef struct s_error
 {

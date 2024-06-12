@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:17:06 by ychiba            #+#    #+#             */
-/*   Updated: 2024/06/03 19:28:22 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/10 19:59:14 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,5 @@ int		exec_redirect(t_redirect *redi, t_directory *dir, t_env **env_var);
 void	pipe_line(t_parser *parser, t_directory *dir, t_env **env_var);
 void	restore_fd(t_redirect *redi);
 bool	is_redirect(char c);
+
 #endif // MINISHELL_H

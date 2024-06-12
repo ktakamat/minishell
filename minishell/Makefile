@@ -18,6 +18,8 @@ SRCS = srcs/main.c \
        $(BUILTIN_DIR)/commands.c \
        $(BUILTIN_DIR)/echo.c \
        $(BUILTIN_DIR)/env.c \
+       $(BUILTIN_DIR)/env_ver.c \
+       $(BUILTIN_DIR)/env_helper.c \
        $(LEXER_DIR)/lexer.c \
        $(PARSER_DIR)/parser.c \
        $(PARSER_DIR)/redi_parser.c \

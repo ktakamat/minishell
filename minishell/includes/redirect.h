@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 19:03:12 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/03 14:10:55 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/10 18:00:44 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "./minishell.h"
 # include "./directory.h"
+# include "./builtin.h"
 
 # define MAX_BUFFER_SIZE 4096
 # define FILE_MODE	0644

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 16:49:41 by ychiba            #+#    #+#             */
-/*   Updated: 2024/06/09 18:25:27 by flaghata         ###   ########.fr       */
+/*   Updated: 2024/06/10 18:51:15 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	execute_com(t_args	*args)
+int	execute_com(t_args	*args, t_env **env_head)
 {
 	args->argc = 0;
 	while (args->argv[args->argc] != NULL)
@@ -29,7 +29,10 @@ int	execute_com(t_args	*args)
 	if (ft_strncmp(args->argv[0], "echo", 5) == 0)
 		return (exe_echo(*args));
 	if (ft_strncmp(args->argv[0], "env", 4) == 0)
-		return (exe_env());
+	{
+		printf("come_env\n");
+		return (exe_env(*env_head));
+	}
 	// if (ft_strncmp(args->argv[0], "export", 7) == 0)
 	// 	return (exe_export());
 	// if (ft_strncmp(args->argv[0], "unset", 6) == 0)
@@ -128,7 +131,7 @@ void exec_command(t_parser *parser, t_directory *dir, t_env **env_var)
         while (args.argv[args.argc] != NULL)
             args.argc++;
         printf("args.argc: %d\n", args.argc);
-        if (execute_com(&args) == 1)
+        if (execute_com(&args, env_var) == 1)
 		{
 			printf("実行完了\n");
             return;
