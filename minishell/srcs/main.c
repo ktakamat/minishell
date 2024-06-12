@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:23 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/12 15:45:25 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/12 16:30:02 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ static t_env	*ready_minishell(char *envp[], t_directory *dir)
 int	main_loop(char *envp[], int *error)
 {
 	t_token	*token;
-	// t_args	*args;
+	t_args	*args;
 	t_parser	*node;
 	char	*line;
 	int		status;
@@ -150,7 +150,7 @@ int	main_loop(char *envp[], int *error)
 
 	(void)error;
 	env_var = NULL;
-	// args = NULL;
+	args = NULL;
 	setup_signal_handlers();
 	status = 1;
 	env_var = ready_minishell(envp, &dir);
@@ -170,20 +170,20 @@ int	main_loop(char *envp[], int *error)
 		add_history(line);
 		expand(token);
 		node = parser(token);
-		// args = malloc(sizeof(t_args));
-		// if (!args)
-		// {
-		// 	free(line);
-		// 	continue ;
-		// }
-		// args->argv = node->cmd;
+		args = malloc(sizeof(t_args));
+		if (!args)
+		{
+			free(line);
+			continue ;
+		}
+		args->argv = node->cmd;
 		// status = execute_com(args);
 		// if (status != 1)
 		// 	break ;
 		printf("Executing command\n");
 		execution(node, &dir, &env_var);
 		free(line);
-		// ft_free_args(args);
+		ft_free_args(args);
 	}
 	return (status);
 }
