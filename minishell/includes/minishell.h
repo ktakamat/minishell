@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:55 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/12 15:45:57 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:16:02 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ typedef struct s_split
 
 
 t_token	*lexer(char *line);
-t_token	*split_word(char **tmp, char *line);
-t_token	*split_dquote(char **tmp, char *line);
-t_token	*split_squote(char **tmp, char *line);
-t_token	*split_red(char **tmp, char *line);
-t_token	*split_pipe(char **tmp, char *line);
-bool	split_space(char **tmp, char *line);
+t_token	*create_word_token(char **tmp, char *line);
+t_token	*create_dquote_token(char **tmp, char *line);
+t_token	*create_squote_token(char **tmp, char *line);
+t_token	*create_red_token(char **tmp, char *line);
+t_token	*create_pipe_token(char **tmp, char *line);
+bool	skip_space(char **tmp, char *line);
 t_token	*create_token(char *line, t_token_kind kind);
 bool	check_word(char*line);
 void	remove_squote(t_token *token);
