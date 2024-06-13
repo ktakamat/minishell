@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:46:04 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/05/16 17:29:07 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/03 17:53:40 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-void	ft_putstr_fd(char *s, int fd);
+ssize_t	ft_putstr_fd(int fd, char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
@@ -74,5 +74,14 @@ char	**ft_split(char const *s, char c);
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_exit(void);
+void	ft_free(void *p);
+int		ft_dup(int fd);
+void	ft_dup2(int old_fd, int new_fd);
+void	ft_pipe(int fd[2]);
+void	ft_close(int fd);
+char	*ft_strndup(const char *s, size_t n);
+char	*ft_strcat(char *dest, char *src);
+void	ft_waitpid(pid_t pid, int *status, int options);
+pid_t	ft_fork(void);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/02 21:10:02 by machi             #+#    #+#              #
-#    Updated: 2024/05/16 17:29:38 by ktakamat         ###   ########.fr        #
+#    Updated: 2024/06/03 17:53:48 by ktakamat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,11 @@ INCL = libft.h
 SRCS = ft_atoi.c \
 	ft_bzero.c \
 	ft_calloc.c \
+	ft_close.c \
+	ft_free.c \
 	ft_exit.c \
+	ft_dup.c \
+	ft_dup2.c \
 	ft_isalnum.c \
 	ft_isalpha.c \
 	ft_isascii.c \
@@ -33,8 +37,10 @@ SRCS = ft_atoi.c \
 	ft_putendl_fd.c \
 	ft_putnbr_fd.c \
 	ft_putstr_fd.c \
+	ft_pipe.c \
 	ft_split.c \
 	ft_strchr.c \
+	ft_strcat.c \
 	ft_strdup.c \
 	ft_striteri.c \
 	ft_strjoin.c \
@@ -45,6 +51,7 @@ SRCS = ft_atoi.c \
 	ft_strncmp.c \
 	ft_strcmp.c \
 	ft_strnstr.c \
+	ft_strndup.c \
 	ft_strncpy.c \
 	ft_strrchr.c \
 	ft_strtrim.c \
@@ -60,7 +67,9 @@ SRCS = ft_atoi.c \
 	ft_lstlast.c \
 	ft_lstmap.c \
 	ft_lstnew.c \
-	ft_lstsize.c
+	ft_lstsize.c \
+	ft_waitpid.c \
+	ft_fork.c
 
 OBJS = $(SRCS:%.c=%.o)
 

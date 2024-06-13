@@ -9,18 +9,28 @@ PARSER_DIR = ./srcs/parser
 PIPEREDIRECT_DIR = ./srcs/pipe_redirect
 
 SRCS = srcs/main.c \
-	   srcs/minishell_split.c \
-       $(BUILTIN_DIR)/chdir.c \
+       srcs/minishell_split.c \
+       $(BUILTIN_DIR)/cd.c \
+       $(BUILTIN_DIR)/cat.c \
        $(BUILTIN_DIR)/exit.c \
-	   $(BUILTIN_DIR)/pwd.c \
-	   $(BUILTIN_DIR)/commands.c \
-	   $(BUILTIN_DIR)/echo.c \
-	   $(BUILTIN_DIR)/env.c \
-	   $(LEXER_DIR)/lexer.c \
-	   $(PARSER_DIR)/parser.c \
-	   $(PIPEREDIRECT_DIR)/pipe.c \
-	   $(PIPEREDIRECT_DIR)/redirect.c \
-	   
+       $(BUILTIN_DIR)/pwd.c \
+       $(BUILTIN_DIR)/grep.c \
+       $(BUILTIN_DIR)/ls.c \
+       $(BUILTIN_DIR)/commands.c \
+       $(BUILTIN_DIR)/echo.c \
+       $(BUILTIN_DIR)/env.c \
+       $(BUILTIN_DIR)/env_ver.c \
+       $(BUILTIN_DIR)/env_helper.c \
+       $(LEXER_DIR)/lexer.c \
+       $(PARSER_DIR)/parser.c \
+       $(PARSER_DIR)/redi_parser.c \
+       $(PIPEREDIRECT_DIR)/pipe.c \
+       $(PIPEREDIRECT_DIR)/redirect.c \
+       $(PIPEREDIRECT_DIR)/dollar_handle.c \
+       $(PIPEREDIRECT_DIR)/expansion_sub.c \
+       $(PIPEREDIRECT_DIR)/expansion.c \
+       $(PIPEREDIRECT_DIR)/quote_handle.c \
+       $(PIPEREDIRECT_DIR)/sub_expansion.c
 
 OBJS = $(SRCS:%.c=%.o)
 

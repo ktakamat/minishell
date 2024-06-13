@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_fork.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/26 08:55:59 by machi             #+#    #+#             */
-/*   Updated: 2024/06/03 14:47:28 by ktakamat         ###   ########.fr       */
+/*   Created: 2024/06/03 17:53:04 by ktakamat          #+#    #+#             */
+/*   Updated: 2024/06/03 17:53:19 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-ssize_t	ft_putstr_fd(int fd, char *s)
+pid_t	ft_fork(void)
 {
-	if (!s)
-		return (-1);
-	return (write(fd, s, ft_strlen(s)));
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		exit(EXIT_FAILURE);
+	}
+	return (pid);
 }

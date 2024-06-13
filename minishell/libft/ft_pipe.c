@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/26 08:55:59 by machi             #+#    #+#             */
-/*   Updated: 2024/06/03 14:47:28 by ktakamat         ###   ########.fr       */
+/*   Created: 2024/06/01 18:50:20 by ktakamat          #+#    #+#             */
+/*   Updated: 2024/06/01 18:51:13 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-ssize_t	ft_putstr_fd(int fd, char *s)
+void	ft_pipe(int fd[2])
 {
-	if (!s)
-		return (-1);
-	return (write(fd, s, ft_strlen(s)));
+	if (pipe(fd) == -1)
+		exit(EXIT_FAILURE);
 }

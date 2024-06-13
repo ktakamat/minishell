@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   chdir.c                                            :+:      :+:    :+:   */
+/*   grep.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 20:55:14 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/05 20:55:17 by ktakamat         ###   ########.fr       */
+/*   Created: 2024/06/09 16:59:57 by flaghata          #+#    #+#             */
+/*   Updated: 2024/06/09 18:25:01 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	exe_chdir(t_args *args)
+int	exe_grep(t_args *args)
 {
-	if (args->argv[1] == NULL)
-		printf("minishell: cd requires an argument\n");
-	else
-	{
-		if (chdir(args->argv[1]) != 0)
-			perror("minishell");
-	}
-	return (1);
+    pid_t		pid;
+    int         status;
+
+    printf("grep\n");
+    pid = ft_fork();
+    if (pid == 0)
+    {
+        execve("/usr/bin/grep", args->argv, NULL);
+        exit(1);
+    }
+    else
+    {
+        waitpid(0, &status, 0);
+    }
+    return (1);
 }

@@ -1,20 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/26 08:55:59 by machi             #+#    #+#             */
-/*   Updated: 2024/06/03 14:47:28 by ktakamat         ###   ########.fr       */
+/*   Created: 2024/06/03 14:58:01 by ktakamat          #+#    #+#             */
+/*   Updated: 2024/06/03 14:58:24 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-ssize_t	ft_putstr_fd(int fd, char *s)
+char	*ft_strndup(const char *s, size_t n)
 {
-	if (!s)
-		return (-1);
-	return (write(fd, s, ft_strlen(s)));
+	char			*res;
+	unsigned int	i;
+
+	i = 0;
+	res = malloc(sizeof(char) * (n + 1));
+	if (res == NULL)
+		return (NULL);
+	while (i < n)
+	{
+		res[i] = s[i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
 }

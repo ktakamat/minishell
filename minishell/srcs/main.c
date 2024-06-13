@@ -5,20 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 20:56:35 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/05 20:56:37 by ktakamat         ###   ########.fr       */
+/*   Created: 2024/06/12 15:45:23 by ktakamat          #+#    #+#             */
+/*   Updated: 2024/06/12 16:30:02 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	handle_sigint(int sig)
+volatile sig_atomic_t	g_interrupted = 0;
+
+void	handle_sigint(int signal)
 {
-	(void)sig;
-	write(STDOUT_FILENO, "\n", 1);
-	// rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	if (signal == SIGINT)
+	{
+		rl_on_new_line();
+		write(STDOUT_FILENO, "\n", 1);
+		// rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	else if (signal == SIGQUIT)
+		;
+	g_interrupted = 1;
 }
 
 void	setup_signal_handlers(void)
@@ -41,17 +48,17 @@ t_env	*new_env_node(char *env_str)
 	node = malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
-	separator = ft_strchr(env_str, '=');	//環境変数の名前と値が＝で分けられてるから前後でポインタをうまく使いたい
+	separator = ft_strchr(env_str, '=');
 	if (!separator)
 	{
 		free(node);
 		return (NULL);
 	}
-	name_len = separator - env_str;		//イコールの前までの長さ
+	name_len = separator - env_str;
 	node->env_name = malloc(name_len + 1);
-	ft_strncpy(node->env_name, env_str, name_len);		//イコールの前まで → 環境変数名をコピー　※env_nameはmalloc済みだからstrncpyでおけ
+	ft_strncpy(node->env_name, env_str, name_len);
 	node->env_name[name_len] = '\0';
-	node->env_val = ft_strdup(separator + 1);		//環境変数の値はイコール次のポインタからnullまで　※env_valはmallocまだだからstrdup
+	node->env_val = strdup(separator + 1);
 	node->next = NULL;
 	node->prev = NULL;
 	return (node);
@@ -77,12 +84,10 @@ t_env	*set_env_list(char **envp)
 		{
 			tail->next = new_node;
 			new_node->prev = tail;
-			//末尾がいる(ノードA）→　新しいの（ノードB）をAの次に追加　＆　Bの前をAにする
-			//ここでは位置関係のみ
 		}
 		else
-			head = new_node;	//末尾がいない　＝　ノードが存在しない　追加するBが最前であり最後尾になる
-		tail = new_node;		//Bを最後尾に設定
+			head = new_node;
+		tail = new_node;
 		envp++;
 	}
 	return (head);
@@ -108,17 +113,47 @@ void	ft_free_args(t_args *args)
 	}
 }
 
-int	main_loop(void)
+void	setup_signals(void)
+{
+	if (signal(SIGINT, handle_sigint) == SIG_ERR)
+	{
+		exit(EXIT_FAILURE);
+	}
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+	{
+		exit(EXIT_FAILURE);
+	}
+}
+
+static t_env	*ready_minishell(char *envp[], t_directory *dir)
+{
+	t_env			*env_vars;
+
+	setup_signals();
+	if (getcwd(dir->path, sizeof(dir->path)) == NULL)
+		exit(EXIT_FAILURE);
+	env_vars = create_env_vars(envp, dir->path);
+	dir->error.error_num = 0;
+	dir->signal_received = 0;
+	return (env_vars);
+}
+
+int	main_loop(char *envp[], int *error)
 {
 	t_token	*token;
 	t_args	*args;
 	t_parser	*node;
 	char	*line;
 	int		status;
+	t_directory dir;
+	t_env *env_var;
 
+	(void)error;
+	env_var = NULL;
 	args = NULL;
 	setup_signal_handlers();
 	status = 1;
+	env_var = ready_minishell(envp, &dir);
 	while (1)
 	{
 		line = readline("minishell> ");
@@ -127,9 +162,12 @@ int	main_loop(void)
 			printf("exit\n");
 			break ;
 		}
-		if (ft_strlen(line) > 0)
-			add_history(line);
 		token = lexer(line);
+		if (!token)
+		{
+			continue ;
+		}	
+		add_history(line);
 		expand(token);
 		node = parser(token);
 		args = malloc(sizeof(t_args));
@@ -138,11 +176,12 @@ int	main_loop(void)
 			free(line);
 			continue ;
 		}
-		// args->argv = node->cmd;
+		args->argv = node->cmd;
 		// status = execute_com(args);
 		// if (status != 1)
 		// 	break ;
-		check_pipe(node, args);
+		printf("Executing command\n");
+		execution(node, &dir, &env_var);
 		free(line);
 		ft_free_args(args);
 	}
@@ -245,8 +284,10 @@ int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
+	int error;
+
 	t_env *env_list = set_env_list(envp);
-	main_loop();
+	main_loop(envp, &error);
 	while (env_list)
 	{
 		t_env *next = env_list->next;

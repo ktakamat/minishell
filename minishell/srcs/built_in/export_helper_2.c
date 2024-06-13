@@ -1,48 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   export_helper_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 15:44:24 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/13 21:21:33 by ktakamat         ###   ########.fr       */
+/*   Created: 2024/06/13 22:59:27 by ktakamat          #+#    #+#             */
+/*   Updated: 2024/06/13 23:02:15 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	put_line_return(void)
+int	exist_value(t_env *exist_node,
+	char *values, char **split_result, char *key)
 {
-	printf("\n");
-	return (SUCCESS);
-}
+	int	i;
 
-int	exe_env(t_env *head)
-{
-	t_env	*current;
-	int			i;
-
-	current = head;;
-	printf("env\n");
-	if (!current)
-		return (put_line_return());
-	printf("env_1\n");
-	while (current)
+	i = 0;
+	while (i < exist_node->num_value)
 	{
-		printf("%s=", current->key);
-		i = 0;
-		while (i < current->num_value)
-		{
-			printf("%s", current->value[i]);
-			if (i < current->num_value - 1)
-			{
-				printf(":");
-			}
-			i++;
-		}
-		printf("\n");
-		current = current->next;
+		ft_free(exist_node->value[i]);
+		i++;
 	}
+	ft_free(exist_node->value);
+	exist_node->value = ft_split(values, ':');
+	if (!exist_node->value)
+		exit(EXIT_FAILURE);
+	exist_node->num_value = ft_count_values(exist_node->value);
+	ft_free(values);
+	ft_free(split_result);
+	ft_free(key);
 	return (SUCCESS);
 }

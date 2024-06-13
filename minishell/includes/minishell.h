@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 20:56:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/05 20:56:17 by ktakamat         ###   ########.fr       */
+/*   Created: 2024/06/12 15:45:55 by ktakamat          #+#    #+#             */
+/*   Updated: 2024/06/13 16:16:02 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "./builtin.h"
 # include "./parser.h"
+# include "./redirect.h"
+# include "./directory.h"
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -69,12 +71,12 @@ typedef struct s_split
 
 
 t_token	*lexer(char *line);
-t_token	*split_word(char **tmp, char *line);
-t_token	*split_dquote(char **tmp, char *line);
-t_token	*split_squote(char **tmp, char *line);
-t_token	*split_red(char **tmp, char *line);
-t_token	*split_pipe(char **tmp, char *line);
-bool	split_space(char **tmp, char *line);
+t_token	*create_word_token(char **tmp, char *line);
+t_token	*create_dquote_token(char **tmp, char *line);
+t_token	*create_squote_token(char **tmp, char *line);
+t_token	*create_red_token(char **tmp, char *line);
+t_token	*create_pipe_token(char **tmp, char *line);
+bool	skip_space(char **tmp, char *line);
 t_token	*create_token(char *line, t_token_kind kind);
 bool	check_word(char*line);
 void	remove_squote(t_token *token);
@@ -90,6 +92,25 @@ void	use_history(const char *line);
 char	**parse_pipeline(char *line);
 t_parser	*parser(t_token *tokens);
 void	check_pipe(t_parser *parser, t_args *args);
-
+bool	is_quoted(char *cmd);
+void	process_dollar(t_parse_context *ctx);
+void	process_normal_character(t_parse_context *ctx);
+void	state_normal_plus(t_parse_context *ctx, t_parse_state *state);
+char	*expansion(char *str, t_directory *dir, t_env **env_var);
+char	*d_handle(char *str, t_directory *dir, t_env **head);
+char	*q_handle(char *str, t_directory *dir, t_env **env_var);
+bool	rect(char c);
+int	set_redirect(t_parser *parser, t_token **token);
+char	*expand_and_replace(char *input, t_env **head);
+int	get_var_length(const char *str);
+char	*handle_default(char *str, t_env **head);
+char	**search(t_env **head, char *key);
+void	append_expanded(t_expand *exp, char **result);
+void	exec_command(t_parser *parser, t_directory *dir, t_env **env_var);
+void	execution(t_parser *parser, t_directory *dir, t_env **env_var);
+int		exec_redirect(t_redirect *redi, t_directory *dir, t_env **env_var);
+void	pipe_line(t_parser *parser, t_directory *dir, t_env **env_var);
+void	restore_fd(t_redirect *redi);
+bool	is_redirect(char c);
 
 #endif // MINISHELL_H

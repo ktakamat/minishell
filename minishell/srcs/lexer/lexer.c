@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:25:57 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/05 20:53:18 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:20:21 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,18 @@ t_token	*lexer(char *line)
 	lexer = NULL;
 	while (*line != '\0' && line)
 	{
-		if (split_space(&line, line))
+		if (skip_space(&line, line))
 			continue ;
 		else if (*line == '<' || *line == '>')
-			token = split_red(&line, line);
+			token = create_red_token(&line, line);
 		else if (*line == '|')
 		{
-			printf("split_pipe\n");
+			printf("create_pipe_token\n");
 			j = i;
-			token = split_pipe(&line, line);
+			token = create_pipe_token(&line, line);
 		}
 		else if (check_word(line))
-			token = split_word(&line, line);
+			token = create_word_token(&line, line);
 		else
 			ft_error();
 		if (lexer == NULL)
@@ -71,7 +71,7 @@ t_token	*lexer(char *line)
 	while (tmp!= NULL)
 	{
 		i = 0;
-		ft_printf("%d :%s:%d\n", i, tmp->str, tmp->kind);
+		printf("%d :%s:%d\n", i, tmp->str, tmp->kind);
 		tmp = tmp->next;
 		i++;
 	}
@@ -91,7 +91,7 @@ t_token	*create_token(char *line, t_token_kind kind)
 	return (token);
 }
 
-bool	split_space(char **tmp, char *line)
+bool	skip_space(char **tmp, char *line)
 {
 	if (!(*line && (*line == ' ' || *line == '\t' || *line == '\n')))
 		return (false);
@@ -101,7 +101,7 @@ bool	split_space(char **tmp, char *line)
 	return (true);
 }
 
-t_token	*split_pipe(char **tmp, char *line)
+t_token	*create_pipe_token(char **tmp, char *line)
 {
 	char	*set;
 	t_token	*token;
@@ -112,7 +112,7 @@ t_token	*split_pipe(char **tmp, char *line)
 	return (token);
 }
 
-t_token	*split_red(char **tmp, char *line)
+t_token	*create_red_token(char **tmp, char *line)
 {
 	char	*set;
 
@@ -149,7 +149,17 @@ t_token	*split_red(char **tmp, char *line)
 	exit(0);
 }
 
-t_token	*split_squote(char **tmp, char *line)
+bool	is_redirect(char c)
+{
+	if (c == '<' || c == '>' || c == TK_DGREAT || c == TK_DLESS)
+	{
+		printf("is_redirect\n");
+		return (true);
+	}
+	return (false);
+}
+
+t_token	*create_squote_token(char **tmp, char *line)
 {
 	int		i;
 	int		a;
@@ -179,7 +189,7 @@ t_token	*split_squote(char **tmp, char *line)
 	return (create_token(set, TK_SQUOTE));
 }
 
-t_token	*split_dquote(char **tmp, char *line)
+t_token	*create_dquote_token(char **tmp, char *line)
 {
 	int		i;
 	int		a;
@@ -208,18 +218,18 @@ t_token	*split_dquote(char **tmp, char *line)
 	return (create_token(set, TK_DQUOTE));
 }
 
-t_token	*split_word(char **tmp, char *line)
+t_token	*create_word_token(char **tmp, char *line)
 {
 	char	*set;
 	int		i;
 
 	if (*line == '\'')
 	{
-		return (split_squote(tmp, line));
+		return (create_squote_token(tmp, line));
 	}
 	else if (*line == '\"')
 	{
-		return (split_dquote(tmp, line));
+		return (create_dquote_token(tmp, line));
 	}
 	i = 0;
 	while (line[i] != ' ' && line[i])
@@ -233,6 +243,20 @@ t_token	*split_word(char **tmp, char *line)
 	}
 	*tmp = &line[i];
 	return (create_token(set, TK_CMD));
+}
+
+bool	is_quoted(char *cmd)
+{
+	int	j;
+
+	j = 0;
+	while (cmd[j])
+	{
+		if (cmd[j] == '\'' || cmd[j] == '\"')
+			return (true);
+		j++;
+	}
+	return (false);
 }
 
 bool	check_word(char	*line)

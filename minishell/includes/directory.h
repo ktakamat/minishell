@@ -1,20 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   directory.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/26 08:55:59 by machi             #+#    #+#             */
-/*   Updated: 2024/06/03 14:47:28 by ktakamat         ###   ########.fr       */
+/*   Created: 2024/06/01 19:03:09 by ktakamat          #+#    #+#             */
+/*   Updated: 2024/06/10 19:37:16 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef DIRECTORY_H
+# define DIRECTORY_H
 
-ssize_t	ft_putstr_fd(int fd, char *s)
+# define PATH_MAX 1024
+# include "./minishell.h"
+
+typedef struct s_error
 {
-	if (!s)
-		return (-1);
-	return (write(fd, s, ft_strlen(s)));
-}
+	int	error_num;
+}	t_error;
+
+typedef struct s_directory
+{
+	char	path[PATH_MAX];
+	int		signal_received;
+	t_error	error;
+}	t_directory;
+
+#endif
