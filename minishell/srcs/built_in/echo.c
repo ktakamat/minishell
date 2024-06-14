@@ -6,35 +6,11 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:44:16 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/13 22:56:02 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:49:29 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// int	exe_echo(t_args args)
-// {
-// 	int	i;
-// 	int	newline;
-
-// 	i = 1;
-// 	newline = 1;
-// 	if (args.argv[i] && strcmp(args.argv[i], "-n") == 0)
-// 	{
-// 		newline = 0;
-// 		i++;
-// 	}
-// 	while (args.argv[i])
-// 	{
-// 		printf("%s", args.argv[i]);
-// 		if (args.argv[i + 1])
-// 			printf(" ");
-// 		i++;
-// 	}
-// 	if (newline)
-// 		printf("\n");
-// 	return (1);
-// }
 
 static void	helper_echo(char **str, int m_words)
 {

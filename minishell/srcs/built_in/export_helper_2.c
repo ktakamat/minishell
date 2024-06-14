@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 22:59:27 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/13 23:02:15 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:28:28 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,17 @@ int	exist_value(t_env *exist_node,
 	exist_node->value = ft_split(values, ':');
 	if (!exist_node->value)
 		exit(EXIT_FAILURE);
-	exist_node->num_value = ft_count_values(exist_node->value);
+	exist_node->num_value = count_values(exist_node->value);
 	ft_free(values);
 	ft_free(split_result);
 	ft_free(key);
 	return (SUCCESS);
 }
+
+char	**null_free(char *str)
+{
+	ft_free(str);
+	return (NULL);
+}
+
+

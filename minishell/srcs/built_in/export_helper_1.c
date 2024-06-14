@@ -6,11 +6,19 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 22:59:23 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/13 23:08:01 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:17:18 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+char	*error_export(char *str)
+{
+	write(STDERR_FILENO, "minishell: export: `", 21);
+	write(STDERR_FILENO, str, ft_strlen(str));
+	write(STDERR_FILENO, "': not a valid identifier\n", 27);
+	return (str);
+}
 
 char	*check_equal(char *cmds)
 {
@@ -28,14 +36,6 @@ char	*check_equal(char *cmds)
 		i++;
 	}
 	return (NULL);
-}
-
-char	*error_export(char *str)
-{
-	write(STDERR_FILENO, "minishell: export: `", 21);
-	write(STDERR_FILENO, str, ft_strlen(str));
-	write(STDERR_FILENO, "': not a valid identifier\n", 27);
-	return (str);
 }
 
 char	*is_valid_name(char *name)
@@ -56,7 +56,7 @@ char	*is_valid_name(char *name)
 	return (NULL);
 }
 
-int	declare(t_env *head)
+int	ft_declare(t_env *head)
 {
 	t_env		*current;
 	int			i;

@@ -6,23 +6,11 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 22:51:05 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/13 22:53:33 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:49:35 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// int	exe_chdir(t_args *args)
-// {
-// 	if (args->argv[1] == NULL)
-// 		printf("minishell: cd requires an argument\n");
-// 	else
-// 	{
-// 		if (chdir(args->argv[1]) != 0)
-// 			perror("minishell");
-// 	}
-// 	return (1);
-// }
 
 static int	check_permi(char *path)
 {

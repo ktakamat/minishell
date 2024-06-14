@@ -11,16 +11,21 @@ PIPEREDIRECT_DIR = ./srcs/pipe_redirect
 SRCS = srcs/main.c \
        srcs/minishell_split.c \
        $(BUILTIN_DIR)/cd.c \
-       $(BUILTIN_DIR)/cat.c \
        $(BUILTIN_DIR)/exit.c \
        $(BUILTIN_DIR)/pwd.c \
-       $(BUILTIN_DIR)/grep.c \
-       $(BUILTIN_DIR)/ls.c \
        $(BUILTIN_DIR)/commands.c \
        $(BUILTIN_DIR)/echo.c \
        $(BUILTIN_DIR)/env.c \
        $(BUILTIN_DIR)/env_ver.c \
        $(BUILTIN_DIR)/env_helper.c \
+       $(BUILTIN_DIR)/export.c \
+       $(BUILTIN_DIR)/export_helper_1.c \
+       $(BUILTIN_DIR)/export_helper_2.c \
+       $(BUILTIN_DIR)/execve.c \
+       $(BUILTIN_DIR)/execve_helper_1.c \
+       $(BUILTIN_DIR)/execve_helper_2.c \
+       $(BUILTIN_DIR)/builtin.c \
+       $(BUILTIN_DIR)/unset.c \
        $(LEXER_DIR)/lexer.c \
        $(PARSER_DIR)/parser.c \
        $(PARSER_DIR)/redi_parser.c \

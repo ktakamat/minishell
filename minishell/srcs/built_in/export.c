@@ -6,10 +6,9 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:43:51 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/13 23:10:16 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:49:54 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/minishell.h"
 
@@ -29,7 +28,7 @@ static char	**ft_split_first(const char *s, char c)
 			return (NULL);
 		arr[1] = ft_strdup(location + 1);
 		if (!arr[1])
-			return (return_null_free(arr[0]));
+			return (null_free(arr[0]));
 	}
 	else
 	{
@@ -57,7 +56,7 @@ static t_env	*check_node(t_env **head, char *key)
 	return (NULL);
 }
 
-static t_env	*create_new_env_var(char *key, char *values)
+static t_env	*create_env_var(char *key, char *values)
 {
 	t_env	*new_var;
 
@@ -66,14 +65,14 @@ static t_env	*create_new_env_var(char *key, char *values)
 		exit(EXIT_FAILURE);
 	new_var->key = key;
 	new_var->value = ft_split(values, ':');
-	new_var->num_value = ft_count_values(new_var->value);
+	new_var->num_value = count_values(new_var->value);
 	ft_free(values);
 	new_var->is_shell_var = false;
 	new_var->next = NULL;
 	return (new_var);
 }
 
-static int	add_env_var_to_list(t_env **head, char *env_str)
+static int	add_env_var(t_env **head, char *env_str)
 {
 	char		*key;
 	char		*value;
@@ -88,15 +87,15 @@ static int	add_env_var_to_list(t_env **head, char *env_str)
 	value = split_result[1];
 	existing_node = check_node(head, key);
 	if (existing_node)
-		return (type_existing_val(existing_node, value, split_result, key));
-	new_var = create_new_env_var(key, value);
+		return (exist_value(existing_node, value, split_result, key));
+	new_var = create_env_var(key, value);
 	new_var->next = *head;
 	*head = new_var;
 	free(split_result);
 	return (SUCCESS);
 }
 
-int	ft_export(t_env **head, char **cmds, int *flags)
+int	exe_export(t_env **head, char **cmds, int *flags)
 {
 	int		status;
 	int		i;
@@ -106,7 +105,7 @@ int	ft_export(t_env **head, char **cmds, int *flags)
 	i = 0;
 	while (cmds[++i])
 	{
-		s1 = search_equal(cmds[i]);
+		s1 = check_equal(cmds[i]);
 		if (!s1)
 		{
 			if (flags[i] == 0 && is_valid_name(cmds[i]))
@@ -118,7 +117,7 @@ int	ft_export(t_env **head, char **cmds, int *flags)
 				status = FAILURE;
 			else if (flags[i] == 0 && is_valid_name(s1))
 				status = FAILURE;
-			else if (add_env_var_to_list(head, s1))
+			else if (add_env_var(head, s1))
 				return (EXIT_ERROR);
 		}
 	}

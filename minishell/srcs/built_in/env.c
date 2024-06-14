@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:44:24 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/13 21:21:33 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:19:34 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	put_line_return(void)
 	return (SUCCESS);
 }
 
-int	exe_env(t_env *head)
+int	exec_env(t_env *head)
 {
 	t_env	*current;
 	int			i;
