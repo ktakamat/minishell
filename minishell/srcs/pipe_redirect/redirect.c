@@ -6,7 +6,7 @@
 /*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 22:51:54 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/16 15:24:51 by flaghata         ###   ########.fr       */
+/*   Updated: 2024/06/17 07:09:37 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	open_redirect(t_redirect *redi)
 	return (open(redi->file_name, O_WRONLY | O_CREAT | O_APPEND, FILE_MODE));
 }
 
-static void	here_doc(t_redirect *redi, int pipefd[2])
+static char*	here_doc(t_redirect *redi)
 {
 	char	*add_new_line;
 	char	*tmp;
@@ -90,25 +90,41 @@ static void	here_doc(t_redirect *redi, int pipefd[2])
 	char	*res;
 
 	res = ft_strdup("");
+    printf("\x1b[31mheredoc\x1b[39m\n");
 	while (true)
 	{
 		line = readline("> ");
+        printf("[%s] %s\n", line, redi->file_name);
+       // dup2(pipefd[1], STDIN_FILENO);
 		if (line == NULL)
 			break;
+        
+        printf("%s %s %zu \n", line, redi->file_name,ft_strlen(redi->file_name));
 		if (!ft_strncmp(line, redi->file_name, ft_strlen(redi->file_name)))
 		{
-			ft_free(line);
+            printf("end!!!!\n");
+			//ft_free(line);
 			break;
 		}
+        
+        printf("here:%s\n",line);
 		add_new_line = ft_strjoin(line, "\n");
 		tmp = ft_strjoin(res, add_new_line);
-		ft_free(res);
-		ft_free(add_new_line);
+        printf("here  :%s\n",tmp);
+        //dup2(backup, STDIN_FILENO);
+        //free(res);
+		//ft_free(add_new_line);
 		res = tmp;
-		ft_free(line);
+		//ft_free(line);
 	}
-	ft_putstr_fd(pipefd[PIPE_WRITE], res);
-	ft_free(res);
+    printf("\x1b[31mheredoc\x1b[39m\n");
+    printf("\x1b[31m %s %zu\x1b[39m\n",res, ft_strlen(res));
+   // write(pipefd[0], res, ft_strlen(res));
+	//ft_putstr_fd(pipefd[PIPE_WRITE], res);
+    return (res);
+	//ft_free(res);
+    //ft_free(add_new_line);
+    //ft_free(line);
 }
 
 // void	redirect(t_redirect *redi)
@@ -138,8 +154,9 @@ static void	here_doc(t_redirect *redi, int pipefd[2])
 // }
 void redirect(t_redirect *redi)
 {
-    int pipefd[2];
-    int backup;
+    //int pipefd[2];
+    //int backup;
+    static char *z;
 
     printf("Redirecting type: %d, file: %s\n", redi->type, redi->file_name);
 
@@ -149,21 +166,27 @@ void redirect(t_redirect *redi)
         printf("Standard FD duplicated: %d to %d\n", redi->fd_file, redi->fd);
         redi->fd_backup = dup(STDIN_FILENO);
         dup2(redi->fd_file,STDOUT_FILENO);
+        if (z)
+        {
+            printf("%s\n", z);
+            z = "\0";
+        }
         printf("Standard FD duplicated!: %d to %d\n", redi->fd_file, redi->fd);
-        //close(redi->fd_file);
+        dup2(redi->fd_backup,STDOUT_FILENO);
+        close(redi->fd_file);
     }
-
+    //heredoc
     else
     {
         printf("Here document redirection\n");
-        backup = dup(STDIN_FILENO);
-        pipe(pipefd);
-        here_doc(redi, pipefd);
-        dup2(pipefd[0], STDIN_FILENO);
-        close(pipefd[0]);
-        close(pipefd[1]);
-        dup2(backup, STDIN_FILENO);
-        close(backup);
+        //pipe(pipefd);
+        //dup2(redi->fd_file, STDIN_FILENO);
+        //close(pipefd[0]);
+        z = here_doc(redi);
+        printf("z=%s\n",z);
+        //dup2(pipefd[0], STDIN_FILENO);
+        // close(pipefd[1]);
+        //close(backup);
     }
 }
 
@@ -226,8 +249,8 @@ void	restore_fd(t_redirect *redi)
     printf("restore\n");
 	if (redi == NULL)
 		return ;
-	if (redi->type == HEREDOC_REDI)
-		return ;
+	// if (redi->type == HEREDOC_REDI)
+	// 	return ;
     printf("restore\n");
 	ft_dup2(redi->fd_backup, STDOUT_FILENO);
     ft_close(redi->fd_backup);
