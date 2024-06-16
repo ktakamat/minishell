@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:25:57 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/13 16:20:21 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/16 15:15:06 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ t_token	*create_red_token(char **tmp, char *line)
 
 bool	is_redirect(char c)
 {
-	if (c == '<' || c == '>' || c == TK_DGREAT || c == TK_DLESS)
+	if (c == TK_LESS || c == TK_GREAT || c == TK_DGREAT || c == TK_DLESS)
 	{
 		printf("is_redirect\n");
 		return (true);
