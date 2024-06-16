@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 22:51:54 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/03 20:53:07 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/16 15:24:51 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,10 +146,13 @@ void redirect(t_redirect *redi)
     if (redi->type == INPUT_REDI || redi->type == OUTPUT_REDI || redi->type == APPEND_OUTPUT_REDI)
     {
         printf("Standard redirection\n");
-        redi->fd_backup = dup(STDIN_FILENO);
-        dup2(redi->fd_file, redi->fd);
         printf("Standard FD duplicated: %d to %d\n", redi->fd_file, redi->fd);
+        redi->fd_backup = dup(STDIN_FILENO);
+        dup2(redi->fd_file,STDOUT_FILENO);
+        printf("Standard FD duplicated!: %d to %d\n", redi->fd_file, redi->fd);
+        //close(redi->fd_file);
     }
+
     else
     {
         printf("Here document redirection\n");
@@ -209,6 +212,7 @@ int exec_redirect(t_redirect *redi, t_directory *dir, t_env **env_var)
         }
 
         printf("Redirecting...\n");
+        //ここでコマンド実行する？
         redirect(redi);
         printf("Redirection done for type %d\n", redi->type);
         redi = redi->next;
@@ -217,14 +221,15 @@ int exec_redirect(t_redirect *redi, t_directory *dir, t_env **env_var)
     return SUCCESS;
 }
 
-
 void	restore_fd(t_redirect *redi)
 {
+    printf("restore\n");
 	if (redi == NULL)
 		return ;
 	if (redi->type == HEREDOC_REDI)
 		return ;
-	ft_dup2(redi->fd_backup, redi->fd);
-	ft_close(redi->fd_backup);
+    printf("restore\n");
+	ft_dup2(redi->fd_backup, STDOUT_FILENO);
+    ft_close(redi->fd_backup);
 	redi->fd_backup = -1;
 }
