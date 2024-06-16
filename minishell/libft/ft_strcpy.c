@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtok.c                                        :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/16 17:30:01 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/14 20:25:44 by ktakamat         ###   ########.fr       */
+/*   Created: 2024/06/14 20:27:33 by ktakamat          #+#    #+#             */
+/*   Updated: 2024/06/14 20:27:41 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strtok(char *str, const char *delim)
+char	*ft_strcpy(char *dest, char *src)
 {
-	static char	*last_token = NULL;
-	char		*token;
+	size_t	i;
 
-	if (str != NULL)
-		last_token = str;
-	if (last_token == NULL || *last_token == '\0')
-		return (NULL);
-	last_token += ft_strspn(last_token, delim);
-	token = last_token;
-	last_token += ft_strcspn(last_token, delim);
-	if (*last_token != '\0')
-		*last_token++ = '\0';
-	return (token);
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }

@@ -6,30 +6,14 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:44:46 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/12 15:44:49 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:19:48 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	exe_pwd(t_args *args)
+int	exec_pwd(t_directory *dir)
 {
-	char	*cwd;
-
-	cwd = (char *)malloc(PATH_MAX);
-	if (cwd == NULL)
-		return (1);
-	if (args->argc > 1)
-	{
-		printf("pwd has no option.\n");
-		return (1);
-	}
-	if (getcwd(cwd, PATH_MAX) == NULL)
-	{
-		free(cwd);
-		return (1);
-	}
-	printf("%s\n", cwd);
-	free(cwd);
-	return (1);
+	printf("%s\n", dir->path);
+	return (SUCCESS);
 }

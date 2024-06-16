@@ -6,7 +6,7 @@
 #    By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/02 21:10:02 by machi             #+#    #+#              #
-#    Updated: 2024/06/03 17:53:48 by ktakamat         ###   ########.fr        #
+#    Updated: 2024/06/14 20:32:09 by ktakamat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,9 @@ SRCS = ft_atoi.c \
 	ft_split.c \
 	ft_strchr.c \
 	ft_strcat.c \
+	ft_strcpy.c \
+	ft_strspn.c \
+	ft_strcspn.c \
 	ft_strdup.c \
 	ft_striteri.c \
 	ft_strjoin.c \

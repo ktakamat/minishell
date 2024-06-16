@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:23 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/12 16:30:02 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:38:30 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,15 +158,10 @@ int	main_loop(char *envp[], int *error)
 	{
 		line = readline("minishell> ");
 		if (!line)
-		{
-			printf("exit\n");
 			break ;
-		}
 		token = lexer(line);
 		if (!token)
-		{
 			continue ;
-		}	
 		add_history(line);
 		expand(token);
 		node = parser(token);
@@ -180,7 +175,6 @@ int	main_loop(char *envp[], int *error)
 		// status = execute_com(args);
 		// if (status != 1)
 		// 	break ;
-		printf("Executing command\n");
 		execution(node, &dir, &env_var);
 		free(line);
 		ft_free_args(args);

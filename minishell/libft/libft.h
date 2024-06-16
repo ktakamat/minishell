@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:46:04 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/03 17:53:40 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/14 20:31:39 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char	*ft_strchr(const char *s, int c);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlen(const char *str);
+char	*ft_strcpy(char *dest, char *src);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
@@ -51,7 +52,7 @@ void	*ft_calloc(size_t count, size_t size);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strdup(const char *src);
-char	*ft_strtok(char *str, const char delim);
+char	*ft_strtok(char *str, const char *delim);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
@@ -83,5 +84,7 @@ char	*ft_strndup(const char *s, size_t n);
 char	*ft_strcat(char *dest, char *src);
 void	ft_waitpid(pid_t pid, int *status, int options);
 pid_t	ft_fork(void);
+size_t	ft_strspn(const char *s1, const char *s2);
+size_t	ft_strcspn(const char *s1r, const char *s2r);
 
 #endif

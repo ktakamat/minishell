@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   chdir.c                                            :+:      :+:    :+:   */
+/*   ft_strspn.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 15:44:02 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/12 15:44:03 by ktakamat         ###   ########.fr       */
+/*   Created: 2024/06/14 20:30:55 by ktakamat          #+#    #+#             */
+/*   Updated: 2024/06/14 20:31:07 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 
-#include "../../includes/minishell.h"
-
-int	exe_chdir(t_args *args)
+size_t	ft_strcspn(const char *s1r, const char *s2r)
 {
-	if (args->argv[1] == NULL)
-		printf("minishell: cd requires an argument\n");
-	else
+	const char	*s1 = s1r;
+	const char	*s2;
+
+	while (*s1)
 	{
-		if (chdir(args->argv[1]) != 0)
-			perror("minishell");
+		s2 = s2r;
+		while (*s2)
+		{
+			if (*s1 == *s2++)
+				return (s1 - s1r);
+		}
+		s1++;
 	}
-	return (1);
+	return (s1 - s1r);
 }

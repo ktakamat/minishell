@@ -6,58 +6,98 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:44:36 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/12 15:44:37 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/14 16:36:07 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/minishell.h"
 
-int	put_exit_error(char **argv)
+void	numeric_error(void)
 {
-	printf("exit\n");
-	printf("minishell: exit: %s: numeric argument required\n", argv[1]);
+	write(STDERR_FILENO, "exit: numeric argument required\n", 33);
 	exit (255);
 }
 
-int	check_exit_args(char **argv)
+static long	str_to_long(const char **nptr, int sign)
 {
-	int	i;
+	size_t	i;
+	size_t	j;
+	size_t	digit;
 
 	i = 0;
-	if (argv[1] == NULL)
-		exit (0);
-	if (argv[1][i] == '+' || argv[1][i] == '-')
-		i++;
-	if (argv[1][i] == '\0')
-		put_exit_error(argv);
-	while (argv[1][i] != '\0')
+	j = 0;
+	while ((*nptr)[i] && (*nptr)[i] >= '0' && (*nptr)[i] <= '9')
 	{
-		if (ft_isdigit(argv[1][i]) != 1)
-			put_exit_error(argv);
+		digit = (*nptr)[i] - '0';
+		if (sign != -1 && ((j > LONG_MAX / 10)
+				|| (j == LONG_MAX / 10 && digit > LONG_MAX % 10)))
+			numeric_error();
+		if (sign == -1 && ((j > LONG_MAX / 10)
+				|| (j == LONG_MAX / 10 && digit > LONG_MAX % 10 + 1)))
+			numeric_error();
+		j = j * 10 + digit;
 		i++;
 	}
-	return (0);
+	*nptr += i;
+	return (j * sign);
 }
 
-int	exe_exit(t_args *args)
+long	ft_strtol(const char *str, char **endptr)
 {
-	int	status;
+	long	result;
+	int		sign;
 
-	status = 0;
-	check_exit_args(args->argv);
-	if (args->argc > 2)
+	result = 0;
+	sign = 1;
+	while (*str == ' ' || (*str >= 9 && *str <= 13))
+		++str;
+	if (*str == '-')
 	{
-		printf("exit\n");
-		printf("minishell: exit: too many arguments\n");
-		return (1);
+		sign = -1;
+		++str;
 	}
-	status = ft_atoi(args->argv[1]);
-	printf("exit");
-	if (status < 0)
+	else if (*str == '+')
+		++str;
+	result = str_to_long(&str, sign);
+	if (endptr != NULL)
+		*endptr = (char *)str;
+	return (result);
+}
+
+bool	valid_number(char *arg, int *status)
+{
+	char	*endptr;
+	long	val;
+
+	val = ft_strtol(arg, &endptr);
+	if (*endptr != '\0')
+		return (false);
+	val = val % 256;
+	if (val < 0)
+		val = val + 256;
+	*status = (int)val;
+	return (true);
+}
+
+int	exec_exit(char **args)
+{
+	char	*arg;
+	int		status;
+
+	arg = args[0];
+	printf("exit\n");
+	if (args[0] == NULL)
+		exit(0);
+	else if (args[1] != NULL)
 	{
-		status = 256 + (status % 256);
-		exit (status);
+		write(STDERR_FILENO, "exit: too many arguments\n", 26);
+		return (FAILURE);
 	}
-	exit (status % 256);
+	if (valid_number(arg, &status))
+		exit(status);
+	else
+	{
+		write(STDERR_FILENO, "exit: numeric argument required\n", 33);
+		exit (255);
+	}
 }
