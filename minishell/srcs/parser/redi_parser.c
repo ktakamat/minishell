@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redi_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:11:14 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/01 22:45:52 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/16 15:14:28 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ static t_redirect	*create_redirect(void)
 
 static t_redirect_type	redirect_type(t_token **token)
 {
-	if ((*token)->kind == '<')
+	if ((*token)->kind == TK_LESS)
 		return (INPUT_REDI);
-	else if ((*token)->kind == '>')
+	else if ((*token)->kind == TK_GREAT)
 		return (OUTPUT_REDI);
 	else if ((*token)->kind == TK_DGREAT)
 		return (APPEND_OUTPUT_REDI);

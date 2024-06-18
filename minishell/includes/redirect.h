@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 19:03:12 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/10 18:00:44 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/16 17:01:36 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_parse_context
 	char		*result;
 	int			j;
 	t_directory	*dir;
-	t_env	**env_var;
+	t_env		**env_var;
 }	t_parse_context;
 
 typedef struct s_expand

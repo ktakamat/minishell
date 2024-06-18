@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:44:24 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/14 16:19:34 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/16 20:48:04 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,11 @@ static int	put_line_return(void)
 int	exec_env(t_env *head)
 {
 	t_env	*current;
-	int			i;
+	int		i;
 
-	current = head;;
-	printf("env\n");
+	current = head;
 	if (!current)
 		return (put_line_return());
-	printf("env_1\n");
 	while (current)
 	{
 		printf("%s=", current->key);

@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 19:13:53 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/14 20:28:48 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/17 16:40:02 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@
 
 typedef struct s_env
 {
-	char	*name;
-	char	*content;
-	char	*env_name;
-	char	*env_val;
-	char	**value;
-	char	*key;
-	int		num_value;
-	bool	is_shell_var;
+	char			*name;
+	char			*content;
+	char			*env_name;
+	char			*env_val;
+	char			**value;
+	char			*key;
+	int				num_value;
+	bool			is_shell_var;
 	struct s_env	*next;
 	struct s_env	*prev;
 }	t_env;
@@ -59,12 +59,13 @@ void	setup_signal_handlers(void);
 t_env	*new_env_node(char *env_str);
 t_env	*set_env_list(char **envp);
 void	ft_free_args(t_args *args);
-void	 print_env_list(t_env *env_list);
+void	print_env_list(t_env *env_list);
 void	set_ready_env_vars(t_env **head, char *path);
 t_env	*create_env_vars(char *envp[], char *path);
 char	**null_free(char *str);
 int		count_values(char **values);
-int		exist_value(t_env *exist_node, char *values, char **split_result, char *key);
+int		exist_value(t_env *exist_node, char *values,
+			char **split_result, char *key);
 char	*is_valid_name(char *name);
 char	*check_equal(char *cmds);
 int		ft_declare(t_env *head);
@@ -76,6 +77,8 @@ void	combine_strings(char *s1, char *s2, char *s3, char *s4);
 int		command_path_exec(char *command_path, char **cmds);
 int		str_error(char *str);
 void	print_error(const char *msg, const char *path);
-
+int		validate_cmds(char **cmds, t_directory *dir, t_env **env_var);
+void	clean_cmds(char **cmds, t_directory *dir,
+			t_env **env_var);
 
 #endif
