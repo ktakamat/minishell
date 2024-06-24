@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:55 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/17 21:22:06 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:20:12 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,7 @@ size_t		data_size(t_token *token);
 bool		allocate_command_memory(t_parser *parser, t_token *token);
 bool		process_tokens(t_parser *parser, t_token **token);
 void		handle_sigint(int signal);
+void		handle_exec(int signal);
+void		exec_signals(void);
 
 #endif

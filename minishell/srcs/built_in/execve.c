@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:31:42 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/16 15:10:13 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:20:43 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	execute_from_path(char **cmds, t_directory *dir, t_env **env_vars)
 {
 	struct stat	s;
 
-	setup_signals();
+	exec_signals();
 	if (validate_cmds(cmds, dir, env_vars))
 		return ;
 	if (stat(cmds[0], &s) == 0 && ft_strchr(cmds[0], '/'))

@@ -14,6 +14,7 @@ SRCS = srcs/main.c \
        srcs/main_helper.c \
        srcs/signal_handler.c \
        srcs/env_util.c \
+       srcs/signal_exec.c \
        $(BUILTIN_DIR)/cd.c \
        $(BUILTIN_DIR)/exit.c \
        $(BUILTIN_DIR)/pwd.c \

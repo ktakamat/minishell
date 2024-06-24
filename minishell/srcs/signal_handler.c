@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 18:06:10 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/24 14:02:02 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/24 15:19:39 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,19 @@ void	setup_signals(void)
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 	{
 		exit(EXIT_FAILURE);
+	}
+}
+
+void	handle_exec(int signal)
+{
+	if (signal == SIGINT)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		g_interrupted = 130;
+	}
+	else if (signal == SIGQUIT)
+	{
+		write(STDOUT_FILENO, "Quit: 3\n", 9);
+		g_interrupted = 131;
 	}
 }
