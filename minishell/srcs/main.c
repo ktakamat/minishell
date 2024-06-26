@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:23 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/24 14:04:28 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/26 19:20:24 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	main_loop(char *envp[], int *error)
 		add_history(line);
 		expand(token);
 		node = parser(token);
+		exe_signals(node, &dir, &env_var, error);
 		args = malloc(sizeof(t_args));
 		if (!args)
 		{
@@ -79,7 +80,6 @@ int	main_loop(char *envp[], int *error)
 			continue ;
 		}
 		args->argv = node->cmd;
-		execution(node, &dir, &env_var);
 		free(line);
 		ft_free_args(args);
 	}

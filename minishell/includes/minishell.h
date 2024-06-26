@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:55 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/24 15:20:12 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:44:31 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@
 # define MAX_SIZE 100
 # define MAX_HISTORY_SIZE 100
 # define NODE_PIPE 1
+
+volatile sig_atomic_t	g_interrupted;
 
 typedef enum e_token_kind
 {
@@ -122,5 +124,9 @@ bool		process_tokens(t_parser *parser, t_token **token);
 void		handle_sigint(int signal);
 void		handle_exec(int signal);
 void		exec_signals(void);
+void		exe_signals(t_parser *node, t_directory *dir,
+				t_env **env_vars, int *error);
+void		setup_signals(void);
+void		handle_sigint(int signal);
 
 #endif

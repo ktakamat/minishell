@@ -6,13 +6,11 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 18:06:10 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/24 15:19:39 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/26 18:57:13 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-volatile sig_atomic_t	g_interrupted = 0;
 
 void	handle_sigint(int signal)
 {
@@ -39,18 +37,6 @@ void	setup_signal_handlers(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	setup_signals(void)
-{
-	if (signal(SIGINT, handle_sigint) == SIG_ERR)
-	{
-		exit(EXIT_FAILURE);
-	}
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-	{
-		exit(EXIT_FAILURE);
-	}
-}
-
 void	handle_exec(int signal)
 {
 	if (signal == SIGINT)
@@ -63,4 +49,36 @@ void	handle_exec(int signal)
 		write(STDOUT_FILENO, "Quit: 3\n", 9);
 		g_interrupted = 131;
 	}
+}
+
+static void	execute_reset_error(t_parser *node, t_directory *dir,
+		t_env **env_vars, int *error)
+{
+	if (node == NULL)
+	{
+		if (*error == 2)
+			dir->error.error_num = 2;
+		if (*error == 1)
+			dir->error.error_num = 1;
+	}
+	execution(node, dir, env_vars);
+	setup_signals();
+	*error = 0;
+}
+
+void	exe_signals(t_parser *node, t_directory *dir,
+			t_env **env_vars, int *error)
+{
+	if (g_interrupted == 1)
+	{
+		*error = g_interrupted;
+		dir->error.error_num = g_interrupted;
+		g_interrupted = 0;
+	}
+	else if (g_interrupted == 130 || g_interrupted == 131)
+	{
+		dir->error.error_num = g_interrupted;
+		g_interrupted = 0;
+	}
+	execute_reset_error(node, dir, env_vars, error);
 }
