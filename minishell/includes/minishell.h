@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:55 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/29 21:27:14 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/30 19:23:55 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,5 +129,7 @@ void		handle_sigint(int signal);
 void		token_clear(t_token *token);
 void		destroy_redirect(t_redirect *redi);
 t_parser	*destroy_parser(t_parser *node);
+int			main_loop(char *envp[], int *error);
+char		*handle_input(void);
 
 #endif
