@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 20:34:04 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/17 16:52:30 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/30 16:40:29 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,65 +16,39 @@ t_parser	*node_new(void)
 {
 	t_parser	*node;
 
-	node = ft_calloc(1, sizeof(t_parser));
+	node = malloc(sizeof(t_parser));
 	if (node == NULL)
 		exit(EXIT_FAILURE);
 	node->type = CMD;
 	node->cmd = NULL;
+	node->redirect = NULL;
 	node->left = NULL;
 	node->right = NULL;
 	return (node);
 }
 
-t_parser	*handle_pipe(t_token **token, t_parser *parser)
-{
-	t_parser	*right;
-	t_parser	*left;
-
-	left = parser;
-	right = node_new();
-	if (put_data(right, token) == false)
-		return (NULL);
-	parser = node_new();
-	parser->type = PIPE;
-	parser->right = right;
-	parser->left = left;
-	return (parser);
-}
-
-bool	allocate_command_memory(t_parser *parser, t_token *token)
-{
-	parser->cmd = ft_calloc(data_size(token) + 1, sizeof(char *));
-	if (parser->cmd == NULL)
-	{
-		return (false);
-	}
-	return (true);
-}
-
-bool	process_tokens(t_parser *parser, t_token **token)
+t_parser	*destroy_parser(t_parser *parser)
 {
 	size_t	i;
 
-	i = 0;
-	while (*token != NULL && (*token)->kind != TK_PIPE)
+	if (parser == NULL)
+		return (NULL);
+	if (parser->left)
+		destroy_parser(parser->left);
+	if (parser->right)
+		destroy_parser(parser->right);
+	if (parser->cmd)
 	{
-		if (is_redirect((*token)->kind))
+		i = 0;
+		while (parser->cmd[i])
 		{
-			if (set_redirect(parser, token) == FAILURE)
-			{
-				printf(NO_FILENAME);
-				return (false);
-			}
-			continue ;
+			ft_free(parser->cmd[i]);
+			i++;
 		}
-		else
-			parser->cmd[i] = ft_strdup((*token)->str);
-		if (parser->cmd[i] == NULL)
-			return (false);
-		i++;
-		(*token) = (*token)->next;
+		ft_free(parser->cmd);
 	}
-	parser->cmd[i] = NULL;
-	return (true);
+	if (parser->redirect)
+		destroy_redirect(parser->redirect);
+	ft_free(parser);
+	return (NULL);
 }

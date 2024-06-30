@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 20:06:53 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/16 17:00:15 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:04:37 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "./minishell.h"
 # include "./redirect.h"
 # include "./directory.h"
+
+# define PIPE_ERROR "minishell: syntax error near unexpected token `|'\n"
 
 typedef enum e_type
 {

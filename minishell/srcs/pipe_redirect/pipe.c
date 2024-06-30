@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 20:49:19 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/16 20:44:15 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/29 21:29:25 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	pipe_line(t_parser *parser, t_directory *dir, t_env **env_var)
 	pid_t	pid1;
 	pid_t	pid2;
 
-	pipe(pipefd);
-	pid1 = fork();
+	ft_pipe(pipefd);
+	pid1 = ft_fork();
 	if (pid1 == 0)
 		p_left(parser, dir, env_var, pipefd);
 	pid2 = ft_fork();

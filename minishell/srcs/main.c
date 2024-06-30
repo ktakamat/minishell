@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:23 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/26 19:20:24 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/30 16:39:59 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	main_loop(char *envp[], int *error)
 	t_directory	dir;
 	t_env		*env_var;
 
-	(void)error;
 	env_var = NULL;
 	args = NULL;
 	setup_signal_handlers();
@@ -71,8 +70,16 @@ int	main_loop(char *envp[], int *error)
 			continue ;
 		add_history(line);
 		expand(token);
-		node = parser(token);
+		node = parser(token, error);
+		if (!node)
+		{
+			dir.error.error_num = 2;
+			*error = 0;
+			free(line);
+			continue ;
+		}
 		exe_signals(node, &dir, &env_var, error);
+		*error = 0;
 		args = malloc(sizeof(t_args));
 		if (!args)
 		{
@@ -92,10 +99,10 @@ int	main(int argc, char **argv, char **envp)
 	t_env	*env_list;
 	t_env	*next;
 
-	(void)argc;
 	(void)argv;
 	env_list = set_env_list(envp);
-	main_loop(envp, &error);
+	if (argc == 1)
+		main_loop(envp, &error);
 	while (env_list)
 	{
 		next = env_list->next;
@@ -104,5 +111,5 @@ int	main(int argc, char **argv, char **envp)
 		free(env_list);
 		env_list = next;
 	}
-	exit(0);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 21:34:16 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/16 21:40:42 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/29 19:59:22 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,17 @@ t_token	*create_great_token(char **tmp, char *line)
 	set = ft_strdup(">");
 	*tmp = &line[1];
 	return (create_token(set, TK_GREAT));
+}
+
+void	token_clear(t_token *token)
+{
+	t_token	*tmp;
+
+	while (token != NULL)
+	{
+		tmp = token->next;
+		ft_free(token->str);
+		ft_free(token);
+		token = tmp;
+	}
 }

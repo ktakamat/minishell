@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:44:09 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/16 21:30:04 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/30 16:41:52 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,8 @@ void	execution(t_parser *parser, t_directory *dir, t_env **env_var)
 {
 	if (parser == NULL)
 		return ;
-	if (parser->type == NODE_PIPE)
-	{
+	if (parser->type == PIPE)
 		pipe_line(parser, dir, env_var);
-	}
 	else
 		exec_command(parser, dir, env_var);
 }

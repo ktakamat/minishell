@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redi_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:11:14 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/16 15:14:28 by flaghata         ###   ########.fr       */
+/*   Updated: 2024/06/27 17:51:42 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	set_redirect(t_parser *parser, t_token **token)
 	return (SUCCESS);
 }
 
-void	destoroy_redirect(t_redirect *redi)
+void	destroy_redirect(t_redirect *redi)
 {
 	t_redirect	*tmp;
 

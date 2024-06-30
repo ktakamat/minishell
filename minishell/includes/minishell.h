@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:55 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/26 18:44:31 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/29 21:27:14 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 
 # define MAX_SIZE 100
 # define MAX_HISTORY_SIZE 100
-# define NODE_PIPE 1
 
 volatile sig_atomic_t	g_interrupted;
 
@@ -80,13 +79,13 @@ void		expand(t_token *token);
 void		ft_error(void);
 void		remove_dquote(t_token *token);
 char		**token_list(t_token *token);
-void		parse_tokens(t_token *tokens);
+void		s(t_token *tokens);
 char		*get_pass(char	*line);
 int			token_count(t_token *token);
 char		**token_list(t_token *token);
 void		use_history(const char *line);
 char		**parse_pipeline(char *line);
-t_parser	*parser(t_token *tokens);
+t_parser	*parser(t_token *tokens, int *error);
 void		check_pipe(t_parser *parser, t_args *args);
 bool		is_quoted(char *cmd);
 void		process_dollar(t_parse_context *ctx);
@@ -111,9 +110,8 @@ bool		is_redirect(char c);
 void		setup_signals(void);
 int			validate_cmds(char **cmds, t_directory *dir, t_env **env_var);
 t_parser	*node_new(void);
-t_parser	*handle_pipe(t_token **token, t_parser *parser);
+t_parser	*handle_pipe(t_token **token, t_parser *parser, int *error);
 t_token		*create_token_from_line(char **line, int *i, int *j);
-bool		put_data(t_parser *parser, t_token **token);
 t_token		*create_dless_token(char **tmp, char *line);
 t_token		*create_less_token(char **tmp, char *line);
 t_token		*create_dgreat_token(char **tmp, char *line);
@@ -128,5 +126,8 @@ void		exe_signals(t_parser *node, t_directory *dir,
 				t_env **env_vars, int *error);
 void		setup_signals(void);
 void		handle_sigint(int signal);
+void		token_clear(t_token *token);
+void		destroy_redirect(t_redirect *redi);
+t_parser	*destroy_parser(t_parser *node);
 
 #endif
