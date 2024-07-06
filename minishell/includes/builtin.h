@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 19:13:53 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/17 16:40:02 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/06 18:36:21 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ void	print_error(const char *msg, const char *path);
 int		validate_cmds(char **cmds, t_directory *dir, t_env **env_var);
 void	clean_cmds(char **cmds, t_directory *dir,
 			t_env **env_var);
+char	*error_export(char *str);
 
 #endif
