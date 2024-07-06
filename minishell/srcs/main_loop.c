@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:33:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/30 19:39:05 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/06 17:24:17 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,28 @@ void	initialize_environment(t_env **env_var, t_directory *dir, char *envp[])
 	setup_signal_handlers();
 }
 
+int	dir_error_num(t_directory *dir, int *error)
+{
+	if (*error == 2)
+		dir->error.error_num = 2;
+	*error = 0;
+	return (0);
+}
+
 int	process_command(char *line, t_directory *dir, t_env **env_var, int *error)
 {
 	t_token		*token;
 	t_parser	*node;
 	t_args		*args;
 
-	token = lexer(line);
+	token = lexer(line, error);
 	if (!token)
-		return (0);
+		return (dir_error_num(dir, error));
 	add_history(line);
 	expand(token);
 	node = parser(token, error);
 	if (!node)
-	{
-		dir->error.error_num = 2;
-		*error = 0;
-		return (0);
-	}
+		return (dir_error_num(dir, error));
 	exe_signals(node, dir, env_var, error);
 	*error = 0;
 	args = malloc(sizeof(t_args));
@@ -58,15 +62,6 @@ int	process_command(char *line, t_directory *dir, t_env **env_var, int *error)
 	free(line);
 	ft_free_args(args);
 	return (1);
-}
-
-void	cleanup(char *line, t_parser *node, t_args *args)
-{
-	free(line);
-	if (node)
-		destroy_parser(node);
-	if (args)
-		ft_free_args(args);
 }
 
 int	main_loop(char *envp[], int *error)

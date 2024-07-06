@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:43:49 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/16 15:10:18 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/06 16:15:44 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	command_path_exec(char *command_path, char **cmds)
 	{
 		if (S_ISDIR(s.st_mode))
 		{
+			write(STDERR_FILENO, "minishell: ", 11);
 			print_error("minishell: is a directory\n", command_path);
 			return (FAILURE);
 		}

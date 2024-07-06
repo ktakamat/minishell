@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:23 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/30 19:36:07 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/02 20:28:15 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,20 @@ void	ft_free_args(t_args *args)
 	}
 }
 
+void	cleanup(char *line, t_parser *node, t_args *args)
+{
+	free(line);
+	if (node)
+		destroy_parser(node);
+	if (args)
+		ft_free_args(args);
+}
+
 char	*handle_input(void)
 {
 	char	*line;
 
-	line = readline("minishell> ");
+	line = readline("minishell$ ");
 	return (line);
 }
 

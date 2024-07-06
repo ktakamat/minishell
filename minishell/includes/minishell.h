@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:55 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/30 19:23:55 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/04 21:40:20 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ typedef enum e_token_kind
 	TK_LESS,
 	TK_DLESS,
 	TK_GREAT,
-	TK_DGREAT
+	TK_DGREAT,
+	TK_GENERAL
 }	t_token_kind;
 
 typedef struct s_token
@@ -65,7 +66,7 @@ typedef struct s_split
 	char	**result;
 }	t_split;
 
-t_token		*lexer(char *line);
+t_token		*lexer(char *line, int *error);
 t_token		*create_word_token(char **tmp, char *line);
 t_token		*create_dquote_token(char **tmp, char *line);
 t_token		*create_squote_token(char **tmp, char *line);
@@ -131,5 +132,6 @@ void		destroy_redirect(t_redirect *redi);
 t_parser	*destroy_parser(t_parser *node);
 int			main_loop(char *envp[], int *error);
 char		*handle_input(void);
+void		cleanup(char *line, t_parser *node, t_args *args);
 
 #endif

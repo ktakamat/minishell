@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:25:57 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/16 21:31:19 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/02 16:44:00 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,23 @@ bool	skip_space(char **tmp, char *line)
 	return (true);
 }
 
-t_token	*lexer(char *line)
+int	first_pipe(char *str, int *error)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] == ' ')
+		i++;
+	if (str[i] == '|')
+	{
+		printf(PIPE_ERROR);
+		*error = 2;
+		return (2);
+	}
+	return (0);
+}
+
+t_token	*lexer(char *line, int *error)
 {
 	t_token	*lexer;
 	t_token	*tmp;
@@ -49,6 +65,8 @@ t_token	*lexer(char *line)
 	tmp = NULL;
 	i = 0;
 	j = 0;
+	if (first_pipe(line, error) == 2)
+		return (NULL);
 	while (*line != '\0' && line)
 	{
 		token = create_token_from_line(&line, &i, &j);
