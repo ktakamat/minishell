@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:04:10 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/03 15:22:59 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/06 17:23:38 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,9 @@ char	*d_handle(char *str, t_directory *dir, t_env **head)
 		else if (*(tmp + 1) == '$')
 			str = handle_dollar_sign(str, tmp);
 		else
+		{
 			str = handle_default(str, head);
+		}
 		if (!str)
 			break ;
 		tmp = ft_strchr(str, '$');

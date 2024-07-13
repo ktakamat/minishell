@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:31:42 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/16 15:10:13 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/13 15:23:30 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,24 @@ static void	fork_execute(char **cmds, t_directory *dir)
 
 	if (ft_fork() == 0)
 	{
+		int i = 0;
+		while (cmds[i])
+		{
+			printf("!%s!",cmds[i]);
+			i++;
+		}
 		execve(cmds[0], cmds, NULL);
 		perror("execve failed");
 		exit(EXIT_FAILURE);
 	}
 	else
 	{
+		int i = 0;
+		while (cmds[i])
+		{
+			printf("!%s!",cmds[i]);
+			i++;
+		}
 		wait(&status2);
 		if (WIFEXITED(status2))
 		{
@@ -63,7 +75,7 @@ void	execute_from_path(char **cmds, t_directory *dir, t_env **env_vars)
 {
 	struct stat	s;
 
-	setup_signals();
+	exec_signals();
 	if (validate_cmds(cmds, dir, env_vars))
 		return ;
 	if (stat(cmds[0], &s) == 0 && ft_strchr(cmds[0], '/'))

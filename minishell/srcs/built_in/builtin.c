@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:51:39 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/14 17:49:19 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/13 08:17:10 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	clean_cmds(char **cmds, t_directory *dir,
 	j = 0;
 	while (cmds[i])
 	{
+		printf("coms :%d %s\n",i,cmds[i]);
 		cmds[i] = expansion(cmds[i], dir, env_var);
 		if (cmds[i] && cmds[i][0] != '\0')
 		{
@@ -54,16 +55,6 @@ static int	*set_flags(char **cmds)
 		k++;
 	}
 	return (flags);
-}
-
-int	validate_cmds(char **cmds, t_directory *dir, t_env **env_var)
-{
-	clean_cmds(cmds, dir, env_var);
-	if (!cmds || cmds[0] == NULL || cmds[0][0] == '\0')
-	{
-		return (1);
-	}
-	return (0);
 }
 
 static int	exec_export(char **cmds, t_env **env_var, int *falgs)

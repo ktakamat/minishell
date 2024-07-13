@@ -6,7 +6,7 @@
 /*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:11:14 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/16 15:14:28 by flaghata         ###   ########.fr       */
+/*   Updated: 2024/07/13 08:29:43 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static t_redirect	*create_redirect(void)
 	redi->fd_file = -1;
 	redi->fd_backup = -1;
 	redi->file_name = NULL;
+	redi->heredoc_input = NULL;
 	redi->next = NULL;
 	return (redi);
 }
@@ -69,7 +70,7 @@ int	set_redirect(t_parser *parser, t_token **token)
 	return (SUCCESS);
 }
 
-void	destoroy_redirect(t_redirect *redi)
+void	destroy_redirect(t_redirect *redi)
 {
 	t_redirect	*tmp;
 
