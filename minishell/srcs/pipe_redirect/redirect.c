@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 22:51:54 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/17 18:20:24 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/14 16:21:18 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,20 +58,19 @@ void	redirect(t_redirect *redi)
 	if (redi->type == INPUT_REDI || redi->type == OUTPUT_REDI
 		|| redi->type == APPEND_OUTPUT_REDI)
 	{
-		redi->fd_backup = dup(STDIN_FILENO);
-		dup2 (redi->fd_file, STDOUT_FILENO);
-		//close(redi->fd_file);
+		redi->fd_backup = ft_dup(redi->fd);
+		ft_dup2 (redi->fd_file, redi->fd);
+		return ;
 	}
 	else
 	{
-		printf("Here document redirection\n");
-		backup = dup(STDIN_FILENO);
-		pipe(pipefd);
+		backup = ft_dup(STDIN_FILENO);
+		ft_pipe(pipefd);
 		here_doc(redi, pipefd);
-		dup2(pipefd[0], STDIN_FILENO);
-		close(pipefd[0]);
-		close(pipefd[1]);
-		dup2(backup, STDIN_FILENO);
+		ft_dup2(pipefd[0], STDIN_FILENO);
+		ft_close(pipefd[0]);
+		ft_close(pipefd[1]);
+		ft_dup2(backup, STDIN_FILENO);
 		close(backup);
 	}
 }
