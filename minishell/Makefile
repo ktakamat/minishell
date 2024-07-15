@@ -1,15 +1,21 @@
 NAME = minishell
 CC = CC
 RM = rm -f
-CFLAGS = -Wall -Wextra -Werror
 INCLUDES_DIR = ./includes
 BUILTIN_DIR = ./srcs/built_in
 LEXER_DIR = ./srcs/lexer
 PARSER_DIR = ./srcs/parser
 PIPEREDIRECT_DIR = ./srcs/pipe_redirect
+READLINE_DIR = $(shell brew --prefix readline)
+CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES_DIR) -I$(READLINE_DIR)/include
 
 SRCS = srcs/main.c \
        srcs/minishell_split.c \
+       srcs/main_helper.c \
+       srcs/signal_handler.c \
+       srcs/env_util.c \
+       srcs/signal_exec.c \
+       srcs/main_loop.c \
        $(BUILTIN_DIR)/cd.c \
        $(BUILTIN_DIR)/exit.c \
        $(BUILTIN_DIR)/pwd.c \
@@ -27,7 +33,12 @@ SRCS = srcs/main.c \
        $(BUILTIN_DIR)/builtin.c \
        $(BUILTIN_DIR)/unset.c \
        $(LEXER_DIR)/lexer.c \
+       $(LEXER_DIR)/lexer_util.c \
+       $(LEXER_DIR)/token_1.c \
+       $(LEXER_DIR)/token_2.c \
+       $(LEXER_DIR)/token_3.c \
        $(PARSER_DIR)/parser.c \
+       $(PARSER_DIR)/parser_util.c \
        $(PARSER_DIR)/redi_parser.c \
        $(PIPEREDIRECT_DIR)/pipe.c \
        $(PIPEREDIRECT_DIR)/redirect.c \
@@ -45,7 +56,7 @@ LIBFT = $(LIBFTDIR)/libft.a
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -L$(READLINE_DIR)/lib -lreadline -o $(NAME)
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFTDIR)
@@ -61,3 +72,4 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+

@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 20:06:52 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/04/25 20:07:37 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/16 20:55:51 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	ft_exit(void)
 {
-	ft_printf("Error\n");
+	printf("Error\n");
 	exit(EXIT_FAILURE);
 }

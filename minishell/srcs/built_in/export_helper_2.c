@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 22:59:27 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/14 16:28:28 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/06/16 20:08:03 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,3 @@ char	**null_free(char *str)
 	ft_free(str);
 	return (NULL);
 }
-
-
