@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:44:09 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/06 17:24:10 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/15 16:32:11 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ void	exec_command(t_parser *node, t_directory *dir, t_env **env_var)
 	if (is_builtins(node->cmd[0]))
 		exec_builtin(node->cmd, dir, env_var);
 	else
+	{
 		execute_from_path(node->cmd, dir, env_var);
+	}
 	return (restore_fd(head));
 }
 

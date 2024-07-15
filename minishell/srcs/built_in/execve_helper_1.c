@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:41:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/14 17:13:16 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/14 20:56:38 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ bool	check_fd_dir(char *path, t_directory *dir)
 		exit(EXIT_FAILURE);
 	if (fd > 0)
 	{
-		write(STDERR_FILENO, "minishell: command not fount", 28);
+		write(STDERR_FILENO, "minishell: command not found", 28);
 		write(STDERR_FILENO, path, ft_strlen(path));
 		write(STDERR_FILENO, ": ", 2);
 		write(STDERR_FILENO, "\n", 1);
