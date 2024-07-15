@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 22:59:23 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/14 16:17:18 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/06 18:38:15 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ char	*is_valid_name(char *name)
 		return (error_export(name));
 	while (name[i])
 	{
+		if (name[i] == '-')
+			return (error_export(name));
 		if (!ft_isalnum(name[i]) && name[i] != '_' && name[i] != '='
 			&& name[i] != ':' && name[i] != '/'
 			&& name[i] != '-' && name[i] != '.')

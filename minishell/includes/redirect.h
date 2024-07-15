@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 19:03:12 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/10 18:00:44 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/14 16:05:44 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef enum e_redirect_type
 	OUTPUT_REDI,
 	APPEND_OUTPUT_REDI,
 	HEREDOC_REDI,
+	NONE,
 }						t_redirect_type;
 
 typedef enum e_parse_state
@@ -47,6 +48,7 @@ typedef struct s_redirect
 	int					fd_backup;
 	char				*file_name;
 	struct s_redirect	*next;
+	char				*heredoc_input;
 }	t_redirect;
 
 typedef struct s_parse_context
@@ -56,7 +58,7 @@ typedef struct s_parse_context
 	char		*result;
 	int			j;
 	t_directory	*dir;
-	t_env	**env_var;
+	t_env		**env_var;
 }	t_parse_context;
 
 typedef struct s_expand

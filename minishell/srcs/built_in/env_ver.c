@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 18:24:17 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/11 16:09:37 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/02 20:57:24 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static t_env	*check_split(t_env *head)
 {
-	t_env	*current;
-	t_env	*next;
+	t_env		*current;
+	t_env		*next;
 	int			i;
 
 	current = head;
@@ -39,7 +39,7 @@ static t_env	*check_split(t_env *head)
 static t_env	*i_new_var(char *key, char *value, bool is_shell_var)
 {
 	t_env	*new_var;
-	char		**p;
+	char	**p;
 
 	new_var = malloc(sizeof(t_env));
 	if (!new_var)
@@ -68,7 +68,7 @@ static void	helper_env(char **split_result, t_env **head, t_env **prev)
 {
 	char		*key;
 	char		*value;
-	t_env	*new_var;
+	t_env		*new_var;
 
 	key = split_result[0];
 	value = split_result[1];
@@ -81,10 +81,58 @@ static void	helper_env(char **split_result, t_env **head, t_env **prev)
 	ft_free(split_result);
 }
 
+// char	**one_split(const char *s, char c)
+// {
+// 	char	**split;
+// 	char	*word;
+// 	size_t	i;
+
+// 	i = 0;
+// 	if (!s)
+// 		return (NULL);
+// 	split = malloc(3 * sizeof(char *));
+// 	if (!split)
+// 		ft_exit();
+// 	while (s[i] != c)
+// 		i++;
+// 	word = ft_calloc(i + 1, sizeof(char));
+// 	if (!word)
+// 		ft_exit();
+// 	ft_strlcpy(split[0], s, i);
+// 	return (split);
+// }
+
+char	**one_split(const char *s, char c)
+{
+	char	**split;
+	size_t	key_len;
+	size_t	total_len;
+
+	key_len = 0;
+	total_len = strlen(s);
+	if (!s)
+		return (NULL);
+	while (s[key_len] != c && s[key_len] != '\0')
+		key_len++;
+	if (s[key_len] == '\0')
+		return (NULL);
+	split = malloc(3 * sizeof(char *));
+	if (!split)
+		ft_exit();
+	split[0] = ft_calloc(key_len + 1, sizeof(char));
+	split[1] = ft_calloc(total_len - key_len, sizeof(char));
+	if (!split[0] || !split[1])
+		ft_exit();
+	ft_strlcpy(split[0], s, key_len + 1);
+	ft_strlcpy(split[1], s + key_len + 1, total_len - key_len);
+	split[2] = NULL;
+	return (split);
+}
+
 t_env	*create_env_vars(char *envp[], char *path)
 {
-	t_env	*head;
-	t_env	*prev;
+	t_env		*head;
+	t_env		*prev;
 	int			i;
 	char		**split_result;
 
@@ -98,7 +146,7 @@ t_env	*create_env_vars(char *envp[], char *path)
 	}
 	while (envp[i] != NULL)
 	{
-		split_result = ft_split(envp[i], '=');
+		split_result = one_split(envp[i], '=');
 		if (!split_result)
 			return (check_split(head));
 		helper_env(split_result, &head, &prev);

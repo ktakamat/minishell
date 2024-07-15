@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:51:39 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/14 17:49:19 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/14 19:14:20 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ void	clean_cmds(char **cmds, t_directory *dir,
 
 	i = 0;
 	j = 0;
-	while (cmds[i])
+	while (cmds[i] != NULL)
 	{
+		printf("coms :%d %s\n",i,cmds[i]);
 		cmds[i] = expansion(cmds[i], dir, env_var);
 		if (cmds[i] && cmds[i][0] != '\0')
 		{
@@ -56,16 +57,6 @@ static int	*set_flags(char **cmds)
 	return (flags);
 }
 
-int	validate_cmds(char **cmds, t_directory *dir, t_env **env_var)
-{
-	clean_cmds(cmds, dir, env_var);
-	if (!cmds || cmds[0] == NULL || cmds[0][0] == '\0')
-	{
-		return (1);
-	}
-	return (0);
-}
-
 static int	exec_export(char **cmds, t_env **env_var, int *falgs)
 {
 	int		status;
@@ -79,6 +70,7 @@ static int	exec_export(char **cmds, t_env **env_var, int *falgs)
 	return (status);
 }
 
+/// コマンド実行(builtin)
 static void	execute_com(char **cmds, t_directory *dir,
 			t_env **env_vars, int *flags)
 {
@@ -94,16 +86,19 @@ static void	execute_com(char **cmds, t_directory *dir,
 		dir->error.error_num = exec_env(*env_vars);
 	else if (!ft_strcmp(cmds[0], "echo"))
 	{
+		printf("echo!!!");
 		i = 0;
 		while (cmds[i])
 			i++;
 		dir->error.error_num = exec_echo(cmds, i - 1);
+		printf("echo!!!おわ");
 	}
 	else if (!ft_strcmp(cmds[0], "export"))
 		dir->error.error_num = exec_export(cmds, env_vars, flags);
 	else if (!ft_strcmp(cmds[0], "unset"))
 		dir->error.error_num = exec_unset(env_vars, cmds, flags);
 }
+
 
 void	exec_builtin(char **cmds, t_directory *dir, t_env **env_vars)
 {

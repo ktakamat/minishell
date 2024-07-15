@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:31:42 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/16 15:10:13 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/14 20:42:52 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	fork_execute(char **cmds, t_directory *dir)
 	}
 	else
 	{
+
 		wait(&status2);
 		if (WIFEXITED(status2))
 		{
@@ -63,11 +64,18 @@ void	execute_from_path(char **cmds, t_directory *dir, t_env **env_vars)
 {
 	struct stat	s;
 
-	setup_signals();
+	exec_signals();
+	int i = 0;
+	while (cmds[i])
+	{
+		printf("%d %s\n",i,cmds[i]);
+		i++;
+	}
 	if (validate_cmds(cmds, dir, env_vars))
 		return ;
 	if (stat(cmds[0], &s) == 0 && ft_strchr(cmds[0], '/'))
 	{
+
 		if (S_ISDIR(s.st_mode))
 		{
 			print_error("minishell: is a directory", cmds[0]);

@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 21:18:55 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/03 15:19:45 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/06 16:36:29 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char	*expansion(char *str, t_directory *dir, t_env **env_var)
 	if (is_quoted(str))
 		str = q_handle(str, dir, env_var);
 	else
+	{
 		str = d_handle(str, dir, env_var);
+	}
 	return (str);
 }

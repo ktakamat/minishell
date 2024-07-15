@@ -6,7 +6,7 @@
 /*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:11:14 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/16 15:14:28 by flaghata         ###   ########.fr       */
+/*   Updated: 2024/07/14 19:33:19 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static t_redirect	*create_redirect(void)
 	redi->fd_file = -1;
 	redi->fd_backup = -1;
 	redi->file_name = NULL;
+	redi->heredoc_input = NULL;
 	redi->next = NULL;
 	return (redi);
 }
@@ -31,13 +32,30 @@ static t_redirect	*create_redirect(void)
 static t_redirect_type	redirect_type(t_token **token)
 {
 	if ((*token)->kind == TK_LESS)
+	{
+		printf("n  o\n");
 		return (INPUT_REDI);
+	}
 	else if ((*token)->kind == TK_GREAT)
+	{
+		printf("  no\n");
 		return (OUTPUT_REDI);
+	}
 	else if ((*token)->kind == TK_DGREAT)
+	{
+		printf("n o\n");
 		return (APPEND_OUTPUT_REDI);
-	else
+	}
+	else if ((*token)->kind == TK_DLESS)
+	{
+		printf("no\n");
 		return (HEREDOC_REDI);
+	}
+	else
+	{
+		printf("none\n");
+		return (NONE);
+	}
 }
 
 int	set_redirect(t_parser *parser, t_token **token)
@@ -69,7 +87,7 @@ int	set_redirect(t_parser *parser, t_token **token)
 	return (SUCCESS);
 }
 
-void	destoroy_redirect(t_redirect *redi)
+void	destroy_redirect(t_redirect *redi)
 {
 	t_redirect	*tmp;
 

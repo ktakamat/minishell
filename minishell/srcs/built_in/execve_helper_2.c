@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_helper_2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:43:49 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/16 15:10:18 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/14 15:41:57 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	combine_strings(char *s1, char *s2, char *s3, char *s4)
 
 static int	child_process_exec(char *command_path, char **cmds)
 {
+	//printf("%s\n",command_path);
 	execve(command_path, cmds, NULL);
 	perror("execve failed");
 	exit(EXIT_FAILURE);
@@ -47,7 +48,7 @@ int	str_error(char *str)
 static int	child_execution_hand(char *command_path, char **cmds)
 {
 	int	status;
-
+	
 	if (ft_fork() == 0)
 		child_process_exec(command_path, cmds);
 	else
@@ -69,6 +70,7 @@ int	command_path_exec(char *command_path, char **cmds)
 	{
 		if (S_ISDIR(s.st_mode))
 		{
+			write(STDERR_FILENO, "minishell: ", 11);
 			print_error("minishell: is a directory\n", command_path);
 			return (FAILURE);
 		}

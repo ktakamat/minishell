@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_helper_1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:41:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/16 15:10:22 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/13 23:16:36 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int	parsed_command_exec(char *command, char **cmds, t_env **env_vars)
 		args[args_count] = command_name;
 		command_name = ft_strtok(NULL, " ");
 		args_count++;
+		printf("{arg:%s}\n",args[0]);
 	}
 	args[args_count] = NULL;
 	return (helper_exec(args, cmds, env_vars));
