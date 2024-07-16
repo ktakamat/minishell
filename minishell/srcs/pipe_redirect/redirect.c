@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 22:51:54 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/15 16:40:01 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:26:02 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,21 @@
 
 int	open_redirect(t_redirect *redi)
 {
+	int	fd;
+
 	if (redi->type == INPUT_REDI)
-		return (open(redi->file_name, O_RDONLY, 0));
-	if (redi->type == OUTPUT_REDI)
-		return (open(redi->file_name, O_WRONLY | O_CREAT | O_TRUNC, FILE_MODE));
-	return (open(redi->file_name, O_WRONLY | O_CREAT | O_APPEND, FILE_MODE));
+	{
+		fd = open(redi->file_name, O_RDONLY, 0);
+	}
+	else if (redi->type == OUTPUT_REDI)
+	{
+		fd = open(redi->file_name, O_WRONLY | O_CREAT | O_TRUNC, FILE_MODE);
+	}
+	else
+	{
+		fd = open(redi->file_name, O_WRONLY | O_CREAT | O_APPEND, FILE_MODE);
+	}
+	return (fd);
 }
 
 static char	*here_doc(t_redirect *redi)
@@ -58,7 +68,6 @@ void	redirect(t_redirect *redi)
 	}
 	else
 	{
-		printf("Here document redirection\n");
 		redi->heredoc_input = here_doc(redi);
 	}
 }
@@ -73,6 +82,7 @@ int	exec_redirect(t_redirect *redi, t_directory *dir, t_env **env_var)
 			redi->fd_file = open_redirect(redi);
 			if (redi->fd_file == -1)
 			{
+				// print_error("minishell: No such file or directory", redi->file_name);
 				dir->error.error_num = 1;
 				return (FAILURE);
 			}
@@ -89,7 +99,7 @@ void	restore_fd(t_redirect *redi)
 		return ;
 	if (redi->type == HEREDOC_REDI)
 		return ;
-	ft_dup2(redi->fd_backup, STDOUT_FILENO);
+	ft_dup2(redi->fd_backup, redi->fd);
 	ft_close(redi->fd_backup);
 	redi->fd_backup = -1;
 }

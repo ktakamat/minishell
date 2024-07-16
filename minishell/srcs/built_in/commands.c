@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:44:09 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/15 16:41:39 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:59:10 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ void	exec_command(t_parser *node, t_directory *dir, t_env **env_var)
 
 	head = node->redirect;
 	if (exec_redirect(node->redirect, dir, env_var) == FAILURE)
+	{
 		return ;
+	}
 	if (is_builtins(node->cmd[0]))
 		exec_builtin(node->cmd, dir, env_var);
 	else
@@ -86,11 +88,11 @@ void	exec_command(t_parser *node, t_directory *dir, t_env **env_var)
 				char **a;
 				a = malloc(sizeof(char *) * 4);
 				a[0] = malloc(sizeof(char) * 5);
-				a[1] = malloc(sizeof(char) * (strlen(node->redirect->file_name) + 1));
+				a[1] = malloc(sizeof(char) * (strlen(node->cmd[1]) + 1));
 				a[2] = malloc(sizeof(char) * 4);
 			 	a[3] = 0;
 				ft_strcpy(a[0], "grep");
-				ft_strcpy(a[1], node->redirect->file_name);
+				ft_strcpy(a[1], node->cmd[1]);
 				ft_strcpy(a[2], "tmp");
 				execute_from_path(a, dir, env_var);
 				free(a[0]);

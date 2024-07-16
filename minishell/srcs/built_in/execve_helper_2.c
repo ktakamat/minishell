@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:43:49 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/14 17:13:12 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:42:26 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,13 @@ static int	child_execution_hand(char *command_path, char **cmds)
 	int	status;
 
 	if (ft_fork() == 0)
+	{
 		child_process_exec(command_path, cmds);
+	}
 	else
 	{
 		wait(&status);
+		//printf("end!!%d\n", status);
 		if (WIFEXITED(status))
 			return (WEXITSTATUS(status));
 		else

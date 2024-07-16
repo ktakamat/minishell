@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:33:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/06 17:24:17 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:24:52 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	process_command(char *line, t_directory *dir, t_env **env_var, int *error)
 	if (!args)
 		return (0);
 	args->argv = node->cmd;
-	free(line);
+	ft_free(line);
 	ft_free_args(args);
 	return (1);
 }
@@ -76,14 +76,17 @@ int	main_loop(char *envp[], int *error)
 	status = 1;
 	while (1)
 	{
-		line = handle_input();
+		line = readline("minishell$ ");
 		if (!line)
+		{
 			break ;
+		}
 		if (!process_command(line, &dir, &env_var, error))
 		{
 			cleanup(line, NULL, NULL);
-			continue ;
+			continue ;                                                                                                                                                              
 		}
+		//printf("%d\n", dir.error.error_num);
 	}
 	return (status);
 }

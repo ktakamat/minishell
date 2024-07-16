@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:31:42 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/06 17:23:29 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:01:50 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,14 @@ void	execute_from_path(char **cmds, t_directory *dir, t_env **env_vars)
 		else
 		{
 			if (!check_fd(cmds, dir))
+			{
 				return ;
+			}
 		}
 	}
 	else
 		dir->error.error_num = parsed_command_exec(cmds[0], cmds, env_vars);
+	//printf("error;%d\n", dir->error.error_num);
 	signal_error(dir);
 	return ;
 }

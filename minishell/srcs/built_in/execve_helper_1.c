@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:41:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/14 20:56:38 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/15 20:08:03 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,9 @@ static int	helper_exec(char *args[PATH_MAX],
 		combine_strings(command_path, path_dirs[i], "/", args[0]);
 		exec_status = command_path_exec(command_path, cmds);
 		if (exec_status != SUCCESS)
+		{
 			return (exec_status);
+		}
 		if (access(command_path, X_OK) == 0)
 		{
 			return (SUCCESS);

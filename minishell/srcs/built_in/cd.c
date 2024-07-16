@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 22:51:05 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/14 16:49:35 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:20:07 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	check_open_dir(char *path)
 
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-		exit(EXIT_FAILURE);
+		exit(0);
 	if (fd > 0)
 	{
 		write(STDERR_FILENO, "cd: Not a directory", 19);

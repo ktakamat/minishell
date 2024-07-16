@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:23 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/14 21:44:44 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/15 21:15:24 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	env_list = set_env_list(envp);
 	if (argc == 1)
+	{
 		main_loop(envp, &error);
+	}
 	while (env_list)
 	{
 		next = env_list->next;

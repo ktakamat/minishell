@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 20:29:49 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/17 16:33:27 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:58:52 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ t_token	*create_word_token(char **tmp, char *line)
 		return (create_dquote_token(tmp, line));
 	}
 	i = 0;
-	while (line[i] != ' ' && line[i])
+	while (line[i] != ' ' && line[i] && line[i] != '|'
+		&& line[i] != '<' && line[i] != '>')
 		i++;
 	set = (char *)ft_calloc(sizeof(char), i + 1);
 	i = 0;
-	while (line[i] != ' ' && line[i])
+	while (line[i] != ' ' && line[i] && line[i] != '|'
+		&& line[i] != '<' && line[i] != '>')
 	{
 		set[i] = line[i];
 		i++;
