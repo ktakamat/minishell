@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:44:09 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/16 12:59:10 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/16 21:11:20 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,13 @@ void	exec_command(t_parser *node, t_directory *dir, t_env **env_var)
 		exec_builtin(node->cmd, dir, env_var);
 	else
 	{
+		// int i = 0;
+		// while(node->cmd[i])
+		// {
+		// 	printf("cmd:%d %s\n",i,node->cmd[i]);
+		// 	i++;
+		// }
+		// printf("cmd:おわ\n");
 		if (!node->redirect || node->redirect->type != HEREDOC_REDI)
 			execute_from_path(node->cmd, dir, env_var);
 		else
@@ -111,10 +118,12 @@ void	execution(t_parser *parser, t_directory *dir, t_env **env_var)
 {
 	if (parser == NULL)
 		return ;
+	//printf("%d:%s:あじまるよー\n",parser->redirect->fd,parser->redirect->file_name);
 	if (parser->type == PIPE)
 		pipe_line(parser, dir, env_var);
 	else
 		exec_command(parser, dir, env_var);
+	//printf("%d:%s:おわなのら\n",parser->redirect->fd,parser->redirect->file_name);
 }
 
 int	validate_cmds(char **cmds, t_directory *dir, t_env **env_var)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 22:51:54 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/16 13:26:02 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/16 21:12:27 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	redirect(t_redirect *redi)
 		|| redi->type == APPEND_OUTPUT_REDI)
 	{
 		redi->fd_backup = dup(redi->fd);
+		//printf("now:%d %d %s\n", redi->fd, redi->fd_backup,redi->file_name);
 		dup2(redi->fd_file, redi->fd);
 		redi->heredoc_input = "";
 	}
@@ -77,6 +78,7 @@ int	exec_redirect(t_redirect *redi, t_directory *dir, t_env **env_var)
 	while (redi != NULL)
 	{
 		redi->file_name = expansion(redi->file_name, dir, env_var);
+		//printf("処理:%s\n", redi->file_name);
 		if (redi->type != HEREDOC_REDI)
 		{
 			redi->fd_file = open_redirect(redi);
@@ -99,7 +101,25 @@ void	restore_fd(t_redirect *redi)
 		return ;
 	if (redi->type == HEREDOC_REDI)
 		return ;
-	ft_dup2(redi->fd_backup, redi->fd);
-	ft_close(redi->fd_backup);
+	// while (redi)
+	// {
+		//printf("修復 %d %d %s\n",redi->fd,redi->fd_backup,redi->file_name);
+		ft_dup2(redi->fd_backup, redi->fd);
+		ft_close(redi->fd_backup);
+		//printf("閉じた\n");
+		if (redi->next)
+		{
+			ft_dup2(redi->next->fd_backup, redi->next->fd);
+			ft_close(redi->next->fd_backup);
+		}
+		//redi = redi->next;
+		//printf("次\n");
+	//}
+	// printf("修復 %d %d %s\n",redi->fd,redi->fd_backup,redi->file_name);
+	// ft_dup2(redi->fd_backup, redi->fd);
+	// ft_dup2(redi->next->fd_backup, redi->next->fd);
+	// printf("修復done %d %d %s\n",redi->next->fd,redi->next->fd_backup,redi->file_name);
+	// ft_close(redi->fd_backup);
+	// ft_close(redi->next->fd_backup);
 	redi->fd_backup = -1;
 }
