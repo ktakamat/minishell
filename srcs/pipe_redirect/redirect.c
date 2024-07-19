@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 22:51:54 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/18 20:59:06 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/19 21:03:46 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,11 @@ void	redirect(t_redirect *redi)
 	if (redi->type == INPUT_REDI || redi->type == OUTPUT_REDI
 		|| redi->type == APPEND_OUTPUT_REDI)
 	{
-		redi->fd_backup = dup(redi->fd);
-		dup2(redi->fd_file, redi->fd);
+		redi->fd_backup = ft_dup(redi->fd);
+		write(1, "1\n", 2);
+		ft_dup2(redi->fd_file, redi->fd);
 		redi->heredoc_input = "";
+		write	(1, "2\n", 2);
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:25:57 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/18 20:47:56 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/19 21:02:48 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,53 @@ int	first_pipe(char *str, int *error)
 	}
 	return (0);
 }
+char	*remove_dollar_to_quote(const char *input)
+{
+	int		length;
+	char	*result;
+	int		i;
+	int		j;
+
+	length = strlen(input);
+	result = malloc(length + 1);
+	i = 0;
+	j = 0;
+	while (i < length)
+	{
+		if (input[i] == '$')
+		{
+			result[j++] = '$';
+			i++;
+			if (input[i] == '?')
+			{
+				result[j++] = '?';
+				i++;
+			}
+			else if (input[i] == '"')
+			{
+				result[j++] = '"';
+				i++;
+				while (i < length && input[i] != '"')
+					result[j++] = input[i++];
+				if (i < length && input[i] == '"')
+				{
+					result[j++] = '"';
+					i++;
+				}
+			}
+			else
+			{
+				while (i < length && input[i] != ' '
+					&& input[i] != '"' && input[i] != '$')
+					result[j++] = input[i++];
+			}
+		}
+		else
+			result[j++] = input[i++];
+	}
+	result[j] = '\0';
+	return (result);
+}
 
 t_token	*lexer(char *line, int *error)
 {
@@ -61,15 +108,16 @@ t_token	*lexer(char *line, int *error)
 	int		i;
 	int		j;
 
+	char *lines = remove_dollar_to_quote(line);
 	lexer = NULL;
 	tmp = NULL;
 	i = 0;
 	j = 0;
-	if (first_pipe(line, error) == 2)
+	if (first_pipe(lines, error) == 2)
 		return (NULL);
-	while (*line != '\0' && line)
+	while (*lines != '\0' && lines)
 	{
-		token = create_token_from_line(&line, &i, &j);
+		token = create_token_from_line(&lines, &i, &j);
 		if (!token)
 			continue ;
 		if (lexer == NULL)
@@ -81,6 +129,7 @@ t_token	*lexer(char *line, int *error)
 	pipe_kind(lexer, j);
 	return (lexer);
 }
+
 
 void	expand(t_token *token)
 {
