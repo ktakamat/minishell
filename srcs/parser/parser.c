@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:41:35 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/21 21:43:22 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/21 22:29:25 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ t_parser	*handle_pipe(t_token **token, t_parser *parser, int *error)
 void	syntax_error_null(t_token *token)
 {
 	ft_putstr_fd("syntax error near unexpected token `", STDERR_FILENO);
-	write(1, "2\n", 2);
 	if (token && token->next->kind == TK_PIPE)
 		ft_putstr_fd("|", STDERR_FILENO);
 	else if (token && token->next->kind == TK_GREAT)

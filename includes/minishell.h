@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:55 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/21 15:54:50 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/21 22:57:40 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_split
 	char	**result;
 }	t_split;
 
-t_token		*lexer(char *line, int *error);
+t_token		*lexer(char *line, int *error, int *i, int *j);
 t_token		*create_word_token(char **tmp, char *line);
 t_token		*create_dquote_token(char **tmp, char *line);
 t_token		*create_squote_token(char **tmp, char *line);

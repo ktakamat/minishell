@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:36:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/21 20:28:24 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/21 22:37:19 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,10 @@
 // 			if (!ft_strcmp(node->cmd[0], "cat"))
 // 			{
 // 				int file;
-//    				file = open("./tmp",  O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-// 				write(file, node->redirect->heredoc_input, ft_strlen(node->redirect->heredoc_input));
+//    				file = open("./tmp",  O_RDWR | O_CREAT | O_TRUNC, S_IRUSR
+						// | S_IWUSR | S_IRGRP | S_IROTH);
+// 				write(file, node->redirect->heredoc_input,
+					// ft_strlen(node->redirect->heredoc_input));
 // 				close(file);
 // 				char **a;
 // 				a = malloc(sizeof(char *) * 3);
@@ -125,14 +127,17 @@
 // 			if (!ft_strcmp(node->cmd[0], "grep"))
 // 			{
 // 				int file;
-//    				file = open("./tmp",  O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-// 				write(file, node->redirect->heredoc_input, ft_strlen(node->redirect->heredoc_input));
+//    				file = open("./tmp",  O_RDWR | O_CREAT | O_TRUNC, S_IRUSR
+						// | S_IWUSR | S_IRGRP | S_IROTH);
+// 				write(file, node->redirect->heredoc_input,
+					// ft_strlen(node->redirect->heredoc_input));
 // 				close(file);
 // 				char **a;
 // 				a = malloc(sizeof(char *) * 4);
 // 				a[0] = malloc(sizeof(char) * 5);
-// 				printf("%lu %s}}}\n",strlen(node->redirect->file_name), node->redirect->file_name);
-// 				a[1] = malloc(sizeof(char) * (strlen(node->redirect->file_name) + 1));
+// 				printf("%lu %s}}}\n",strlen(node->redirect->file_name),
+						// node->redirect->file_name);
+// 	a[1] = malloc(sizeof(char) * (strlen(node->redirect->file_name) + 1));
 // 				a[2] = malloc(sizeof(char) * 4);
 // 			 	a[3] = 0;
 // 				ft_strcpy(a[0], "grep");

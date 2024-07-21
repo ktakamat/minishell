@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:25:57 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/21 21:48:01 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/21 22:57:12 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	first_pipe(char *str, int *error)
 	}
 	return (0);
 }
+
 char	*remove_dollar_to_quote(const char *input)
 {
 	int		length;
@@ -100,24 +101,21 @@ char	*remove_dollar_to_quote(const char *input)
 	return (result);
 }
 
-t_token	*lexer(char *line, int *error)
+t_token	*lexer(char *line, int *error, int *i, int *j)
 {
 	t_token	*lexer;
 	t_token	*tmp;
 	t_token	*token;
-	int		i;
-	int		j;
+	char	*lines;
 
-	char *lines = remove_dollar_to_quote(line);
+	lines = remove_dollar_to_quote(line);
 	lexer = NULL;
 	tmp = NULL;
-	i = 0;
-	j = 0;
 	if (first_pipe(lines, error) == 2)
 		return (NULL);
 	while (*lines != '\0' && lines)
 	{
-		token = create_token_from_line(&lines, &i, &j);
+		token = create_token_from_line(&lines, i, j);
 		if (!token)
 			continue ;
 		if (lexer == NULL)
@@ -126,9 +124,39 @@ t_token	*lexer(char *line, int *error)
 			tmp->next = token;
 		tmp = token;
 	}
-	pipe_kind(lexer, j);
+	pipe_kind(lexer, *j);
 	return (lexer);
 }
+
+// t_token	*lexer(char *line, int *error)
+// {
+// 	t_token	*lexer;
+// 	t_token	*tmp;
+// 	t_token	*token;
+// 	int		i;
+// 	int		j;
+
+// 	char *lines = remove_dollar_to_quote(line);
+// 	lexer = NULL;
+// 	tmp = NULL;
+// 	i = 0;
+// 	j = 0;
+// 	if (first_pipe(lines, error) == 2)
+// 		return (NULL);
+// 	while (*lines != '\0' && lines)
+// 	{
+// 		token = create_token_from_line(&lines, &i, &j);
+// 		if (!token)
+// 			continue ;
+// 		if (lexer == NULL)
+// 			lexer = token;
+// 		else
+// 			tmp->next = token;
+// 		tmp = token;
+// 	}
+// 	pipe_kind(lexer, j);
+// 	return (lexer);
+// }
 
 
 void	expand(t_token *token)

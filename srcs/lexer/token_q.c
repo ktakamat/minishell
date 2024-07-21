@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:20:53 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/21 21:50:40 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/21 22:29:06 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ t_token	*create_dquote_token(char **tmp, char *line)
 	set = extract_token(line, quote_end + token_end);
 	*tmp = line + quote_end + token_end;
 	if (set[quote_end + token_end - 1] == '\"')
+	{
 		return (create_token(set, TK_DQUOTE));
+	}
 	else
 		return (create_token(set, TK_GENERAL));
 }
