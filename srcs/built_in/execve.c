@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:31:42 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/18 16:14:06 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/21 21:24:42 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ static void	fork_execute(char **cmds, t_directory *dir)
 	}
 	else
 	{
+		signal(SIGINT, SIG_IGN);
 		wait(&status2);
+		signal(SIGINT, handle_exec);
 		if (WIFEXITED(status2))
 		{
 			dir->error.error_num = WEXITSTATUS(status2);

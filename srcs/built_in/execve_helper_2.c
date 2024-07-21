@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:43:49 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/18 16:28:57 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/21 21:22:59 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ static int	child_execution_hand(char *command_path, char **cmds)
 	}
 	else
 	{
+		signal(SIGINT, SIG_IGN);
 		wait(&status);
+		signal(SIGINT, handle_exec);
 		if (WIFEXITED(status))
 			return (WEXITSTATUS(status));
 		else

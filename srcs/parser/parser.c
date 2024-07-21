@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:41:35 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/16 21:41:00 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/21 21:43:22 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,61 @@ t_parser	*handle_pipe(t_token **token, t_parser *parser, int *error)
 	return (parser);
 }
 
+
+// t_parser	*parser(t_token *tokens, int *error)
+// {
+// 	t_parser	*node;
+// 	t_token		*tmp;
+
+// 	if (tokens == NULL)
+// 		return (NULL);
+// 	tmp = tokens;
+// 	node = node_new();
+// 	if (put_data(node, &tokens) == FAILURE)
+// 		return (destroy_parser(node));
+// 	if (tokens->kind == TK_LESS || tokens->kind == TK_GREAT
+// 		|| tokens->kind == TK_DGREAT || tokens->kind == TK_DLESS)
+// 	{
+// 		if (tokens->next->kind == TK_LESS || tokens->next->kind == TK_GREAT
+// 			|| tokens->next->kind == TK_DGREAT
+// 			|| tokens->next->kind == TK_DLESS)
+// 		{
+// 			put_syntax_error(tokens);
+// 			token_clear(tmp);
+// 			return (NULL);
+// 		}
+// 	}
+// 	while (tokens != NULL && tokens->kind == TK_PIPE)
+// 	{
+// 		tokens = tokens->next;
+// 		node = handle_pipe(&tokens, node, error);
+// 		if (*error)
+// 		{
+// 			token_clear(tmp);
+// 			return (NULL);
+// 		}
+// 	}
+// 	token_clear(tmp);
+// 	return (node);
+// }
+
+void	syntax_error_null(t_token *token)
+{
+	ft_putstr_fd("syntax error near unexpected token `", STDERR_FILENO);
+	write(1, "2\n", 2);
+	if (token && token->next->kind == TK_PIPE)
+		ft_putstr_fd("|", STDERR_FILENO);
+	else if (token && token->next->kind == TK_GREAT)
+		ft_putstr_fd(">", STDERR_FILENO);
+	else if (token && token->next->kind == TK_LESS)
+		ft_putstr_fd("<", STDERR_FILENO);
+	else if (token && token->next->kind == TK_DGREAT)
+		ft_putstr_fd(">>", STDERR_FILENO);
+	else if (token && token->next->kind == TK_DLESS)
+		ft_putstr_fd("<<", STDERR_FILENO);
+	ft_putendl_fd("'", STDERR_FILENO);
+}
+
 t_parser	*parser(t_token *tokens, int *error)
 {
 	t_parser	*node;
@@ -107,6 +162,19 @@ t_parser	*parser(t_token *tokens, int *error)
 	if (tokens == NULL)
 		return (NULL);
 	tmp = tokens;
+	while (tokens->kind == TK_LESS || tokens->kind == TK_GREAT
+		|| tokens->kind == TK_DGREAT || tokens->kind == TK_DLESS)
+	{
+		if (tokens->next->kind == TK_LESS || tokens->next->kind == TK_GREAT
+			|| tokens->next->kind == TK_DGREAT
+			|| tokens->next->kind == TK_DLESS)
+		{
+			syntax_error_null(tokens);
+			*error = 1;
+			token_clear(tmp);
+			return (NULL);
+		}
+	}
 	node = node_new();
 	if (put_data(node, &tokens) == FAILURE)
 		return (destroy_parser(node));
