@@ -7,7 +7,7 @@ LEXER_DIR = ./srcs/lexer
 PARSER_DIR = ./srcs/parser
 PIPEREDIRECT_DIR = ./srcs/pipe_redirect
 READLINE_DIR = $(shell brew --prefix readline)
-CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES_DIR) -I$(READLINE_DIR)/include
+CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES_DIR) -I$(READLINE_DIR)/include -g -fsanitize=address
 
 SRCS = srcs/main.c \
        srcs/minishell_split.c \

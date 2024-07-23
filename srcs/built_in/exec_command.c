@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:36:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/22 20:28:21 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/23 19:45:41 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,20 @@
 // 	return (restore_fd(head));
 // }
 
+void	write_tmp_file(int file, t_redirect *redirect)
+{
+	while (49)
+	{
+		write(file, redirect->heredoc_input, ft_strlen(redirect->heredoc_input));
+		if (redirect->next != NULL && ft_strlen(redirect->next->heredoc_input) != 0)
+			redirect = redirect->next;
+		else{
+			close(file);
+			break;
+		}
+	}
+}
+
 void	handle_cat_heredoc(t_redirect *redirect, t_directory *dir,
 		t_env **env_var)
 {
@@ -165,8 +179,8 @@ void	handle_cat_heredoc(t_redirect *redirect, t_directory *dir,
 	args = malloc(sizeof(char *) * 3);
 	file = open("./tmp", O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR
 			| S_IRGRP | S_IROTH);
-	write(file, redirect->heredoc_input, ft_strlen(redirect->heredoc_input));
-	close(file);
+	// heredocのノード一個の内容しか読み込んでなかったのが原因なので、その後に続くheredocも再起的に書き込むようにした
+	write_tmp_file(file, redirect);
 	args = malloc(sizeof(char *) * 3);
 	args[0] = malloc(sizeof(char) * 4);
 	args[1] = malloc(sizeof(char) * 4);
@@ -189,7 +203,9 @@ void	handle_grep_heredoc(t_redirect *redirect, t_directory *dir,
 
 	file = open("./tmp", O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR
 			| S_IRGRP | S_IROTH);
-	write(file, redirect->heredoc_input, ft_strlen(redirect->heredoc_input));
+	//write(file, redirect->heredoc_input, ft_strlen(redirect->heredoc_input));
+	// こっちにもいる予感がした。いらなかったら↑のに戻してください
+	write_tmp_file(file, redirect);
 	close(file);
 	args = malloc(sizeof(char *) * 4);
 	args[0] = malloc(sizeof(char) * 5);
@@ -226,11 +242,19 @@ void	exec_command(t_parser *node, t_directory *dir, t_env **env_var)
 		else
 		{
 			head = node->redirect->next;
+			// restore対象のファイルディスクリプタを、heredocじゃないとこまで飛ばす
+			//　heredoc_inputの内容を""で初期化してるので、strlenで空入力確認(不都合あったらすみません...)
+			while (49)
+			{
+				if (ft_strlen(head->heredoc_input) == 0)
+					break;
+				head = head->next;
+			}
 			if (!ft_strcmp(node->cmd[0], "cat"))
 				handle_cat_heredoc(node->redirect, dir, env_var);
 			else if (!ft_strcmp(node->cmd[0], "grep"))
 				handle_grep_heredoc(node->redirect, dir, env_var);
 		}	
 	}
-	restore_fd (head);
+	restore_fd(head);
 }
