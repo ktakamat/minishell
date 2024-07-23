@@ -6,7 +6,7 @@
 /*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:36:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/23 19:45:41 by flaghata         ###   ########.fr       */
+/*   Updated: 2024/07/23 20:39:52 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ void	write_tmp_file(int file, t_redirect *redirect)
 	while (49)
 	{
 		write(file, redirect->heredoc_input, ft_strlen(redirect->heredoc_input));
-		if (redirect->next != NULL && ft_strlen(redirect->next->heredoc_input) != 0)
+		if (redirect->next != NULL && redirect->next->type == HEREDOC_REDI)
 			redirect = redirect->next;
 		else{
 			close(file);
@@ -231,6 +231,7 @@ void	exec_command(t_parser *node, t_directory *dir, t_env **env_var)
 	head = node->redirect;
 	if (exec_redirect(node->redirect, dir, env_var) == FAILURE)
 		return ;
+	//printf("sss%s %s",node->cmd[0], node->redirect->heredoc_input);
 	if (!node->cmd[0])
 		return (restore_fd(head));
 	if (is_builtins(node->cmd[0]))
@@ -241,14 +242,15 @@ void	exec_command(t_parser *node, t_directory *dir, t_env **env_var)
 			execute_from_path(node->cmd, dir, env_var);
 		else
 		{
-			head = node->redirect->next;
 			// restore対象のファイルディスクリプタを、heredocじゃないとこまで飛ばす
-			//　heredoc_inputの内容を""で初期化してるので、strlenで空入力確認(不都合あったらすみません...)
+			//　HEREDOC_REDIかどうかで判定すればよかった...
 			while (49)
 			{
-				if (ft_strlen(head->heredoc_input) == 0)
+				if (head->next == NULL)
 					break;
 				head = head->next;
+				if (head->next->type != HEREDOC_REDI)
+					break;
 			}
 			if (!ft_strcmp(node->cmd[0], "cat"))
 				handle_cat_heredoc(node->redirect, dir, env_var);
