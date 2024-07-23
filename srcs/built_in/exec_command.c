@@ -6,7 +6,7 @@
 /*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:36:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/23 20:39:52 by flaghata         ###   ########.fr       */
+/*   Updated: 2024/07/23 21:00:20 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,9 @@ void	exec_command(t_parser *node, t_directory *dir, t_env **env_var)
 		return ;
 	//printf("sss%s %s",node->cmd[0], node->redirect->heredoc_input);
 	if (!node->cmd[0])
-		return (restore_fd(head));
+	{
+			return (restore_fd(head));
+	}
 	if (is_builtins(node->cmd[0]))
 		exec_builtin(node->cmd, dir, env_var);
 	else
@@ -249,7 +251,7 @@ void	exec_command(t_parser *node, t_directory *dir, t_env **env_var)
 				if (head->next == NULL)
 					break;
 				head = head->next;
-				if (head->next->type != HEREDOC_REDI)
+				if (head->type != HEREDOC_REDI)
 					break;
 			}
 			if (!ft_strcmp(node->cmd[0], "cat"))
