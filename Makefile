@@ -22,6 +22,7 @@ SRCS = srcs/main.c \
        $(BUILTIN_DIR)/commands.c \
        $(BUILTIN_DIR)/exec_command.c \
        $(BUILTIN_DIR)/echo.c \
+       $(BUILTIN_DIR)/echo_helper.c \
        $(BUILTIN_DIR)/env.c \
        $(BUILTIN_DIR)/env_ver.c \
        $(BUILTIN_DIR)/env_helper.c \

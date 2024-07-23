@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:41:35 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/21 22:29:25 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/22 22:24:06 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ t_parser	*handle_pipe(t_token **token, t_parser *parser, int *error)
 	return (parser);
 }
 
-
 // t_parser	*parser(t_token *tokens, int *error)
 // {
 // 	t_parser	*node;
@@ -161,7 +160,7 @@ t_parser	*parser(t_token *tokens, int *error)
 	if (tokens == NULL)
 		return (NULL);
 	tmp = tokens;
-	while (tokens->kind == TK_LESS || tokens->kind == TK_GREAT
+	if (tokens->kind == TK_LESS || tokens->kind == TK_GREAT
 		|| tokens->kind == TK_DGREAT || tokens->kind == TK_DLESS)
 	{
 		if (tokens->next->kind == TK_LESS || tokens->next->kind == TK_GREAT

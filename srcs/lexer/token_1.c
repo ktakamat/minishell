@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 20:22:10 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/21 22:30:18 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/22 22:53:35 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ t_token	*create_red_token(char **tmp, char *line)
 	}
 	exit(0);
 }
-
 
 int	find_squote_end(char *line)
 {

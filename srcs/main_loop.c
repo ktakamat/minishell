@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:33:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/21 22:58:20 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/22 20:30:04 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ int	process_command(char *line, t_directory *dir, t_env **env_var, int *error)
 		return (0);
 	args->argv = node->cmd;
 	ft_free(line);
-	ft_free_args(args);
+	destroy_parser(node);
+	ft_free(args);
 	return (1);
 }
 

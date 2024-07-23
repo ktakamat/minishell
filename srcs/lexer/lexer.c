@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:25:57 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/21 22:57:12 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/22 22:42:20 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,10 @@ t_token	*lexer(char *line, int *error, int *i, int *j)
 	t_token	*tmp;
 	t_token	*token;
 	char	*lines;
+	char	*original;
 
 	lines = remove_dollar_to_quote(line);
+	original = lines;
 	lexer = NULL;
 	tmp = NULL;
 	if (first_pipe(lines, error) == 2)
@@ -125,6 +127,7 @@ t_token	*lexer(char *line, int *error, int *i, int *j)
 		tmp = token;
 	}
 	pipe_kind(lexer, *j);
+	ft_free(original);
 	return (lexer);
 }
 
@@ -157,7 +160,6 @@ t_token	*lexer(char *line, int *error, int *i, int *j)
 // 	pipe_kind(lexer, j);
 // 	return (lexer);
 // }
-
 
 void	expand(t_token *token)
 {

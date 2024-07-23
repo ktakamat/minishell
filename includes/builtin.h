@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 19:13:53 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/18 20:42:32 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:25:31 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,8 @@ int		validate_cmds(char **cmds, t_directory *dir, t_env **env_var);
 void	clean_cmds(char **cmds, t_directory *dir,
 			t_env **env_var);
 char	*error_export(char *str);
+void	print_echo(char **str, int start_index, int m_words);
+int		check_n_option(char *str);
+int		process_n_option(char **str, int *i, int m_words, int *flag);
 
 #endif
