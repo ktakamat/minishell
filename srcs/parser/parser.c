@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:41:35 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/22 22:24:06 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:43:38 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ t_parser	*handle_pipe(t_token **token, t_parser *parser, int *error)
 	return (parser);
 }
 
-// t_parser	*parser(t_token *tokens, int *error)
+// t_parser	*parser(t_token *tokens, t_env **env_var)
 // {
 // 	t_parser	*node;
 // 	t_token		*tmp;

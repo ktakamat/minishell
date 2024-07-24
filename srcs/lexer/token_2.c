@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 20:29:49 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/21 22:50:06 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:48:01 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,29 @@ t_token	*create_word_token(char **tmp, char *line)
 	return (create_token(set, TK_CMD));
 }
 
+bool	soro_redirect(char *line, int *error)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] == ' ')
+		i++;
+	if ((line[i] == '>' || line[i] == '<') && line[i + 1] == '\0')
+	{
+		printf("syntax error near unexpected token `newline'\n");
+		*error = 258;
+		return (false);
+	}
+	else if (((line[i] == '>' && line[i + 1] == '>')
+			|| (line[i] == '<' && line[i + 1] == '<')) && line[i + 2] == '\0')
+	{
+		printf("syntax error near unexpected token `newline'\n");
+		*error = 258;
+		return (false);
+	}
+	return (true);
+}
+
 t_token	*create_token_from_line(char **line, int *i, int *j)
 {
 	t_token	*token;
@@ -58,7 +81,7 @@ t_token	*create_token_from_line(char **line, int *i, int *j)
 		token = create_pipe_token(line, *line);
 	}
 	else if (check_word(*line))
-	token = create_word_token(line, *line);
+		token = create_word_token(line, *line);
 	else
 		ft_error();
 	(*i)++;

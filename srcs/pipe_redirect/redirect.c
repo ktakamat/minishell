@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 22:51:54 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/22 22:54:09 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:50:27 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	open_redirect(t_redirect *redi)
 {
 	int	fd;
 
-	if (redi->type == INPUT_REDI)
+	if (redi->type == INPUT_REDI || redi->type == HEREDOC_REDI)
 	{
 		fd = open(redi->file_name, O_RDONLY, 0);
 	}
@@ -31,13 +31,13 @@ int	open_redirect(t_redirect *redi)
 	return (fd);
 }
 
-static char	*here_doc(t_redirect *redi)
+bool	here_doc(t_redirect *redi)
 {
 	char	*add_new_line;
 	char	*tmp;
 	char	*line;
 	char	*res;
-
+	
 	res = ft_strdup("");
 	while (true)
 	{
@@ -60,16 +60,16 @@ static char	*here_doc(t_redirect *redi)
 void	redirect(t_redirect *redi)
 {
 	if (redi->type == INPUT_REDI || redi->type == OUTPUT_REDI
-		|| redi->type == APPEND_OUTPUT_REDI)
+		|| redi->type == APPEND_OUTPUT_REDI || redi->type == HEREDOC_REDI)
 	{
 		redi->fd_backup = ft_dup(redi->fd);
 		ft_dup2(redi->fd_file, redi->fd);
 		redi->heredoc_input = "";
 	}
-	else
-	{
-		redi->heredoc_input = here_doc(redi);
-	}
+	// else
+	// {
+	// 	redi->heredoc_input = here_doc(redi);
+	// }
 }
 
 int	exec_pre(t_redirect *redi, t_directory *dir, t_env **env_var)
@@ -100,14 +100,20 @@ int	exec_redirect(t_redirect *redi, t_directory *dir, t_env **env_var)
 	while (redi != NULL)
 	{
 		redi->file_name = expansion(redi->file_name, dir, env_var);
-		if (redi->type != HEREDOC_REDI)
+		// if (redi->type != HEREDOC_REDI)
+		// {
+		// 	redi->fd_file = open_redirect(redi);
+		// 	if (redi->fd_file == -1)
+		// 	{
+		// 		dir->error.error_num = 1;
+		// 		return (FAILURE);
+		// 	}
+		// }
+		redi->fd_file = open_redirect(redi);
+		if (redi->fd_file == -1)
 		{
-			redi->fd_file = open_redirect(redi);
-			if (redi->fd_file == -1)
-			{
-				dir->error.error_num = 1;
-				return (FAILURE);
-			}
+			dir->error.error_num = 1;
+			return (FAILURE);
 		}
 		redirect(redi);
 		redi = redi->next;

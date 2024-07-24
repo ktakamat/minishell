@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:55 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/21 22:57:40 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:50:40 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,5 +136,8 @@ int			main_loop(char *envp[], int *error);
 char		*handle_input(void);
 void		cleanup(char *line, t_parser *node, t_args *args);
 int			exec_pre(t_redirect *redi, t_directory *dir, t_env **env_var);
+bool		soro_redirect(char *line, int *error);
+bool		here_doc(t_redirect *redi);
+
 
 #endif

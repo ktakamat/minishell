@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:36:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/23 21:00:20 by flaghata         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:31:09 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,31 +234,31 @@ void	exec_command(t_parser *node, t_directory *dir, t_env **env_var)
 	//printf("sss%s %s",node->cmd[0], node->redirect->heredoc_input);
 	if (!node->cmd[0])
 	{
-			return (restore_fd(head));
+		return (restore_fd(head));
 	}
 	if (is_builtins(node->cmd[0]))
 		exec_builtin(node->cmd, dir, env_var);
 	else
 	{
-		if (!node->redirect || node->redirect->type != HEREDOC_REDI)
+		// if (!node->redirect || node->redirect->type != HEREDOC_REDI)
 			execute_from_path(node->cmd, dir, env_var);
-		else
-		{
-			// restore対象のファイルディスクリプタを、heredocじゃないとこまで飛ばす
-			//　HEREDOC_REDIかどうかで判定すればよかった...
-			while (49)
-			{
-				if (head->next == NULL)
-					break;
-				head = head->next;
-				if (head->type != HEREDOC_REDI)
-					break;
-			}
-			if (!ft_strcmp(node->cmd[0], "cat"))
-				handle_cat_heredoc(node->redirect, dir, env_var);
-			else if (!ft_strcmp(node->cmd[0], "grep"))
-				handle_grep_heredoc(node->redirect, dir, env_var);
-		}	
+	// 	else
+	// 	{
+	// 		// restore対象のファイルディスクリプタを、heredocじゃないとこまで飛ばす
+	// 		//　HEREDOC_REDIかどうかで判定すればよかった...
+	// 		while (49)
+	// 		{
+	// 			if (head->next == NULL)
+	// 				break;
+	// 			head = head->next;
+	// 			if (head->type != HEREDOC_REDI)
+	// 				break;
+	// 		}
+	// 		if (!ft_strcmp(node->cmd[0], "cat"))
+	// 			handle_cat_heredoc(node->redirect, dir, env_var);
+	// 		else if (!ft_strcmp(node->cmd[0], "grep"))
+	// 			handle_grep_heredoc(node->redirect, dir, env_var);
+	// 	}	
 	}
 	restore_fd(head);
 }

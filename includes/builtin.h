@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 19:13:53 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/23 13:25:31 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:11:27 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_env
 	char			**value;
 	char			*key;
 	int				num_value;
+	int				*error;
 	bool			is_shell_var;
 	struct s_env	*next;
 	struct s_env	*prev;

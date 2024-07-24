@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:25:57 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/22 22:42:20 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:42:56 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ t_token	*lexer(char *line, int *error, int *i, int *j)
 	char	*lines;
 	char	*original;
 
+	if (soro_redirect(line, error) == false)
+		return (NULL);
 	lines = remove_dollar_to_quote(line);
 	original = lines;
 	lexer = NULL;
@@ -131,7 +133,7 @@ t_token	*lexer(char *line, int *error, int *i, int *j)
 	return (lexer);
 }
 
-// t_token	*lexer(char *line, int *error)
+// t_token	*lexer(char *line, t_env **env_var)
 // {
 // 	t_token	*lexer;
 // 	t_token	*tmp;

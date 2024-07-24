@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:33:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/22 20:30:04 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:40:54 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ int	process_command(char *line, t_directory *dir, t_env **env_var, int *error)
 	add_history(line);
 	node = parser(token, error);
 	if (!node)
+	{
+		destroy_parser(node);
 		return (dir_error_num(dir, error));
+	}
 	exe_signals(node, dir, env_var, error);
 	*error = 0;
 	args = malloc(sizeof(t_args));
