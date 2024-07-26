@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   directory.h                                        :+:      :+:    :+:   */
+/*   signal_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/01 19:03:09 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/24 23:21:20 by ktakamat         ###   ########.fr       */
+/*   Created: 2024/07/24 22:37:03 by ktakamat          #+#    #+#             */
+/*   Updated: 2024/07/24 22:38:02 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DIRECTORY_H
-# define DIRECTORY_H
+#include "../../includes/minishell.h"
 
-# define PATH_MAX 1024
-# include "./minishell.h"
-
-typedef struct s_error
+void	signal_handler_heredoc(int signum)
 {
-	int	error_num;
-}	t_error;
+	if (signum == SIGINT)
+	{
+		g_interrupted = 1;
+		close(0);
+	}
+}
 
-typedef struct s_directory
+void	signal_heredoc(void)
 {
-	char		path[PATH_MAX];
-	int			signal_received;
-	t_error		error;
-}	t_directory;
+	struct sigaction	sa;
 
-#endif
+	sigemptyset(&sa.sa_mask);
+	sa.sa_handler = signal_handler_heredoc;
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+}

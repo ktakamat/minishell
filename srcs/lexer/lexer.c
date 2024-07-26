@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:25:57 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/22 22:42:20 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:38:09 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,6 @@ bool	skip_space(char **tmp, char *line)
 		line++;
 	*tmp = line;
 	return (true);
-}
-
-int	first_pipe(char *str, int *error)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] == ' ')
-		i++;
-	if (str[i] == '|')
-	{
-		printf(PIPE_ERROR);
-		*error = 2;
-		return (2);
-	}
-	return (0);
 }
 
 char	*remove_dollar_to_quote(const char *input)
@@ -101,7 +85,7 @@ char	*remove_dollar_to_quote(const char *input)
 	return (result);
 }
 
-t_token	*lexer(char *line, int *error, int *i, int *j)
+t_token	*lexer(char *line, int *i, int *j)
 {
 	t_token	*lexer;
 	t_token	*tmp;
@@ -113,8 +97,6 @@ t_token	*lexer(char *line, int *error, int *i, int *j)
 	original = lines;
 	lexer = NULL;
 	tmp = NULL;
-	if (first_pipe(lines, error) == 2)
-		return (NULL);
 	while (*lines != '\0' && lines)
 	{
 		token = create_token_from_line(&lines, i, j);
@@ -131,7 +113,7 @@ t_token	*lexer(char *line, int *error, int *i, int *j)
 	return (lexer);
 }
 
-// t_token	*lexer(char *line, int *error)
+// t_token	*lexer(char *line, t_env **env_var)
 // {
 // 	t_token	*lexer;
 // 	t_token	*tmp;

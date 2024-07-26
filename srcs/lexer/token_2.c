@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 20:29:49 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/21 22:50:06 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:10:56 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_token	*create_token_from_line(char **line, int *i, int *j)
 		token = create_pipe_token(line, *line);
 	}
 	else if (check_word(*line))
-	token = create_word_token(line, *line);
+		token = create_word_token(line, *line);
 	else
 		ft_error();
 	(*i)++;
@@ -74,4 +74,23 @@ t_token	*create_pipe_token(char **tmp, char *line)
 	*tmp = &line[1];
 	token = create_token(set, TK_PIPE);
 	return (token);
+}
+
+int	is_equal(char *str, char *ref)
+{
+	int	iter;
+
+	iter = 0;
+	if (str == NULL || ref == NULL)
+		return (-1);
+	while (str[iter] && ref[iter])
+	{
+		if (str[iter] != ref[iter])
+			return (0);
+		iter++;
+	}
+	if (str[iter] == '\0' && ref[iter] == '\0')
+		return (1);
+	else
+		return (0);
 }

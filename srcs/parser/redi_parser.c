@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:11:14 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/21 16:13:29 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/26 19:28:14 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static t_redirect_type	redirect_type(t_token **token)
 		return (HEREDOC_REDI);
 }
 
-int	set_redirect(t_parser *parser, t_token **token)
+int	set_redirect(t_parser *parser, t_token **token, t_env **env_var)
 {
 	t_redirect	*redi;
 	t_redirect	*new;
@@ -56,6 +56,11 @@ int	set_redirect(t_parser *parser, t_token **token)
 		new->fd = STDOUT_FILENO;
 	else if ((*token)->kind == TK_DGREAT)
 		new->fd = STDOUT_FILENO;
+	else if ((*token)->kind == TK_DLESS)
+	{
+		new->fd = STDIN_FILENO;
+		here_doc(new, env_var);
+	}
 	if (parser->redirect == NULL)
 		parser->redirect = new;
 	else
@@ -76,6 +81,8 @@ void	destroy_redirect(t_redirect *redi)
 	while (redi != NULL)
 	{
 		tmp = redi->next;
+		if (redi->type == HEREDOC_REDI)
+			unlink(redi->file_name);
 		if (redi->file_name != NULL)
 			ft_free(redi->file_name);
 		ft_free(redi);

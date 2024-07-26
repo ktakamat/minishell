@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 19:03:12 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/15 16:39:58 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/26 18:35:45 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 # include "./directory.h"
 # include "./builtin.h"
 
+# ifndef HEREDOC_FILE
+#  define HEREDOC_FILE "/tmp/.heredoc"
+# endif
+
 # define MAX_BUFFER_SIZE 4096
 # define FILE_MODE	0644
 # define PIPE_WRITE	1
@@ -24,6 +28,7 @@
 # define FAILURE 1
 # define SUCCESS 0
 # define NO_FILENAME "minishell: syntax error near unexpected token `newline'\n"
+
 
 typedef enum e_redirect_type
 {
@@ -45,6 +50,8 @@ typedef struct s_redirect
 	int					fd;
 	int					fd_file;
 	int					fd_backup;
+	int					fd_backup_in;
+	int					fd_backup_out;
 	char				*file_name;
 	struct s_redirect	*next;
 	char				*heredoc_input;

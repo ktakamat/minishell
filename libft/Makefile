@@ -6,7 +6,7 @@
 #    By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/02 21:10:02 by machi             #+#    #+#              #
-#    Updated: 2024/06/14 20:32:09 by ktakamat         ###   ########.fr        #
+#    Updated: 2024/07/25 16:04:57 by ktakamat         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRCS = ft_atoi.c \
 	ft_isdigit.c \
 	ft_isprint.c \
 	ft_itoa.c \
+	ft_itoa_2.c \
 	ft_memchr.c \
 	ft_memcmp.c \
 	ft_memcpy.c \

@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:55 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/21 22:57:40 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/26 19:33:12 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_split
 	char	**result;
 }	t_split;
 
-t_token		*lexer(char *line, int *error, int *i, int *j);
+t_token		*lexer(char *line, int *i, int *j);
 t_token		*create_word_token(char **tmp, char *line);
 t_token		*create_dquote_token(char **tmp, char *line);
 t_token		*create_squote_token(char **tmp, char *line);
@@ -88,7 +88,8 @@ int			token_count(t_token *token);
 char		**token_list(t_token *token);
 void		use_history(const char *line);
 char		**parse_pipeline(char *line);
-t_parser	*parser(t_token *tokens, int *error);
+t_parser	*parser(t_token *tokens, t_directory *dir, int *error,
+				t_env **env_var);
 void		check_pipe(t_parser *parser, t_args *args);
 bool		is_quoted(char *cmd);
 void		process_dollar(t_parse_context *ctx);
@@ -98,7 +99,7 @@ char		*expansion(char *str, t_directory *dir, t_env **env_var);
 char		*d_handle(char *str, t_directory *dir, t_env **head);
 char		*q_handle(char *str, t_directory *dir, t_env **env_var);
 bool		rect(char c);
-int			set_redirect(t_parser *parser, t_token **token);
+int			set_redirect(t_parser *parser, t_token **token, t_env **env_var);
 char		*expand_and_replace(char *input, t_env **head);
 int			get_var_length(const char *str);
 char		*handle_default(char *str, t_env **head);
@@ -108,12 +109,11 @@ void		exec_command(t_parser *parser, t_directory *dir, t_env **env_var);
 void		execution(t_parser *parser, t_directory *dir, t_env **env_var);
 int			exec_redirect(t_redirect *redi, t_directory *dir, t_env **env_var);
 void		pipe_line(t_parser *parser, t_directory *dir, t_env **env_var);
-void		restore_fd(t_redirect *redi);
 bool		is_redirect(char c);
 void		setup_signals(void);
 int			validate_cmds(char **cmds, t_directory *dir, t_env **env_var);
 t_parser	*node_new(void);
-t_parser	*handle_pipe(t_token **token, t_parser *parser, int *error);
+t_parser	*handle_pipe(t_token **token, t_parser *parser, t_env **env_var);
 t_token		*create_token_from_line(char **line, int *i, int *j);
 t_token		*create_dless_token(char **tmp, char *line);
 t_token		*create_less_token(char **tmp, char *line);
@@ -136,5 +136,30 @@ int			main_loop(char *envp[], int *error);
 char		*handle_input(void);
 void		cleanup(char *line, t_parser *node, t_args *args);
 int			exec_pre(t_redirect *redi, t_directory *dir, t_env **env_var);
-
+bool		soro_redirect(char *line, int *error);
+bool		here_doc(t_redirect *redi, t_env **env_var);
+int			is_equal(char *str, char *ref);
+char		*expand_heredoc(char *line, t_env **env_var);
+bool		write_heredoc(char *line, t_env **env_var,
+				int fd);
+bool		read_here_doc(t_redirect *redi, t_env **env_var, int fd);
+bool		file_name_change(t_redirect *redi, char *new_file);
+char		*make_check(int *i);
+char		*make_file(int *i);
+void		simple_counter(int *i, int *count);
+int			question_add(char *new, int *i, int *count);
+void		simple_insert(char *new, char c, int *count, int *i);
+void		str_insert(char	*new, char *str);
+int			special_space(char *str);
+char		*get_env(t_env *env_var, char *key);
+char		*insert_heredoc(char *str, t_env **env_var, int len);
+int			cmd_len(char *str, t_env **env_var);
+void		signal_heredoc(void);
+t_env		*find_node(t_env *env_head, char *key);
+void		rm_heredoc_file(void);
+void		syntax_error_null(t_token *token);
+void		syntax_error_pipe(void);
+int			syntax_error_code(t_directory *dir, int *error);
+void		rm_heredoc_file(void);
+void		restore_fd(t_redirect *redi, t_parser *node);
 #endif

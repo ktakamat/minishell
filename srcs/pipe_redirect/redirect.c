@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 22:51:54 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/22 22:54:09 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/26 19:27:50 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	open_redirect(t_redirect *redi)
 {
 	int	fd;
 
-	if (redi->type == INPUT_REDI)
+	if (redi->type == INPUT_REDI || redi->type == HEREDOC_REDI)
 	{
 		fd = open(redi->file_name, O_RDONLY, 0);
 	}
@@ -31,45 +31,43 @@ int	open_redirect(t_redirect *redi)
 	return (fd);
 }
 
-static char	*here_doc(t_redirect *redi)
+bool	here_doc(t_redirect *redi, t_env **env_var)
 {
-	char	*add_new_line;
-	char	*tmp;
-	char	*line;
-	char	*res;
+	int		i;
+	int		fd;
+	char	*new_file;
 
-	res = ft_strdup("");
-	while (true)
-	{
-		line = readline("> ");
-		if (line == NULL)
-		{
-			break ;
-		}
-		if (!ft_strncmp(line, redi->file_name, ft_strlen(redi->file_name)))
-		{
-			break ;
-		}
-		add_new_line = ft_strjoin(line, "\n");
-		tmp = ft_strjoin(res, add_new_line);
-		res = tmp;
-	}
-	return (res);
+	i = 0;
+	fd = 0;
+	new_file = make_file(&i);
+	if (new_file == NULL)
+		return (false);
+	i++;
+	fd = open(new_file, O_WRONLY | O_APPEND, 0644);
+	if (fd == -1)
+		return (false);
+	if (read_here_doc(redi, env_var, fd) == false)
+		return (false);
+	if (file_name_change(redi, new_file) == false)
+		return (false);
+	if (g_interrupted == 1)
+		return (false);
+	return (true);
 }
 
 void	redirect(t_redirect *redi)
 {
 	if (redi->type == INPUT_REDI || redi->type == OUTPUT_REDI
-		|| redi->type == APPEND_OUTPUT_REDI)
+		|| redi->type == APPEND_OUTPUT_REDI || redi->type == HEREDOC_REDI)
 	{
 		redi->fd_backup = ft_dup(redi->fd);
 		ft_dup2(redi->fd_file, redi->fd);
 		redi->heredoc_input = "";
 	}
-	else
-	{
-		redi->heredoc_input = here_doc(redi);
-	}
+	// else
+	// {
+	// 	redi->heredoc_input = here_doc(redi);
+	// }
 }
 
 int	exec_pre(t_redirect *redi, t_directory *dir, t_env **env_var)
@@ -100,14 +98,20 @@ int	exec_redirect(t_redirect *redi, t_directory *dir, t_env **env_var)
 	while (redi != NULL)
 	{
 		redi->file_name = expansion(redi->file_name, dir, env_var);
-		if (redi->type != HEREDOC_REDI)
+		// if (redi->type != HEREDOC_REDI)
+		// {
+		// 	redi->fd_file = open_redirect(redi);
+		// 	if (redi->fd_file == -1)
+		// 	{
+		// 		dir->error.error_num = 1;
+		// 		return (FAILURE);
+		// 	}
+		// }
+		redi->fd_file = open_redirect(redi);
+		if (redi->fd_file == -1)
 		{
-			redi->fd_file = open_redirect(redi);
-			if (redi->fd_file == -1)
-			{
-				dir->error.error_num = 1;
-				return (FAILURE);
-			}
+			dir->error.error_num = 1;
+			return (FAILURE);
 		}
 		redirect(redi);
 		redi = redi->next;

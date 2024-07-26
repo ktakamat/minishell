@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:23 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/21 18:51:33 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/25 19:19:27 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*handle_input(void)
 	return (line);
 }
 
-// int	main_loop(char *envp[], int *error)
+// int	main_loop(char *envp[], t_env **env_var)
 // {
 // 	t_token		*token;
 // 	t_args		*args;

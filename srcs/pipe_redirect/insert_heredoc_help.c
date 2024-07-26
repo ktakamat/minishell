@@ -1,32 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_command.c                                     :+:      :+:    :+:   */
+/*   insert_heredoc_help.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/18 20:36:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/26 19:32:44 by ktakamat         ###   ########.fr       */
+/*   Created: 2024/07/25 15:27:48 by ktakamat          #+#    #+#             */
+/*   Updated: 2024/07/25 19:27:14 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	exec_command(t_parser *node, t_directory *dir, t_env **env_var)
+void	simple_insert(char *new, char c, int *count, int *i)
 {
-	t_redirect	*head;
+	new[*count] = c;
+	(*count)++;
+	(*i)++;
+}
 
-	head = node->redirect;
-	if (exec_redirect(node->redirect, dir, env_var) == FAILURE)
-		return ;
-	if (!node->cmd[0])
+void	str_insert(char	*new, char *str)
+{
+	int	len;
+
+	len = 0;
+	while (str[len])
 	{
-		return (restore_fd(head, node));
+		new[len] = str[len];
+		len++;
 	}
-	if (is_builtins(node->cmd[0]))
-		exec_builtin(node->cmd, dir, env_var);
-	else
-		execute_from_path(node->cmd, dir, env_var);
-	rm_heredoc_file();
-	restore_fd(head, node);
+	return ;
+}
+
+int	question_add(char *new, int *i, int *count)
+{
+	int		len;
+	char	*tmp;
+
+	tmp = ft_itoa_2(g_interrupted);
+	len = ft_strlen(tmp);
+	*i += 2;
+	str_insert(new, tmp);
+	free(tmp);
+	*count = *count + len;
+	return (len);
 }
