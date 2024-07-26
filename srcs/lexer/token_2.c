@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 20:29:49 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/24 21:48:01 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:10:56 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,29 +39,6 @@ t_token	*create_word_token(char **tmp, char *line)
 	}
 	*tmp = &line[i];
 	return (create_token(set, TK_CMD));
-}
-
-bool	soro_redirect(char *line, int *error)
-{
-	int	i;
-
-	i = 0;
-	while (line[i] == ' ')
-		i++;
-	if ((line[i] == '>' || line[i] == '<') && line[i + 1] == '\0')
-	{
-		printf("syntax error near unexpected token `newline'\n");
-		*error = 258;
-		return (false);
-	}
-	else if (((line[i] == '>' && line[i + 1] == '>')
-			|| (line[i] == '<' && line[i + 1] == '<')) && line[i + 2] == '\0')
-	{
-		printf("syntax error near unexpected token `newline'\n");
-		*error = 258;
-		return (false);
-	}
-	return (true);
 }
 
 t_token	*create_token_from_line(char **line, int *i, int *j)
@@ -97,4 +74,23 @@ t_token	*create_pipe_token(char **tmp, char *line)
 	*tmp = &line[1];
 	token = create_token(set, TK_PIPE);
 	return (token);
+}
+
+int	is_equal(char *str, char *ref)
+{
+	int	iter;
+
+	iter = 0;
+	if (str == NULL || ref == NULL)
+		return (-1);
+	while (str[iter] && ref[iter])
+	{
+		if (str[iter] != ref[iter])
+			return (0);
+		iter++;
+	}
+	if (str[iter] == '\0' && ref[iter] == '\0')
+		return (1);
+	else
+		return (0);
 }

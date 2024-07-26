@@ -1,5 +1,5 @@
 NAME = minishell
-CC = CC
+CC = CC -g
 RM = rm -f
 INCLUDES_DIR = ./includes
 BUILTIN_DIR = ./srcs/built_in
@@ -43,6 +43,7 @@ SRCS = srcs/main.c \
        $(PARSER_DIR)/parser.c \
        $(PARSER_DIR)/parser_util.c \
        $(PARSER_DIR)/redi_parser.c \
+       $(PARSER_DIR)/syntax_error.c \
        $(PIPEREDIRECT_DIR)/pipe.c \
        $(PIPEREDIRECT_DIR)/redirect.c \
        $(PIPEREDIRECT_DIR)/restore.c \
@@ -50,6 +51,13 @@ SRCS = srcs/main.c \
        $(PIPEREDIRECT_DIR)/expansion_sub.c \
        $(PIPEREDIRECT_DIR)/expansion.c \
        $(PIPEREDIRECT_DIR)/quote_handle.c \
+       $(PIPEREDIRECT_DIR)/here_doc.c \
+       $(PIPEREDIRECT_DIR)/heredoc_file.c \
+       $(PIPEREDIRECT_DIR)/heredoc_dollar.c \
+       $(PIPEREDIRECT_DIR)/insert_heredoc_help.c \
+       $(PIPEREDIRECT_DIR)/insert_heredoc.c \
+       $(PIPEREDIRECT_DIR)/signal_heredoc.c \
+       $(PIPEREDIRECT_DIR)/rm_heredoc.c \
        $(PIPEREDIRECT_DIR)/sub_expansion.c
 
 OBJS = $(SRCS:%.c=%.o)

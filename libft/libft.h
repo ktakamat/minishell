@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 19:46:04 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/21 19:17:55 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:04:20 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstadd_front(t_list **lst, t_list *new);
 char	*ft_itoa(int n);
+char	*ft_itoa_2(int n);
 char	**ft_split(char const *s, char c);
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstdelone(t_list *lst, void (*del)(void *));

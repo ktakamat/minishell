@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:41:35 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/24 21:43:38 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/26 12:16:31 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ size_t	count_tokens(t_token *tokens)
 	return (count);
 }
 
-static int	put_data(t_parser *parser, t_token **token)
+static int	put_data(t_parser *parser, t_token **token, t_env **env_var)
 {
 	size_t	i;
 
@@ -59,7 +59,7 @@ static int	put_data(t_parser *parser, t_token **token)
 	{
 		if (is_redirect((*token)->kind))
 		{
-			if (set_redirect(parser, token) == FAILURE)
+			if (set_redirect(parser, token, env_var) == FAILURE)
 			{
 				printf(NO_FILENAME);
 				return (FAILURE);
@@ -77,20 +77,14 @@ static int	put_data(t_parser *parser, t_token **token)
 	return (SUCCESS);
 }
 
-t_parser	*handle_pipe(t_token **token, t_parser *parser, int *error)
+t_parser	*handle_pipe(t_token **token, t_parser *parser, t_env **env_var)
 {
 	t_parser	*right;
 	t_parser	*left;
 
 	left = parser;
-	if (*token == NULL)
-	{
-		printf(PIPE_ERROR);
-		*error = 2;
-		return (destroy_parser(parser));
-	}
 	right = node_new();
-	if (put_data(right, token) == FAILURE)
+	if (put_data(right, token, env_var) == FAILURE)
 		return (destroy_parser(parser));
 	parser = node_new();
 	parser->type = PIPE;
@@ -136,23 +130,8 @@ t_parser	*handle_pipe(t_token **token, t_parser *parser, int *error)
 // 	return (node);
 // }
 
-void	syntax_error_null(t_token *token)
-{
-	ft_putstr_fd("syntax error near unexpected token `", STDERR_FILENO);
-	if (token && token->next->kind == TK_PIPE)
-		ft_putstr_fd("|", STDERR_FILENO);
-	else if (token && token->next->kind == TK_GREAT)
-		ft_putstr_fd(">", STDERR_FILENO);
-	else if (token && token->next->kind == TK_LESS)
-		ft_putstr_fd("<", STDERR_FILENO);
-	else if (token && token->next->kind == TK_DGREAT)
-		ft_putstr_fd(">>", STDERR_FILENO);
-	else if (token && token->next->kind == TK_DLESS)
-		ft_putstr_fd("<<", STDERR_FILENO);
-	ft_putendl_fd("'", STDERR_FILENO);
-}
-
-t_parser	*parser(t_token *tokens, int *error)
+t_parser	*parser(t_token *tokens, t_directory *dir, int *error,
+			t_env **env_var)
 {
 	t_parser	*node;
 	t_token		*tmp;
@@ -160,26 +139,66 @@ t_parser	*parser(t_token *tokens, int *error)
 	if (tokens == NULL)
 		return (NULL);
 	tmp = tokens;
+	if (tokens->kind == TK_PIPE)
+	{
+		if (tokens->next == NULL)
+		{
+			*error = 258;
+			syntax_error_pipe();
+			syntax_error_code(dir, error);
+			token_clear(tmp);
+			return (NULL);
+		}
+		else if (tokens->next->kind == TK_PIPE)
+		{
+			*error = 258;
+			syntax_error_pipe();
+			syntax_error_code(dir, error);
+			token_clear(tmp);
+			return (NULL);
+		}
+	}
 	if (tokens->kind == TK_LESS || tokens->kind == TK_GREAT
 		|| tokens->kind == TK_DGREAT || tokens->kind == TK_DLESS)
 	{
-		if (tokens->next->kind == TK_LESS || tokens->next->kind == TK_GREAT
-			|| tokens->next->kind == TK_DGREAT
-			|| tokens->next->kind == TK_DLESS)
+		if (tokens->next == NULL)
 		{
+			*error = 258;
 			syntax_error_null(tokens);
-			*error = 1;
+			syntax_error_code(dir, error);
+			token_clear(tmp);
+			return (NULL);
+		}
+		else if (tokens->next->kind == TK_LESS || tokens->next->kind == TK_GREAT
+			|| tokens->next->kind == TK_DGREAT || tokens->next->kind == TK_DLESS
+			|| tokens->next->kind == TK_PIPE)
+		{
+			*error = 258;
+			syntax_error_null(tokens);
+			syntax_error_code(dir, error);
 			token_clear(tmp);
 			return (NULL);
 		}
 	}
 	node = node_new();
-	if (put_data(node, &tokens) == FAILURE)
+	if (put_data(node, &tokens, env_var) == FAILURE)
+	{
+		*error = 258;
+		syntax_error_code(dir, error);
+		token_clear(tmp);
 		return (destroy_parser(node));
+	}
 	while (tokens != NULL && tokens->kind == TK_PIPE)
 	{
 		tokens = tokens->next;
-		node = handle_pipe(&tokens, node, error);
+		if (tokens == NULL)
+		{
+			*error = 258;
+			printf(PIPE_ERROR);
+			syntax_error_code(dir, error);
+			return (destroy_parser(node));
+		}
+		node = handle_pipe(&tokens, node, env_var);
 		if (*error)
 		{
 			token_clear(tmp);

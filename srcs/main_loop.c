@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:33:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/24 21:40:54 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/26 11:38:27 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ int	process_command(char *line, t_directory *dir, t_env **env_var, int *error)
 
 	i = 0;
 	j = 0;
-	token = lexer(line, error, &i, &j);
+	token = lexer(line, &i, &j);
 	if (!token)
 		return (dir_error_num(dir, error));
 	add_history(line);
-	node = parser(token, error);
+	node = parser(token, dir, error, env_var);
 	if (!node)
 	{
 		destroy_parser(node);

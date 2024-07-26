@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:11:14 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/24 21:43:58 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/26 18:53:49 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static t_redirect	*create_redirect(void)
 	redi->type = 0;
 	redi->fd = -1;
 	redi->fd_file = -1;
-	redi->fd_backup = -1;
+	redi->fd_backup_in = -1;
+	redi->fd_backup_out = -1;
 	redi->file_name = NULL;
 	redi->next = NULL;
 	return (redi);
@@ -40,7 +41,7 @@ static t_redirect_type	redirect_type(t_token **token)
 		return (HEREDOC_REDI);
 }
 
-int	set_redirect(t_parser *parser, t_token **token)
+int	set_redirect(t_parser *parser, t_token **token, t_env **env_var)
 {
 	t_redirect	*redi;
 	t_redirect	*new;
@@ -59,7 +60,7 @@ int	set_redirect(t_parser *parser, t_token **token)
 	else if ((*token)->kind == TK_DLESS)
 	{
 		new->fd = STDIN_FILENO;
-		here_doc(new);
+		here_doc(new, env_var);
 	}
 	if (parser->redirect == NULL)
 		parser->redirect = new;

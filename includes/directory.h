@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 19:03:09 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/06/10 19:37:16 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/24 23:21:20 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ typedef struct s_error
 
 typedef struct s_directory
 {
-	char	path[PATH_MAX];
-	int		signal_received;
-	t_error	error;
+	char		path[PATH_MAX];
+	int			signal_received;
+	t_error		error;
 }	t_directory;
 
 #endif
