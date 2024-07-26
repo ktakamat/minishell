@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:11:14 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/26 18:53:49 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/26 19:28:14 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ static t_redirect	*create_redirect(void)
 	redi->type = 0;
 	redi->fd = -1;
 	redi->fd_file = -1;
-	redi->fd_backup_in = -1;
-	redi->fd_backup_out = -1;
+	redi->fd_backup = -1;
 	redi->file_name = NULL;
 	redi->next = NULL;
 	return (redi);

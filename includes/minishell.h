@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:55 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/26 18:45:21 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/26 19:33:12 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,5 +161,5 @@ void		syntax_error_null(t_token *token);
 void		syntax_error_pipe(void);
 int			syntax_error_code(t_directory *dir, int *error);
 void		rm_heredoc_file(void);
-void		restore_fd(t_redirect *redi);
+void		restore_fd(t_redirect *redi, t_parser *node);
 #endif
