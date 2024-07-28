@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 11:15:54 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/26 11:40:57 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/28 17:01:53 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,12 @@ int	syntax_error_code(t_directory *dir, int *error)
 		dir->error.error_num = 258;
 	*error = 0;
 	return (0);
+}
+
+void	perror_set_flag(char *insert, t_directory *dir)
+{
+	if (insert == NULL || *insert == '\0')
+		write(2, ":", 1);
+	perror(insert);
+	dir->error.error_num = 1;
 }
