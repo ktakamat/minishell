@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:25:57 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/26 11:38:09 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/28 21:27:02 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,43 @@ bool	skip_space(char **tmp, char *line)
 	return (true);
 }
 
+// ?入力
+void	input_question(int *i, int *j, const char *input, char	*result)
+{
+	if (input[*i] == '?')
+	{
+		result[*j + 1] = '?';
+		j++;
+		i++;
+	}
+}
+
+// "入力
+void	input_double_quotation(int *i, int *j, const char *input, char	*result)
+{
+	if (input[*i] == '"')
+	{
+		result[*j + 1] = '"';
+		j++;
+		i++;
+		while (*i < (int)strlen(input) && input[*i] != '"')
+			result[*j++] = input[*i++];
+		if (*i < (int)strlen(input) && input[*i] == '"')
+		{
+			result[*j++] = '"';
+			i++;
+		}
+	}
+}
+
+// その他入力
+void	input_others(int *i, int *j, const char *input, char	*result)
+{
+	while (*i < (int)strlen(input) && input[*i] != ' '
+		&& input[*i] != '"' && input[*i] != '$')
+		result[*j++] = input[*i++];
+}
+
 char	*remove_dollar_to_quote(const char *input)
 {
 	int		length;
@@ -54,29 +91,9 @@ char	*remove_dollar_to_quote(const char *input)
 		{
 			result[j++] = '$';
 			i++;
-			if (input[i] == '?')
-			{
-				result[j++] = '?';
-				i++;
-			}
-			else if (input[i] == '"')
-			{
-				result[j++] = '"';
-				i++;
-				while (i < length && input[i] != '"')
-					result[j++] = input[i++];
-				if (i < length && input[i] == '"')
-				{
-					result[j++] = '"';
-					i++;
-				}
-			}
-			else
-			{
-				while (i < length && input[i] != ' '
-					&& input[i] != '"' && input[i] != '$')
-					result[j++] = input[i++];
-			}
+			input_question(&i, &j, input, result);
+			input_double_quotation(&i, &j, input, result);
+			input_others(&i, &j, input, result);
 		}
 		else
 			result[j++] = input[i++];

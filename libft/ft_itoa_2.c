@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 16:03:31 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/25 16:07:38 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/28 21:38:25 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	ft_len(int n)
 		len++;
 	}
 	if (count > 0)
-	len++;
+		len++;
 	return (len);
 }
 

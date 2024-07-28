@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:33:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/26 11:38:27 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/28 21:45:46 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ int	dir_error_num(t_directory *dir, int *error)
 	return (0);
 }
 
+int	exit_command(int *error, t_directory *dir, t_parser	*node)
+{
+	destroy_parser(node);
+	return (dir_error_num(dir, error));
+}
+
 int	process_command(char *line, t_directory *dir, t_env **env_var, int *error)
 {
 	t_token		*token;
@@ -55,10 +61,7 @@ int	process_command(char *line, t_directory *dir, t_env **env_var, int *error)
 	add_history(line);
 	node = parser(token, dir, error, env_var);
 	if (!node)
-	{
-		destroy_parser(node);
-		return (dir_error_num(dir, error));
-	}
+		return (exit_command(error, dir, node));
 	exe_signals(node, dir, env_var, error);
 	*error = 0;
 	args = malloc(sizeof(t_args));
@@ -85,9 +88,7 @@ int	main_loop(char *envp[], int *error)
 	{
 		line = readline("minishell$ ");
 		if (!line)
-		{
 			break ;
-		}
 		if (!process_command(line, &dir, &env_var, error))
 		{
 			cleanup(line, NULL, NULL);

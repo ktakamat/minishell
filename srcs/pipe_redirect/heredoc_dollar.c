@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_dollar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:01:03 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/25 21:23:07 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/28 21:31:53 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,7 @@ char	*join_value(char **value)
 	len = 0;
 	i = 0;
 	while (value[i] != NULL)
-	{
-		len += ft_strlen(value[i]) + 1;
-		i++;
-	}
+		len += ft_strlen(value[i++]) + 1;
 	result = (char *)malloc(sizeof(char) * (len + 1));
 	if (result == NULL)
 		return (NULL);
@@ -60,8 +57,7 @@ char	*join_value(char **value)
 	{
 		if (i > 0)
 			ft_strcat(result, ":");
-		ft_strcat(result, value[i]);
-		i++;
+		ft_strcat(result, value[i++]);
 	}
 	return (result);
 }

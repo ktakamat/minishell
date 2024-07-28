@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 22:14:44 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/26 16:19:48 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/28 16:44:50 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,8 @@
 char	*expand_heredoc(char *line, t_env **env_var)
 {
 	char	*set;
-	int		i;
 	int		len;
 
-	i = 0;
-	len = 0;
 	len = cmd_len(line, env_var);
 	set = insert_heredoc(line, env_var, len);
 	return (set);
@@ -27,10 +24,8 @@ char	*expand_heredoc(char *line, t_env **env_var)
 
 bool	write_heredoc(char *line, t_env **env_var, int fd)
 {
-	int		start;
 	char	*new_line;
 
-	start = 0;
 	new_line = expand_heredoc(line, env_var);
 	if (!new_line)
 	{

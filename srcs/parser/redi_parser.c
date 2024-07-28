@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redi_parser.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:11:14 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/26 19:28:14 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/28 20:56:49 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,11 @@ int	set_redirect(t_parser *parser, t_token **token, t_env **env_var)
 	new = create_redirect();
 	new->type = redirect_type(token);
 	new->file_name = ft_strdup((*token)->next->str);
-	if ((*token)->kind == TK_LESS)
+	if ((*token)->kind == TK_LESS || (*token)->kind == TK_GREAT
+		|| (*token)->kind == TK_DGREAT || (*token)->kind == TK_DLESS)
 		new->fd = STDIN_FILENO;
-	else if ((*token)->kind == TK_GREAT)
-		new->fd = STDOUT_FILENO;
-	else if ((*token)->kind == TK_DGREAT)
-		new->fd = STDOUT_FILENO;
-	else if ((*token)->kind == TK_DLESS)
-	{
-		new->fd = STDIN_FILENO;
+	if ((*token)->kind == TK_DLESS)
 		here_doc(new, env_var);
-	}
 	if (parser->redirect == NULL)
 		parser->redirect = new;
 	else
