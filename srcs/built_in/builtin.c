@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:51:39 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/28 20:43:13 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/29 15:57:45 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ static void	execute_com(char **cmds, t_directory *dir,
 {
 	int	i;
 
-	write(1, "executeecho\n", 12);
 	if (!ft_strcmp(cmds[0], "pwd"))
 		dir->error.error_num = exec_pwd(dir);
 	else if (!ft_strcmp(cmds[0], "cd"))
@@ -100,11 +99,9 @@ void	exec_builtin(char **cmds, t_directory *dir, t_env **env_vars)
 {
 	int	*flags;
 
-	write(1, "exec_builtin\n", 13);
 	flags = set_flags(cmds);
 	if (validate_cmds(cmds, dir, env_vars))
 		return ;
 	execute_com(cmds, dir, env_vars, flags);
-	write(1, "exec_builtin2\n", 14);
 	ft_free(flags);
 }

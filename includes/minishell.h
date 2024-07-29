@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:55 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/28 19:26:54 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:07:41 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ char		**search(t_env **head, char *key);
 void		append_expanded(t_expand *exp, char **result);
 void		exec_command(t_parser *parser, t_directory *dir, t_env **env_var);
 void		execution(t_parser *parser, t_directory *dir, t_env **env_var);
-int			exec_redirect(t_parser *node, t_redirect *redi, t_directory *dir, t_env **env_var);
+int			exec_redirect(t_parser *node, t_redirect *redi, t_directory *dir,
+				t_env **env_var);
 void		pipe_line(t_parser *parser, t_directory *dir, t_env **env_var);
 bool		is_redirect(char c);
 void		setup_signals(void);
@@ -161,7 +162,6 @@ void		syntax_error_null(t_token *token);
 void		syntax_error_pipe(void);
 int			syntax_error_code(t_directory *dir, int *error);
 void		rm_heredoc_file(void);
-// void		restore_fd(t_redirect *redi, t_parser *node);
 void		perror_set_flag(char *insert, t_directory *dir);
 int			redirect_in_out(t_redirect *head, t_directory *dir);
 int			save_in_out(int *in_out);

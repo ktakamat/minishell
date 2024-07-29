@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 22:51:54 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/28 21:31:08 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:06:01 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,28 @@ void	redirect(t_parser *node, t_redirect *redi, t_directory *dir, t_env **env_va
 {
 	int	std_in_out[2];
 
-	(void)node;
-	write(1, "redirect1\n", 10);
 	if (redi == NULL)
 		return ;
-	write(1, "redirect3\n", 10);
 	if (save_in_out(&std_in_out[0]) < 0)
 		return ;
-	write(1, "redirect4\n", 10);
 	if (redirect_in_out(redi, dir) < 0)
 	{
-		write(1, "redirect4.5\n", 11);
 		get_back_in_out(&std_in_out[0], dir);
 		return ;
 	}
-	execute_from_path(node->cmd, dir, env_var);
-	write(1, "redirect5\n", 10);
+	if (node->cmd[0] == NULL)
+	{
+		get_back_in_out(&std_in_out[0], dir);
+		return ;
+	}
+	if (is_builtins(node->cmd[0]))
+	{
+		exec_builtin(node->cmd, dir, env_var);
+	}
+	else
+	{
+		execute_from_path(node->cmd, dir, env_var);
+	}
 	get_back_in_out(&std_in_out[0], dir);
 }
 
@@ -93,7 +99,6 @@ int	exec_pre(t_redirect *redi, t_directory *dir, t_env **env_var)
 {
 	while (redi != NULL)
 	{
-		write(1, "exec_pre\n", 9);
 		redi->file_name = expansion(redi->file_name, dir, env_var);
 		redi = redi->next;
 	}
@@ -111,14 +116,6 @@ int	exec_redirect(t_parser *node, t_redirect *redi, t_directory *dir,
 	if (redi != NULL)
 	{
 		redirect(node, redi, dir, env_var);
-		// redi->fd_file = open_redirect(redi);
-		// if (redi->fd_file == -1)
-		// {
-		// 	dir->error.error_num = 1;
-		// 	return (FAILURE);
-		// }
-		// redi = redi->next;
-		write(1, "redirect_end\n", 13);
 	}
 	return (SUCCESS);
 }

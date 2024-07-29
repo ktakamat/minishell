@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:44:09 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/28 20:26:06 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/29 15:57:36 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ bool	is_builtins(char *command)
 
 	commands = ft_split("pwd cd exit env echo export unset", ' ');
 	i = 0;
-	printf("command: %s\n", command);
 	while (commands[i])
 	{
 		if (ft_strlen(command) != ft_strlen(commands[i]))
