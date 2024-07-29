@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 16:23:09 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/29 17:32:28 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/30 07:37:46 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,33 +30,47 @@ t_parser	*exit_parser_token(int *error, t_directory *dir, t_token *tmp)
 	return (NULL);
 }
 
-void	is_pipe_tokens(t_token *tokens, int *error, t_directory *dir)
+t_parser	*exit_parser_fail_put_data(
+		int *error, t_directory *dir, t_token *tmp, t_parser *node)
 {
-	if (tokens->next == NULL)
-		exit_parser_pipe(error, dir, tokens);
-	else if (tokens->next->kind == TK_PIPE)
-		exit_parser_pipe(error, dir, tokens);
+	*error = 258;
+	syntax_error_code(dir, error);
+	token_clear(tmp);
+	destroy_parser(node);
+	return (NULL);
 }
 
-void	is_redirect_token(t_token *tokens, int *error, t_directory *dir)
+t_parser	*exit_parser_invalid_pipe_cmd(
+		int *error, t_directory *dir, t_parser *node)
 {
-	if (tokens->next == NULL)
-	{
-		exit_parser_token(error, dir, tokens);
-	}
-	else if (tokens->next->kind == TK_LESS || tokens->next->kind == TK_GREAT
-		|| tokens->next->kind == TK_DGREAT || tokens->next->kind == TK_DLESS
-		|| tokens->next->kind == TK_PIPE)
-	{
-		exit_parser_token(error, dir, tokens);
-	}
+	*error = 258;
+	printf(PIPE_ERROR);
+	syntax_error_code(dir, error);
+	destroy_parser(node);
+	return (NULL);
 }
 
-void	is_valid_tokens(t_token *tokens, int *error, t_directory *dir)
+bool	is_valid_token(t_token *tokens, int *error, t_directory *dir)
 {
 	if (tokens->kind == TK_PIPE)
-		is_pipe_tokens(tokens, error, dir);
+	{
+		if (tokens->next == NULL || tokens->next->kind == TK_PIPE
+			|| tokens->next->kind == TK_CMD)
+		{
+			exit_parser_pipe(error, dir, tokens);
+			return (false);
+		}
+	}
 	if (tokens->kind == TK_LESS || tokens->kind == TK_GREAT
 		|| tokens->kind == TK_DGREAT || tokens->kind == TK_DLESS)
-		is_redirect_token(tokens, error, dir);
+	{
+		if (tokens->next == NULL || tokens->next->kind == TK_LESS
+			|| tokens->next->kind == TK_GREAT || tokens->next->kind == TK_DGREAT
+			|| tokens->next->kind == TK_DLESS || tokens->next->kind == TK_PIPE)
+		{
+			exit_parser_pipe(error, dir, tokens);
+			return (false);
+		}
+	}
+	return (true);
 }

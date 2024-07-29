@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:41:35 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/29 18:27:43 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/30 07:36:39 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,66 +102,16 @@ t_parser	*parser(t_token *tokens, t_directory *dir, int *error,
 	if (tokens == NULL)
 		return (NULL);
 	tmp = tokens;
-	if (tokens->kind == TK_PIPE)
-	{
-		if (tokens->next == NULL)
-		{
-			*error = 258;
-			syntax_error_pipe();
-			syntax_error_code(dir, error);
-			token_clear(tmp);
-			return (NULL);
-		}
-		else if (tokens->next->kind == TK_PIPE || tokens->next->kind == TK_CMD)
-		{
-			*error = 258;
-			syntax_error_pipe();
-			syntax_error_code(dir, error);
-			token_clear(tmp);
-			return (NULL);
-		}
-	}
-	if (tokens->kind == TK_LESS || tokens->kind == TK_GREAT
-		|| tokens->kind == TK_DGREAT || tokens->kind == TK_DLESS)
-	{
-		if (tokens->next == NULL)
-		{
-			*error = 258;
-			syntax_error_null(tokens);
-			syntax_error_code(dir, error);
-			token_clear(tmp);
-			return (NULL);
-		}
-		else if (tokens->next->kind == TK_LESS || tokens->next->kind == TK_GREAT
-			|| tokens->next->kind == TK_DGREAT || tokens->next->kind == TK_DLESS
-			|| tokens->next->kind == TK_PIPE)
-		{
-			*error = 258;
-			syntax_error_null(tokens);
-			syntax_error_code(dir, error);
-			token_clear(tmp);
-			return (NULL);
-		}
-	}
+	if (!is_valid_token(tmp, error, dir))
+		return (NULL);
 	node = node_new();
 	if (put_data(node, &tokens, env_var) == FAILURE)
-	{
-		*error = 258;
-		syntax_error_code(dir, error);
-		token_clear(tmp);
-		return (destroy_parser(node));
-	}
+		return (exit_parser_fail_put_data(error, dir, tmp, node));
 	while (tokens != NULL && tokens->kind == TK_PIPE)
 	{
 		tokens = tokens->next;
 		if (tokens == NULL)
-		{
-			*error = 258;
-			printf(PIPE_ERROR);
-			syntax_error_code(dir, error);
-			token_clear(tmp);
-			return (destroy_parser(node));
-		}
+			return (exit_parser_invalid_pipe_cmd(error, dir, node));
 		node = handle_pipe(&tokens, node, env_var);
 		if (*error)
 		{

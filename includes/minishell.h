@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:55 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/29 18:06:21 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/30 07:15:27 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,5 +176,14 @@ char		*remove_dollar_to_quote(const char *input);
 // 				t_parser *node);
 // void		is_redirect_token(t_token *tokens, int *error, t_directory *dir);
 // void		is_valid_tokens(t_token *tokens, int *error, t_directory *dir);
+t_parser	*exit_parser_pipe(int *error, t_directory *dir, t_token *tmp);
+t_parser	*exit_parser_token(int *error, t_directory *dir, t_token *tmp);
+t_parser	*exit_parser_fail_put_data(
+		int *error, t_directory *dir, t_token *tmp, t_parser *node);
+t_parser	*exit_parser_invalid_pipe_cmd(
+		int *error, t_directory *dir, t_parser *node);
+bool	is_valid_token(t_token *tokens, int *error, t_directory *dir);
+
+
 
 #endif
