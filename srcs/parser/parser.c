@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:41:35 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/26 12:16:31 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:27:43 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,43 +93,6 @@ t_parser	*handle_pipe(t_token **token, t_parser *parser, t_env **env_var)
 	return (parser);
 }
 
-// t_parser	*parser(t_token *tokens, t_env **env_var)
-// {
-// 	t_parser	*node;
-// 	t_token		*tmp;
-
-// 	if (tokens == NULL)
-// 		return (NULL);
-// 	tmp = tokens;
-// 	node = node_new();
-// 	if (put_data(node, &tokens) == FAILURE)
-// 		return (destroy_parser(node));
-// 	if (tokens->kind == TK_LESS || tokens->kind == TK_GREAT
-// 		|| tokens->kind == TK_DGREAT || tokens->kind == TK_DLESS)
-// 	{
-// 		if (tokens->next->kind == TK_LESS || tokens->next->kind == TK_GREAT
-// 			|| tokens->next->kind == TK_DGREAT
-// 			|| tokens->next->kind == TK_DLESS)
-// 		{
-// 			put_syntax_error(tokens);
-// 			token_clear(tmp);
-// 			return (NULL);
-// 		}
-// 	}
-// 	while (tokens != NULL && tokens->kind == TK_PIPE)
-// 	{
-// 		tokens = tokens->next;
-// 		node = handle_pipe(&tokens, node, error);
-// 		if (*error)
-// 		{
-// 			token_clear(tmp);
-// 			return (NULL);
-// 		}
-// 	}
-// 	token_clear(tmp);
-// 	return (node);
-// }
-
 t_parser	*parser(t_token *tokens, t_directory *dir, int *error,
 			t_env **env_var)
 {
@@ -149,7 +112,7 @@ t_parser	*parser(t_token *tokens, t_directory *dir, int *error,
 			token_clear(tmp);
 			return (NULL);
 		}
-		else if (tokens->next->kind == TK_PIPE)
+		else if (tokens->next->kind == TK_PIPE || tokens->next->kind == TK_CMD)
 		{
 			*error = 258;
 			syntax_error_pipe();
@@ -196,6 +159,7 @@ t_parser	*parser(t_token *tokens, t_directory *dir, int *error,
 			*error = 258;
 			printf(PIPE_ERROR);
 			syntax_error_code(dir, error);
+			token_clear(tmp);
 			return (destroy_parser(node));
 		}
 		node = handle_pipe(&tokens, node, env_var);

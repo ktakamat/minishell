@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:55 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/26 19:33:12 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:06:21 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ char		**search(t_env **head, char *key);
 void		append_expanded(t_expand *exp, char **result);
 void		exec_command(t_parser *parser, t_directory *dir, t_env **env_var);
 void		execution(t_parser *parser, t_directory *dir, t_env **env_var);
-int			exec_redirect(t_redirect *redi, t_directory *dir, t_env **env_var);
+int			exec_redirect(t_parser *node, t_redirect *redi, t_directory *dir,
+				t_env **env_var);
 void		pipe_line(t_parser *parser, t_directory *dir, t_env **env_var);
 bool		is_redirect(char c);
 void		setup_signals(void);
@@ -161,5 +162,19 @@ void		syntax_error_null(t_token *token);
 void		syntax_error_pipe(void);
 int			syntax_error_code(t_directory *dir, int *error);
 void		rm_heredoc_file(void);
-void		restore_fd(t_redirect *redi, t_parser *node);
+void		perror_set_flag(char *insert, t_directory *dir);
+int			redirect_in_out(t_redirect *head, t_directory *dir);
+int			save_in_out(int *in_out);
+int			get_back_in_out(int *std_in_out, t_directory *dir);
+int			dir_error_num(t_directory *dir, int *error);
+int			exit_command(int *error, t_directory *dir, t_parser	*node);
+char		*remove_dollar_to_quote(const char *input);
+// void		is_pipe_tokens(t_token *tokens, int *error, t_directory *dir);
+// t_parser	*exit_parser_fail_put_data(int *error, t_directory *dir,
+// 				t_token *tmp, t_parser *node);
+// t_parser	*exit_parser_invalid_pipe_cmd(int *error, t_directory *dir,
+// 				t_parser *node);
+// void		is_redirect_token(t_token *tokens, int *error, t_directory *dir);
+// void		is_valid_tokens(t_token *tokens, int *error, t_directory *dir);
+
 #endif

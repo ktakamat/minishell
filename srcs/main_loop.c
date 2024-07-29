@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:33:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/26 11:38:27 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:15:46 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,8 @@ void	initialize_environment(t_env **env_var, t_directory *dir, char *envp[])
 	setup_signal_handlers();
 }
 
-int	dir_error_num(t_directory *dir, int *error)
-{
-	if (*error == 2)
-		dir->error.error_num = 2;
-	*error = 0;
-	return (0);
-}
-
-int	process_command(char *line, t_directory *dir, t_env **env_var, int *error)
+int	process_command(char *line, t_directory *dir, t_env **env_var,
+				int *error)
 {
 	t_token		*token;
 	t_parser	*node;
@@ -55,10 +48,7 @@ int	process_command(char *line, t_directory *dir, t_env **env_var, int *error)
 	add_history(line);
 	node = parser(token, dir, error, env_var);
 	if (!node)
-	{
-		destroy_parser(node);
-		return (dir_error_num(dir, error));
-	}
+		return (exit_command(error, dir, node));
 	exe_signals(node, dir, env_var, error);
 	*error = 0;
 	args = malloc(sizeof(t_args));
