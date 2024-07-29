@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:55 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/29 16:07:41 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/29 21:12:22 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,5 +166,12 @@ void		perror_set_flag(char *insert, t_directory *dir);
 int			redirect_in_out(t_redirect *head, t_directory *dir);
 int			save_in_out(int *in_out);
 int			get_back_in_out(int *std_in_out, t_directory *dir);
+int			dir_error_num(t_directory *dir, int *error);
+int			exit_command(int *error, t_directory *dir, t_parser	*node);
+char		*remove_dollar_to_quote(const char *input);
+int			env_len(char *str, t_env **env_var, int *i);;
+int			question_len(int *i);
+char		**env_into_list(t_env *env_var);
+char		*join_value(char **value);
 
 #endif

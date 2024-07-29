@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:01:03 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/25 21:23:07 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:43:40 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,7 @@ char	*join_value(char **value)
 	len = 0;
 	i = 0;
 	while (value[i] != NULL)
-	{
-		len += ft_strlen(value[i]) + 1;
-		i++;
-	}
+		len += ft_strlen(value[i++]) + 1;
 	result = (char *)malloc(sizeof(char) * (len + 1));
 	if (result == NULL)
 		return (NULL);
@@ -102,33 +99,4 @@ int	env_len(char *str, t_env **env_var, int *i)
 	len = ft_strlen(head);
 	free(head);
 	return (len);
-}
-
-int	cmd_len(char *str, t_env **env_var)
-{
-	int	i;
-	int	count;
-	int	tmp;
-
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		if (str[i] == '$')
-		{
-			if (str[i + 1] && str[i + 1] == '?')
-			{
-				tmp = question_len(&i);
-				count += tmp;
-			}
-			else
-			{
-				tmp = env_len(&str[i + 1], env_var, &i);
-				count += tmp;
-			}
-		}
-		else
-			simple_counter(&i, &count);
-	}
-	return (count);
 }

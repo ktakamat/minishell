@@ -6,14 +6,11 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:52:58 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/29 15:57:28 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:48:11 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static int	redirect_in(char *file_name, t_redirect_type type, t_directory *dir);
-static int	redirect_out(char *file_name, t_redirect_type type, t_directory *dir);
 
 int	save_in_out(int *in_out)
 {
@@ -50,30 +47,6 @@ int	get_back_in_out(int *in_out, t_directory *dir)
 	}
 	close(in_out[WRITE]);
 	close(in_out[READ]);
-	return (0);
-}
-
-int	redirect_in_out(t_redirect *head, t_directory *dir)
-{
-	t_redirect		*current;
-	t_redirect_type	type;
-
-	current = head;
-	while (current != NULL)
-	{
-		type = current->type;
-		if (type == INPUT_REDI || type == HEREDOC_REDI)
-		{
-			if (redirect_in(current->file_name, type, dir) < 0)
-				return (-1);
-		}
-		else if (type == OUTPUT_REDI || type == APPEND_OUTPUT_REDI)
-		{
-			if (redirect_out(current->file_name, type, dir) < 0)
-				return (-1);
-		}
-		current = current->next;
-	}
 	return (0);
 }
 
@@ -124,6 +97,30 @@ static int	redirect_out(char *file_name, t_redirect_type type,
 		return (perror_set_flag(file_name, dir), -1);
 	}
 	close (fd);
+	return (0);
+}
+
+int	redirect_in_out(t_redirect *head, t_directory *dir)
+{
+	t_redirect		*current;
+	t_redirect_type	type;
+
+	current = head;
+	while (current != NULL)
+	{
+		type = current->type;
+		if (type == INPUT_REDI || type == HEREDOC_REDI)
+		{
+			if (redirect_in(current->file_name, type, dir) < 0)
+				return (-1);
+		}
+		else if (type == OUTPUT_REDI || type == APPEND_OUTPUT_REDI)
+		{
+			if (redirect_out(current->file_name, type, dir) < 0)
+				return (-1);
+		}
+		current = current->next;
+	}
 	return (0);
 }
 

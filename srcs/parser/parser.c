@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:41:35 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/26 20:08:08 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:27:43 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ t_parser	*parser(t_token *tokens, t_directory *dir, int *error,
 			token_clear(tmp);
 			return (NULL);
 		}
-		else if (tokens->next->kind == TK_PIPE)
+		else if (tokens->next->kind == TK_PIPE || tokens->next->kind == TK_CMD)
 		{
 			*error = 258;
 			syntax_error_pipe();

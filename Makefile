@@ -16,6 +16,7 @@ SRCS = srcs/main.c \
        srcs/env_util.c \
        srcs/signal_exec.c \
        srcs/main_loop.c \
+       srcs/main_loop_sub.c \
        $(BUILTIN_DIR)/cd.c \
        $(BUILTIN_DIR)/exit.c \
        $(BUILTIN_DIR)/pwd.c \
@@ -30,12 +31,14 @@ SRCS = srcs/main.c \
        $(BUILTIN_DIR)/export_helper_1.c \
        $(BUILTIN_DIR)/export_helper_2.c \
        $(BUILTIN_DIR)/execve.c \
+       $(BUILTIN_DIR)/execve_three.c \
        $(BUILTIN_DIR)/execve_helper_1.c \
        $(BUILTIN_DIR)/execve_helper_2.c \
        $(BUILTIN_DIR)/builtin.c \
        $(BUILTIN_DIR)/unset.c \
        $(LEXER_DIR)/lexer.c \
        $(LEXER_DIR)/lexer_util.c \
+       $(LEXER_DIR)/remove_d_q.c \
        $(LEXER_DIR)/token_1.c \
        $(LEXER_DIR)/token_2.c \
        $(LEXER_DIR)/token_3.c \
