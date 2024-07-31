@@ -31,12 +31,15 @@ SRCS = srcs/main.c \
        $(BUILTIN_DIR)/export_helper_1.c \
        $(BUILTIN_DIR)/export_helper_2.c \
        $(BUILTIN_DIR)/execve.c \
+       $(BUILTIN_DIR)/execve_three.c \
        $(BUILTIN_DIR)/execve_helper_1.c \
        $(BUILTIN_DIR)/execve_helper_2.c \
        $(BUILTIN_DIR)/builtin.c \
        $(BUILTIN_DIR)/unset.c \
        $(LEXER_DIR)/lexer.c \
        $(LEXER_DIR)/lexer_util.c \
+       $(LEXER_DIR)/split_quote.c \
+       $(LEXER_DIR)/delete_quote.c \
        $(LEXER_DIR)/remove_d_q.c \
        $(LEXER_DIR)/token_1.c \
        $(LEXER_DIR)/token_2.c \

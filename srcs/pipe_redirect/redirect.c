@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 22:51:54 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/29 16:06:01 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:44:00 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ bool	here_doc(t_redirect *redi, t_env **env_var)
 	// }
 // }
 
-void	redirect(t_parser *node, t_redirect *redi, t_directory *dir, t_env **env_var)
+void	redirect(t_parser *node, t_redirect *redi, t_directory *dir,
+			t_env **env_var)
 {
 	int	std_in_out[2];
 

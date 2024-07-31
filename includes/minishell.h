@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:45:55 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/29 18:06:21 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/31 19:08:47 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,23 @@ typedef struct s_split
 	int		k;
 	char	**result;
 }	t_split;
+
+typedef struct s_parser_context
+{
+	t_directory	*dir;
+	int			*error;
+	t_token		*tmp;
+	t_env		**env_var;
+}	t_parser_context;
+
+typedef struct s_del_q_vars
+{
+	char	*new_line;
+	int		i;
+	int		j;
+	bool	in_quote;
+	char	quote_char;
+}	t_del_q_vars;
 
 t_token		*lexer(char *line, int *i, int *j);
 t_token		*create_word_token(char **tmp, char *line);
@@ -169,12 +186,24 @@ int			get_back_in_out(int *std_in_out, t_directory *dir);
 int			dir_error_num(t_directory *dir, int *error);
 int			exit_command(int *error, t_directory *dir, t_parser	*node);
 char		*remove_dollar_to_quote(const char *input);
-// void		is_pipe_tokens(t_token *tokens, int *error, t_directory *dir);
-// t_parser	*exit_parser_fail_put_data(int *error, t_directory *dir,
-// 				t_token *tmp, t_parser *node);
-// t_parser	*exit_parser_invalid_pipe_cmd(int *error, t_directory *dir,
-// 				t_parser *node);
-// void		is_redirect_token(t_token *tokens, int *error, t_directory *dir);
-// void		is_valid_tokens(t_token *tokens, int *error, t_directory *dir);
-
+int			env_len(char *str, t_env **env_var, int *i);;
+int			question_len(int *i);
+char		**env_into_list(t_env *env_var);
+char		*join_value(char **value);
+bool		dless_dquote(char *line);
+bool		dless_squote(char *line);
+char		*delete_q_line(char *line);
+t_parser	*exit_parser_fail_put_data(
+				int *error, t_directory *dir, t_token *tmp, t_parser *node);
+t_parser	*exit_parser_invalid_pipe_cmd(
+				int *error, t_directory *dir, t_parser *node);
+bool		is_valid_token(t_token *tokens, int *error, t_directory *dir);
+void		free_str_list(char **str_list);
+int			pipe_syntax(t_token *tokens, t_directory *dir, int *error);
+int			check_redirection_syntax(t_token *tokens, t_directory *dir,
+				int *error);
+void		syntax_er(int *error, t_directory *dir, t_token *tmp);
+t_parser	*handle_initial_checks(t_token **tokens, t_parser_context *ctx);
+t_parser	*process_pipes(t_token **tokens, t_parser *node,
+				t_parser_context *ctx);
 #endif

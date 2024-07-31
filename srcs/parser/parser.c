@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:41:35 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/29 18:27:43 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/31 19:11:45 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,82 +93,71 @@ t_parser	*handle_pipe(t_token **token, t_parser *parser, t_env **env_var)
 	return (parser);
 }
 
-t_parser	*parser(t_token *tokens, t_directory *dir, int *error,
-			t_env **env_var)
+// t_parser	*parser(t_token *tokens, t_directory *dir, int *error,
+// 			t_env **env_var)
+// {
+// 	t_parser	*node;
+// 	t_token		*tmp;
+
+// 	if (tokens == NULL)
+// 		return (NULL);
+// 	tmp = tokens;
+// 	if (tokens->kind == TK_PIPE)
+// 	{
+// 		if (check_pipe_syntax(tokens, dir, error) == FAILURE)
+// 			return (token_clear(tmp), NULL);
+// 	}
+// 	if (tokens->kind == TK_LESS || tokens->kind == TK_GREAT
+// 		|| tokens->kind == TK_DGREAT || tokens->kind == TK_DLESS)
+// 	{
+// 		if (check_redirection_syntax(tokens, dir, error) == FAILURE)
+// 			return (token_clear(tmp), NULL);
+// 	}
+// 	node = node_new();
+// 	if (put_data(node, &tokens, env_var) == FAILURE)
+// 		return (handle_syntax_error(error, dir, tmp), destroy_parser(node));
+// 	while (tokens != NULL && tokens->kind == TK_PIPE)
+// 	{
+// 		tokens = tokens->next;
+// 		if (tokens == NULL)
+// 		{
+// 			handle_syntax_error(error, dir, tmp);
+// 			printf(P_E);
+// 			return (destroy_parser(node));
+// 		}
+// 		node = handle_pipe(&tokens, node, env_var);
+// 		if (*error)
+// 			return (token_clear(tmp), NULL);
+// 	}
+// 	return (token_clear(tmp), node);
+// }
+
+t_parser	*parser(t_token *tokens, t_directory *dir, int *er,
+				t_env **env_var)
 {
 	t_parser	*node;
 	t_token		*tmp;
 
-	if (tokens == NULL)
-		return (NULL);
 	tmp = tokens;
-	if (tokens->kind == TK_PIPE)
-	{
-		if (tokens->next == NULL)
-		{
-			*error = 258;
-			syntax_error_pipe();
-			syntax_error_code(dir, error);
-			token_clear(tmp);
-			return (NULL);
-		}
-		else if (tokens->next->kind == TK_PIPE || tokens->next->kind == TK_CMD)
-		{
-			*error = 258;
-			syntax_error_pipe();
-			syntax_error_code(dir, error);
-			token_clear(tmp);
-			return (NULL);
-		}
-	}
-	if (tokens->kind == TK_LESS || tokens->kind == TK_GREAT
-		|| tokens->kind == TK_DGREAT || tokens->kind == TK_DLESS)
-	{
-		if (tokens->next == NULL)
-		{
-			*error = 258;
-			syntax_error_null(tokens);
-			syntax_error_code(dir, error);
-			token_clear(tmp);
-			return (NULL);
-		}
-		else if (tokens->next->kind == TK_LESS || tokens->next->kind == TK_GREAT
-			|| tokens->next->kind == TK_DGREAT || tokens->next->kind == TK_DLESS
-			|| tokens->next->kind == TK_PIPE)
-		{
-			*error = 258;
-			syntax_error_null(tokens);
-			syntax_error_code(dir, error);
-			token_clear(tmp);
-			return (NULL);
-		}
-	}
+	if (!tokens)
+		return (NULL);
+	if (tokens->kind == TK_PIPE && pipe_syntax(tokens, dir, er) == FAILURE)
+		return (token_clear(tmp), NULL);
+	if ((tokens->kind == TK_LESS || tokens->kind == TK_GREAT
+			|| tokens->kind == TK_DGREAT || tokens->kind == TK_DLESS)
+		&& check_redirection_syntax(tokens, dir, er) == FAILURE)
+		return (token_clear(tmp), NULL);
 	node = node_new();
 	if (put_data(node, &tokens, env_var) == FAILURE)
-	{
-		*error = 258;
-		syntax_error_code(dir, error);
-		token_clear(tmp);
-		return (destroy_parser(node));
-	}
-	while (tokens != NULL && tokens->kind == TK_PIPE)
+		return (syntax_er(er, dir, tmp), destroy_parser(node));
+	while (tokens && tokens->kind == TK_PIPE)
 	{
 		tokens = tokens->next;
-		if (tokens == NULL)
-		{
-			*error = 258;
-			printf(PIPE_ERROR);
-			syntax_error_code(dir, error);
-			token_clear(tmp);
-			return (destroy_parser(node));
-		}
+		if (!tokens)
+			return (syntax_er(er, dir, tmp), printf(P_E), destroy_parser(node));
 		node = handle_pipe(&tokens, node, env_var);
-		if (*error)
-		{
-			token_clear(tmp);
-			return (NULL);
-		}
+		if (*er)
+			return (token_clear(tmp), NULL);
 	}
-	token_clear(tmp);
-	return (node);
+	return (token_clear(tmp), node);
 }

@@ -6,19 +6,21 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:31:42 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/26 14:55:33 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/31 19:12:57 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	fork_execute(char **cmds, t_directory *dir)
+static void	fork_execute(char **cmds, t_directory *dir, t_env **env_vars)
 {
-	int	status2;
+	int		status2;
+	char	**env;	
 
 	if (ft_fork() == 0)
 	{
-		execve(cmds[0], cmds, NULL);
+		env = env_into_list(*env_vars);
+		execve(cmds[0], cmds, env);
 		perror("execve failed");
 		exit(EXIT_FAILURE);
 	}
@@ -77,7 +79,7 @@ void	execute_from_path(char **cmds, t_directory *dir, t_env **env_vars)
 			return ;
 		}
 		else if (access(cmds[0], X_OK) == 0)
-			fork_execute(cmds, dir);
+			fork_execute(cmds, dir, env_vars);
 		else
 		{
 			if (!check_fd(cmds, dir))

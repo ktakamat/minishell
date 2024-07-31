@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 15:27:48 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/25 19:27:14 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/29 18:43:10 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,33 @@ int	question_add(char *new, int *i, int *count)
 	free(tmp);
 	*count = *count + len;
 	return (len);
+}
+
+int	cmd_len(char *str, t_env **env_var)
+{
+	int	i;
+	int	count;
+	int	tmp;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			if (str[i + 1] && str[i + 1] == '?')
+			{
+				tmp = question_len(&i);
+				count += tmp;
+			}
+			else
+			{
+				tmp = env_len(&str[i + 1], env_var, &i);
+				count += tmp;
+			}
+		}
+		else
+			simple_counter(&i, &count);
+	}
+	return (count);
 }

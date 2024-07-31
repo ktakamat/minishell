@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 20:36:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/29 15:58:19 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:26:08 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,19 @@ void	exec_command(t_parser *node, t_directory *dir, t_env **env_var)
 	{
 		execute_from_path(node->cmd, dir, env_var);
 	}
+}
+
+void	free_str_list(char **str_list)
+{
+	int	index;
+
+	index = 0;
+	if (str_list == NULL)
+		return ;
+	while (str_list[index] != NULL)
+	{
+		free(str_list[index]);
+		index++;
+	}
+	free(str_list);
 }

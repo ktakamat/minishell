@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:25:57 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/29 17:02:12 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/30 19:33:00 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,42 +34,82 @@ bool	skip_space(char **tmp, char *line)
 	return (true);
 }
 
-t_token	*lexer(char *line, int *i, int *j)
+// t_token	*lexer(char *line, int *i, int *j)
+// {
+// 	t_token	*lexer;
+// 	t_token	*tmp;
+// 	t_token	*token;
+// 	char	*lines;
+// 	char	*original;
+
+// 	lines = remove_dollar_to_quote(line);
+// 	if (dless_dquote(lines) == true || dless_squote(lines) == true)
+// 	{
+// 		ft_free(lines);
+// 		lines = delete_q_line(line);
+// 	}
+// 	original = lines;
+// 	lexer = NULL;
+// 	tmp = NULL;
+// 	while (*lines != '\0' && lines)
+// 	{
+// 		token = create_token_from_line(&lines, i, j);
+// 		if (!token)
+// 			continue ;
+// 		if (lexer == NULL)
+// 			lexer = token;
+// 		else
+// 			tmp->next = token;
+// 		tmp = token;
+// 	}
+// 	pipe_kind(lexer, *j);
+// 	ft_free(original);
+// 	return (lexer);
+// }
+
+static char	*preprocess_line(char *line)
 {
-	t_token	*lexer;
-	t_token	*tmp;
-	t_token	*token;
 	char	*lines;
-	char	*original;
 
 	lines = remove_dollar_to_quote(line);
-	original = lines;
-	lexer = NULL;
-	tmp = NULL;
-	while (*lines != '\0' && lines)
+	if (dless_dquote(lines) == true || dless_squote(lines) == true)
 	{
-		token = create_token_from_line(&lines, i, j);
+		ft_free(lines);
+		lines = delete_q_line(line);
+	}
+	return (lines);
+}
+
+static void	process_line(t_token **lexer, char **lines, int *i, int *j)
+{
+	t_token	*tmp;
+	t_token	*token;
+
+	tmp = NULL;
+	while (**lines != '\0' && *lines)
+	{
+		token = create_token_from_line(lines, i, j);
 		if (!token)
 			continue ;
-		if (lexer == NULL)
-			lexer = token;
+		if (*lexer == NULL)
+			*lexer = token;
 		else
 			tmp->next = token;
 		tmp = token;
 	}
+}
+
+t_token	*lexer(char *line, int *i, int *j)
+{
+	t_token	*lexer;
+	char	*lines;
+	char	*original;
+
+	lines = preprocess_line(line);
+	original = lines;
+	lexer = NULL;
+	process_line(&lexer, &lines, i, j);
 	pipe_kind(lexer, *j);
 	ft_free(original);
 	return (lexer);
-}
-
-void	expand(t_token *token)
-{
-	while (token->next != NULL)
-	{
-		if (token->str[0] == '\'')
-			remove_squote(token);
-		else if (token->str[0] == '\"')
-			remove_dquote(token);
-		token = token->next;
-	}
 }

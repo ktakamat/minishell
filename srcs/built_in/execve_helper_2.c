@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:43:49 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/24 21:53:05 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:27:18 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	combine_strings(char *s1, char *s2, char *s3, char *s4)
 	ft_strcat(s1, s4);
 }
 
-static int	child_process_exec(char *command_path, char **cmds)
+static int	child_process_exec(char *command_path, char **cmds, char **env)
 {
-	execve(command_path, cmds, NULL);
+	execve(command_path, cmds, env);
 	perror("execve failed");
 	exit(EXIT_FAILURE);
 }
@@ -44,12 +44,17 @@ int	str_error(char *str)
 	return (127);
 }
 
-static int	child_execution_hand(char *command_path, char **cmds)
+static int	child_execution_hand(char *command_path, char **cmds,
+			t_env *env_vars)
 {
-	int	status;
+	int		status;
+	char	**env;
 
 	if (ft_fork() == 0)
-		child_process_exec(command_path, cmds);
+	{
+		env = env_into_list(env_vars);
+		child_process_exec(command_path, cmds, env);
+	}
 	else
 	{
 		wait(&status);
@@ -61,7 +66,7 @@ static int	child_execution_hand(char *command_path, char **cmds)
 	return (SUCCESS);
 }
 
-int	command_path_exec(char *command_path, char **cmds)
+int	command_path_exec(char *command_path, char **cmds, t_env *env_vars)
 {
 	struct stat	s;
 
@@ -74,7 +79,7 @@ int	command_path_exec(char *command_path, char **cmds)
 			return (FAILURE);
 		}
 		else if (access(command_path, X_OK) == 0)
-			return (child_execution_hand(command_path, cmds));
+			return (child_execution_hand(command_path, cmds, env_vars));
 	}
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 19:13:53 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/25 20:15:05 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/07/29 21:16:18 by ktakamat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ bool	check_file(char *path, t_directory *dir);
 bool	check_fd_dir(char *path, t_directory *dir);
 int		parsed_command_exec(char *command, char **cmds, t_env **env_vars);
 void	combine_strings(char *s1, char *s2, char *s3, char *s4);
-int		command_path_exec(char *command_path, char **cmds);
+int		command_path_exec(char *command_path, char **cmds, t_env *env_vars);
 int		str_error(char *str);
 void	print_error(const char *msg, const char *path);
 int		validate_cmds(char **cmds, t_directory *dir, t_env **env_var);
