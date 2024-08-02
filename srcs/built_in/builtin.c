@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 15:51:39 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/29 15:57:45 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/08/02 21:34:35 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ void	clean_cmds(char **cmds, t_directory *dir,
 
 	i = 0;
 	j = 0;
+	if ((cmds[0][0] == '\"' || cmds[0][0] == '\''))
+	{
+		while (cmds[0][j])
+			if (ft_isspace(cmds[0][j++]))
+				return ;
+		j = 0;
+	}
 	while (cmds[i])
 	{
 		cmds[i] = expansion(cmds[i], dir, env_var);

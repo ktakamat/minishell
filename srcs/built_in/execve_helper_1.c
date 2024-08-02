@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_helper_1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ktakamat <ktakamat@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: flaghata <flaghata@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 19:41:15 by ktakamat          #+#    #+#             */
-/*   Updated: 2024/07/30 19:22:58 by ktakamat         ###   ########.fr       */
+/*   Updated: 2024/08/02 21:30:40 by flaghata         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,10 @@ int	parsed_command_exec(char *command, char **cmds, t_env **env_vars)
 	int		args_count;
 
 	ft_strlcpy(command_buffer, command, ft_strlen(command) + 1);
-	command_name = ft_strtok(command_buffer, " ");
+	if (command_buffer[0] == '\"' || command_buffer[0] == '\'')
+		command_name = command_buffer;
+	else
+		command_name = ft_strtok(command_buffer, " ");
 	args_count = 0;
 	while (command_name != NULL)
 	{
